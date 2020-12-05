@@ -10,6 +10,7 @@
   <version>1.0</version>
   <modules>
     <module>dao</module>
+    <module>service</module>
   </modules>
 
   <name>application</name>

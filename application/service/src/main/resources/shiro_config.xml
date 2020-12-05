@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    创建Realm -->
+    <bean id="myRealm" class="com.gp.realm.MyRealm">
+<!--        设置密码匹配器 -->
+<!--        <property name="credentialsMatcher" ref="credentialsMatcher"/>-->
+
+    </bean>
+
+<!--&lt;!&ndash;    创建密码匹配器  &ndash;&gt;-->
+<!--    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">-->
+<!--&lt;!&ndash;        设置加密方式 &ndash;&gt;-->
+<!--        <property name="hashAlgorithmName" value="md5"/>-->
+<!--&lt;!&ndash;        设置散列次数 &ndash;&gt;-->
+<!--        <property name="hashIterations" value="2"/>-->
+
+<!--    </bean>-->
+
+<!--    创建安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+<!--        设置Realm -->
+        <property name="realm" ref="myRealm"/>
+
+    </bean>
+
+<!--    创建Shiro工厂 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+<!--        设置安全管理器 -->
+        <property name="securityManager" ref="securityManager"/>
+<!--        设置登录连接 -->
+        <property name="loginUrl" value="login.jsp"/>
+<!--        设置未授权页面-->
+        <property name="unauthorizedUrl" value="unauthorized.jsp"/>
+<!--        设置过滤链 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /login* = anon
+                /index* = authc
+            </value>
+        </property>
+
+    </bean>
+
+    <bean class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+        
+</beans>

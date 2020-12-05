@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/S3-REP.iml" filepath="$PROJECT_DIR$/.idea/S3-REP.iml" />
       <module fileurl="file://$PROJECT_DIR$/application/application.iml" filepath="$PROJECT_DIR$/application/application.iml" />
       <module fileurl="file://$PROJECT_DIR$/application/dao/dao.iml" filepath="$PROJECT_DIR$/application/dao/dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/application/service/service.iml" filepath="$PROJECT_DIR$/application/service/service.iml" />
       <module fileurl="file://$PROJECT_DIR$/vueapp/vueapp.iml" filepath="$PROJECT_DIR$/vueapp/vueapp.iml" />
     </modules>
   </component>

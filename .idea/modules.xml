@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/application/dao/dao.iml" filepath="$PROJECT_DIR$/application/dao/dao.iml" />
       <module fileurl="file://$PROJECT_DIR$/application/service/service.iml" filepath="$PROJECT_DIR$/application/service/service.iml" />
       <module fileurl="file://$PROJECT_DIR$/vueapp/vueapp.iml" filepath="$PROJECT_DIR$/vueapp/vueapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/application/web/web.iml" filepath="$PROJECT_DIR$/application/web/web.iml" />
     </modules>
   </component>
 </project>

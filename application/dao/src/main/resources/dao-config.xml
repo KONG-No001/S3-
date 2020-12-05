@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--        配置德鲁伊数据库-bean-->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+
+<!--            MySql-8请使用此驱动类-->
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+
+<!--            MySQL-5请使用此驱动类-->
+<!--        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+
+            <!-- kong-001-conn.mysql.rds.aliyuncs.com -->
+        <property name="url"
+                  value="jdbc:mysql://kong-001-conn.mysql.rds.aliyuncs.com/mydb?
+                         useSSL=false&amp;
+                         useUnicode=true&amp;
+                         characterEncoding=utf8&amp;
+                         allowMultiQueries=true&amp;
+                         useLegacyDatetimeCode=false&amp;
+                         serverTimezone=Asia/Shanghai"/>
+
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+<!--            关于数据库连接池的基本信息 -->
+        <property name="maxActive" value="50"/>
+        <property name="initialSize" value="5"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxWait" value="60000"/>
+    </bean>
+
+<!--        创建工厂[SqlSessionFactoryBean]-->
+<!--            默认: org.mybatis.spring.SqlSessionFactoryBean -->
+<!--            plus请使用: com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean -->
+    <bean id="sqlSessionFactoryBean" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+<!--            将连接池[druidDataSource]注入属性[dataSource]-->
+        <property name="dataSource" ref="druidDataSource"/>
+<!--            将MyBatis配置文件注入属性[configLocation]-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
+    </bean>
+
+<!--        创建映射扫描配置器[mapperScannerConfigurer]-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.kong.dao"/>
+    </bean>
+
+</beans>

@@ -4,5 +4,11 @@ module.exports={
     },
     devServer: {
         port: "8090",
+        proxy: {
+            "/application":{
+                target: "http://localhost:8080/",
+                changeOrigin: true,
+            }
+        }
     }
 }

@@ -50,15 +50,27 @@
         methods: {
             subLogin(){
                 let _this = this;
+
+
+
                 this.$refs["loginForm"].validate(valid=>{
                     if (valid){
+                        const loading = _this.$loading({
+                            lock: true,
+                            text: 'Loading',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
+                        });
                         Axios.get("application/login.action",{
                             params: {
                                 name: _this.form.account,
                                 password: _this.form.password
                             }
                         }).then((response)=>{
-                            alert(response.data)
+                            alert(response.data);
+                            loading.close();
+                        }).catch(()=>{
+                            loading.close();
                         })
                     }else {
                         alert("FALSE")

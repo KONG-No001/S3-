@@ -12,5 +12,6 @@
 </head>
 <body>
 <h1>Hello:<small>${sessionScope.userName}</small></h1>
+<div id="app"></div>
 </body>
 </html>

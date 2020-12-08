@@ -15,7 +15,6 @@
                     <el-form-item label="记住我">
                         <el-checkbox
                                 v-model="form.rememberMe"
-
                         ></el-checkbox>
                     </el-form-item>
                     <el-button class="block" @click="subLogin">登录</el-button>
@@ -50,9 +49,6 @@
         methods: {
             subLogin(){
                 let _this = this;
-
-
-
                 this.$refs["loginForm"].validate(valid=>{
                     if (valid){
                         const loading = _this.$loading({
@@ -61,13 +57,20 @@
                             spinner: 'el-icon-loading',
                             background: 'rgba(0, 0, 0, 0.7)'
                         });
-                        Axios.get("application/login.action",{
+                        Axios.get("/application/login.action",{
                             params: {
                                 name: _this.form.account,
                                 password: _this.form.password
                             }
                         }).then((response)=>{
-                            alert(response.data);
+                            if(response.data === true){
+                                location.assign("/backstage/home")
+                            }else {
+                                _this.$message({
+                                    message:"登录失败！！！检查账户和密码是否匹配！！！",
+                                    type: "error"
+                                });
+                            }
                             loading.close();
                         }).catch(()=>{
                             loading.close();
@@ -77,7 +80,6 @@
                         return false;
                     }
                 })
-
             },
         }
     }

@@ -10,11 +10,13 @@
 <head>
     <title>LOGIN</title>
 </head>
-<body>
 <form action="login.action">
     <label for="form-input-name">账号：</label><input id="form-input-name" name="name" value="zhang3"/><br/>
     <label for="form-input-password">账号：</label><input id="form-input-password" name="password" value="123456"/>
     <input type="submit">
 </form>
+<body>
+
+
 </body>
 </html>

@@ -14,18 +14,26 @@ public class LoginController {
 
     @RequestMapping("login.action")
     @ResponseBody
-    public String login(String name, String password, HttpSession session){
+    public Boolean login(String name, String password, HttpSession session){
         UsernamePasswordToken token = new UsernamePasswordToken(name,password);
         Subject subject = SecurityUtils.getSubject();
         try{
             subject.login(token);
-            session.setAttribute("userName",name);
-            return "登录成功！！！";
+            System.out.println(subject.isAuthenticated());
+            return true;
         }catch (Exception e){
             e.printStackTrace();
-            return "登录失败！！！";
+            return false;
         }
 
+    }
+
+    @RequestMapping("test.action")
+    @ResponseBody
+    public Boolean test(String name, String password, HttpSession session){
+        Subject subject = SecurityUtils.getSubject();
+        System.out.println(subject.isAuthenticated());
+        return subject.isAuthenticated();
     }
 
 }

@@ -33,6 +33,7 @@
           <element id="library" level="project" name="Maven: com.alibaba:druid:1.1.23" />
           <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:5.2.0" />
           <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:3.2" />
+          <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.8" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.6.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-lang:1.6.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-cache:1.6.0" />

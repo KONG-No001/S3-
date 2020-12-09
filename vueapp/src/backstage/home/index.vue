@@ -19,12 +19,10 @@
                     </el-scrollbar>
                 </el-aside>
                 <el-main>
-                    <div style="height: 100px; background: #0086ff;">
-                    </div>
+                    <router-view></router-view>
                 </el-main>
             </el-container>
             <el-footer class="footer">
-                <router-view></router-view>
             </el-footer>
         </el-container>
     </div>

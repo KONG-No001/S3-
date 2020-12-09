@@ -47,10 +47,10 @@
         data() {
             return {
                 imgs:[
-                    {url:require('../public/logo.png')},
-                    {url:require('../public/logo.png')},
-                    {url:require('../public/logo.png')},
-                    {url:require('../public/logo.png')}
+                    {url:require('@/assets/logo.png')},
+                    {url:require('@/assets/logo.png')},
+                    {url:require('@/assets/logo.png')},
+                    {url:require('@/assets/logo.png')}
                 ]
             }
         }

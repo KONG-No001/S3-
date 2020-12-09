@@ -13,7 +13,7 @@
             <el-container style="height: 600px">
                 <el-aside>
                     <el-scrollbar style="height: 100%;" wrap-style="overflow: hidden scroll;" >
-                        <el-menu ref="menu" :router="true" @open="openMenu">
+                        <el-menu ref="menu" :router="true" @open="openMenu" @close="closeMenu">
                             <menu-item :aside-menus="asideMenus"></menu-item>
                         </el-menu>
                     </el-scrollbar>
@@ -32,6 +32,7 @@
     import icon from "@/assets/gpsystem.jpg";
     import Axios from "axios";
     import MenuItem from "@/backstage/home/menu-item";
+    // import { Loading } from 'element-ui';
     export default {
         name: "index",
         components: {MenuItem},
@@ -42,17 +43,26 @@
             }
         },
         methods:{
-            listMenu(id=0){
+            listMenu(id,menus=null){
                 let _this = this;
                 Axios.get("/application/listMenu.action",{
-                    params: {
-                        id
-                    }
+                    params: {id}
                 }).then(request=>{
-                    _this.asideMenus = request.data
+                    if(menus!==null){
+                        menus.children = request.data
+                    }else{
+                        _this.asideMenus = request.data
+                    }
                 })
             },
             openMenu(id,path){
+                let _this = this;
+                let asideMenus = _this.selectMenu(id,path);
+                asideMenus.children = [{title:"loading",icon: "el-icon-loading"}];
+                _this.listMenu(id,asideMenus)
+
+            },
+            selectMenu(id,path){
                 let _this = this;
                 let asideMenus = _this.asideMenus;
                 for(let i=0; i<path.length; i++){
@@ -68,16 +78,15 @@
                         return false;
                     })
                 }
-                Axios.get("/application/listMenu.action",{
-                    params: {id}
-                }).then(request=>{
-                    asideMenus.children = request.data;
-                })
-
+                return asideMenus;
+            },
+            closeMenu(id,path){
+                let _this = this;
+                _this.selectMenu(id,path).children = [];
             }
         },
         created: function () {
-            this.listMenu();
+            this.listMenu(0);
         }
     }
 </script>

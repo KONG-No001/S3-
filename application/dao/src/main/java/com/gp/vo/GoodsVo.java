@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.text.Format;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -20,7 +22,6 @@ import lombok.*;
  * @author weikang
  * @since 2020-12-08
  */
-//不需要手动触发加载延迟属性，当延迟属性被调用时自动创建Session进行获取。可见如果有多个延迟属性需要被使用时，会造成多次创建Session，此时可以标注为AutoLazy(false)或不标注，然后采用initialze方法手动一次性加载需要的属性
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(value = { "handler" })
@@ -54,8 +55,9 @@ public class GoodsVo implements Serializable {
     private String goodsImg;
 
     @TableField("goods_time")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     @JSONField(format = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date goodsTime;
 
     @TableField("goods_factory")

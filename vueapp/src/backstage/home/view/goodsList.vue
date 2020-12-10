@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 数据表格-->
     <el-table
         :data="tableData"
         stripe
@@ -68,18 +69,65 @@
       </el-table-column>
     </el-table>
 
-    <!--    编辑模态框-->
+    <!-- 编辑模态框-->
     <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-      <el-form label-width="80px">
-        <h1>编辑</h1>
+      <el-form :inline="true" :model="editForm"  ref="editForm" size="medium" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="ID" prop="goodsId">
+          <el-input v-model="editForm.goodsId"></el-input>
+        </el-form-item>
+        <el-form-item label="编码" prop="goodsCode">
+          <el-input v-model="editForm.goodsCode"></el-input>
+        </el-form-item>
+        <el-form-item label="名称" prop="goodsName">
+          <el-input v-model="editForm.goodsName"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌" prop="goodsBrand">
+          <el-input v-model="editForm.goodsBrand"></el-input>
+        </el-form-item>
+        <!-- 下拉框 -->
+        <el-form-item label="类型" prop="goodsTypeId">
+          <el-select v-model="editForm.goodsTypeId" placeholder="请选择商品类型" >
+            <el-option
+                v-for="item in goodsType"
+                :key="item.goodsTypeId"
+                :label="item.goodsTypeName"
+                :value="item.goodsTypeId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="规格" prop="goodsGuige">
+          <el-input v-model="editForm.goodsGuige"></el-input>
+        </el-form-item>
+        <el-form-item label="进价" prop="goodsInPrice">
+          <el-input v-model="editForm.goodsInPrice"></el-input>
+        </el-form-item>
+        <el-form-item label="图片地址" prop="goodsImg">
+          <el-input v-model="editForm.goodsImg"></el-input>
+        </el-form-item>
+        <el-form-item label="生产时间" prop="goodsTime">
+              <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="选择日期" v-model="editForm.goodsTime" style="width: 100%;">
+              </el-date-picker>
+        </el-form-item>
+        <el-form-item label="厂家" prop="goodsFactory">
+          <el-input v-model="editForm.goodsFactory"></el-input>
+        </el-form-item>
+        <el-form-item label="地址" prop="goodsAddress">
+          <el-input v-model="editForm.goodsAddress"></el-input>
+        </el-form-item>
+        <!-- 单选按钮-->
+        <el-form-item label="状态" prop="goodsStatus">
+          <el-radio-group v-model="editForm.goodsStatus">
+            <el-radio :label="0" >销售中</el-radio>
+            <el-radio :label="1" >已下架</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="editGoods2">确 定</el-button>
       </div>
     </el-dialog>
-
 
   </div>
 </template>
@@ -90,12 +138,12 @@ import Axios from "axios";
 export default {
   data() {
     return {
+      goodsType:[],
       tableData: [],
       dialogFormVisible: false,
-      pageindex:1,//当前显示页面
-      total:0,//总页面
-      size:0,  //总条目数
-      row:5,  //每页显示多少条
+      editForm:{goodsId:'', goodsCode:'', goodsName:'', goodsBrand:'',
+        goodsTypeId:'', goodsGuige:'', goodsInPrice:'', goodsImg:'',
+        goodsTime:'', goodsFactory:'', goodsAddress:'', goodsStatus:''}
     }
   },
   methods: {
@@ -104,6 +152,15 @@ export default {
       Axios.get('/application/goods/queryAll.action')
           .then(function (result) {
             _this.tableData = result.data;
+          }).catch(function (error) {
+        alert(error)
+      });
+    },
+    getGoodsType: function () {
+      let _this = this;
+      Axios.get('/application/goodsType/queryAll.action')
+          .then(function (result) {
+            _this.goodsType = result.data;
           }).catch(function (error) {
         alert(error)
       });
@@ -137,12 +194,42 @@ export default {
       });
     },
     editGoods(row) {
-      console.log(row)
       this.dialogFormVisible = true;
+
+      this.editForm=row;
+    },
+    editGoods2(){
+      this.dialogFormVisible = false;
+      this.editForm.goodsTypeVo=null;
+      Axios({
+        url:'/application/goods/update.action',
+        method: "post",
+        params:this.editForm,
+      }).then(()=>{
+        this.getData();
+      }).catch((option)=>{
+          alert(option)
+      })
+
+      /*Axios.post("/application/goods/update.action",)
+          .then(function (result) {
+            if (result.data == true) {
+              _this.$message({
+                message: '删除成功',
+                type: 'success'
+              });
+              _this.getData();
+            } else {
+              alert('删除失败');
+            }
+          }).catch(function (error) {
+        alert(error)
+      });*/
     }
   },
   created() {
     this.getData();
+    this.getGoodsType();
   }
 
 }

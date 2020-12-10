@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-12-08
  */
 public interface GoodsTypeDao extends BaseMapper<GoodsTypeVo> {
-
+    GoodsTypeVo queryById(int id);
 }

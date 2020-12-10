@@ -1,7 +1,7 @@
 package com.gp.dao;
 
-import com.gp.vo.GoodsVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.gp.vo.GoodsVo;
 
 /**
  * <p>

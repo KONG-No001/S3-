@@ -18,8 +18,14 @@
 <!--        [当类型为NULL时]True -->
         <setting name="jdbcTypeForNull" value="NULL"/>
 
+        <!-- 日志 -->
+        <setting name="logImpl" value="LOG4J"/>
     </settings>
 
+    <!--  批量设置别名-->
+    <typeAliases>
+        <package name="com.gp.vo"/>
+    </typeAliases>
 
 <!--    插件-->
     <plugins>

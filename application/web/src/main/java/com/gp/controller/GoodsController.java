@@ -1,9 +1,9 @@
 package com.gp.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gp.service.GoodsService;
 import com.gp.vo.GoodsVo;
-import com.gp.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,14 +27,20 @@ public class GoodsController {
 
     //分页
     @RequestMapping("/fenYe.action")
-    public PageVo<GoodsVo> fenYe(Integer page, Integer row) {
-        return goodsService.page(new PageVo<GoodsVo>(page, row));
+    public Page<GoodsVo> fenYe(GoodsVo goodsVo, Integer page, Integer row) {
+        return goodsService.fenYe(page,row,goodsVo);
     }
 
     //查所有
     @RequestMapping("/queryAll.action")
     public List<GoodsVo> queryAll() {
         return goodsService.list();
+    }
+
+    //根据Id查
+    @RequestMapping("/queryById.action")
+    public GoodsVo queryAll(Integer goodsId) {
+        return goodsService.getById(goodsId);
     }
 
     //增

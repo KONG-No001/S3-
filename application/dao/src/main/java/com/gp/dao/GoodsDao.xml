@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gp.dao.GoodsDao">
+    <resultMap id="GoodsMap" type="com.gp.vo.GoodsVo">
 
+        <result property="goodsTypeId" column="goods_type_id"/>
+        <association property="goodsTypeVo" javaType="com.gp.vo.GoodsTypeVo"
+                     column="goods_type_id" select="com.gp.dao.GoodsTypeDao.selectById"
+                      >
+        </association>
+    </resultMap>
 </mapper>

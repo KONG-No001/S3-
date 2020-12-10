@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 /**
  * <p>
@@ -20,9 +20,11 @@ import lombok.EqualsAndHashCode;
  * @author weikang
  * @since 2020-12-08
  */
+//不需要手动触发加载延迟属性，当延迟属性被调用时自动创建Session进行获取。可见如果有多个延迟属性需要被使用时，会造成多次创建Session，此时可以标注为AutoLazy(false)或不标注，然后采用initialze方法手动一次性加载需要的属性
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("goods")
+@JsonIgnoreProperties(value = { "handler" })
+@TableName(value = "goods",resultMap = "GoodsMap")
 public class GoodsVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -65,5 +67,5 @@ public class GoodsVo implements Serializable {
     @TableField("goods_status")
     private Integer goodsStatus;
 
-
+    private GoodsTypeVo goodsTypeVo;
 }

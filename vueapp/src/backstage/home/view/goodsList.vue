@@ -26,7 +26,8 @@
       </el-table-column>
       <el-table-column
           prop="goodsTypeId"
-          label="类型">
+          label="类型"
+          :formatter="formatterGoodsTypeId">
       </el-table-column>
       <el-table-column
           prop="goodsGuige"
@@ -54,7 +55,8 @@
       </el-table-column>
       <el-table-column
           prop="goodsStatus"
-          label="状态">
+          label="状态"
+          :formatter="formatterGoodsStatus">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -89,7 +91,11 @@ export default {
   data() {
     return {
       tableData: [],
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      pageindex:1,//当前显示页面
+      total:0,//总页面
+      size:0,  //总条目数
+      row:5,  //每页显示多少条
     }
   },
   methods: {
@@ -101,6 +107,15 @@ export default {
           }).catch(function (error) {
         alert(error)
       });
+    },
+    formatterGoodsTypeId(row) {
+      return row.goodsTypeVo.goodsTypeName;
+    },
+    formatterGoodsStatus(row) {
+      if (row.goodsStatus=="0"){
+        return "销售中";
+      }
+      return "已下架";
     },
     delGoods(row) {
       let _this = this;

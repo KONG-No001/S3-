@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,6 +18,7 @@ import lombok.EqualsAndHashCode;
  * @author weikang
  * @since 2020-12-08
  */
+@JsonIgnoreProperties(value = { "handler" })
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("goods_type")

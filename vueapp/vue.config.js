@@ -57,6 +57,12 @@ module.exports = {
     devServer: {
         // 端口号
         port: "8090",
+        // 热部署
+        hot: true,
+        // 启动完毕时打开浏览器
+        open: true,
+        // 打开浏览器时访问的页面
+        openPage: 'backstage/login',
         // 代理
         proxy: {
             //需要代理的URL

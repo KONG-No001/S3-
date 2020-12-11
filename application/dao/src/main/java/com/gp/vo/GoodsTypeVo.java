@@ -35,5 +35,4 @@ public class GoodsTypeVo implements Serializable {
     @TableField("goods_type_remark")
     private String goodsTypeRemark;
 
-
 }

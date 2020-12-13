@@ -5,15 +5,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gp.service.GoodsService;
 import com.gp.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Console;
 import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author weikang
@@ -28,7 +29,7 @@ public class GoodsController {
     //分页
     @RequestMapping("/fenYe.action")
     public Page<GoodsVo> fenYe(GoodsVo goodsVo, Integer page, Integer row) {
-        return goodsService.fenYe(page,row,goodsVo);
+        return goodsService.fenYe(page, row, goodsVo);
     }
 
     //查所有

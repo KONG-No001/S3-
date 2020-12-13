@@ -11,7 +11,7 @@
                 </el-row>
             </el-header>
             <el-container style="height: 600px">
-                <el-aside>
+                <el-aside style="width: 250px">
                     <el-scrollbar style="height: 100%;" wrap-style="overflow: hidden scroll;" >
                         <el-menu ref="menu" :router="true" @open="openMenu" @close="closeMenu">
                             <menu-item :aside-menus="asideMenus"></menu-item>

@@ -27,12 +27,17 @@
       <el-col :span="2">
         <el-button type="primary" @click="addGoods">添加</el-button>
       </el-col>
+      <el-col :span="2">
+        <el-button type="danger" @click="delGoods2">批量删除</el-button>
+      </el-col>
     </el-row>
 
     <!-- 数据表格-->
     <el-table
         :data="tableData"
         stripe
+        @selection-change="selectionChange"
+
     >
       <el-table-column
           type="selection">
@@ -255,7 +260,8 @@ export default {
       row: 5,
       page: 1,
       goodsName:'',
-      goodsTypeId:''
+      goodsTypeId:'',
+      selectIds:[]
     }
   },
 
@@ -385,6 +391,32 @@ export default {
         url: '/application/goods/delete.action',
         method: "get",
         params: {goodsId: row.goodsId},
+      }).then((result) => {
+        this.$notify({
+          title: '提示',
+          message: result.data == true ? '删除成功' : '删除失败',
+          type: 'success'
+        });
+        this.getData();
+      }).catch((error) => {
+        alert(error);
+      })
+    },
+
+    //选中行变化
+    selectionChange(val){
+      this.selectIds=[];
+      for (let i = 0; i < val.length; i++) {
+        this.selectIds.push(val[i].goodsId)
+      }
+    },
+
+    //批量删除
+    delGoods2() {
+      Axios({
+        url: '/application/goods/deleteByIds.action',
+        method: "get",
+        params: {goodsIds:this.selectIds.toLocaleString()},
       }).then((result) => {
         this.$notify({
           title: '提示',

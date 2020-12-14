@@ -11,9 +11,13 @@
                 </el-row>
             </el-header>
             <el-container style="height: 600px">
-                <el-aside>
+                <el-aside class="aside" >
                     <el-scrollbar style="height: 100%;" wrap-style="overflow: hidden scroll;" >
-                        <el-menu ref="menu" :router="true" @open="openMenu" @close="closeMenu">
+                        <el-menu
+                                ref="menu"
+                                :router="true"
+                                @open="openMenu"
+                                @close="closeMenu">
                             <menu-item :aside-menus="asideMenus"></menu-item>
                         </el-menu>
                     </el-scrollbar>
@@ -93,11 +97,13 @@
 
 <style scoped>
     .header{
-
-        background: #ff7600;
+        background: #409EFF;
+    }
+    .aside{
+        /*background: #409EFF;*/
     }
     .footer{
-        background: aqua;
+        background: #409EFF;
     }
 
 </style>

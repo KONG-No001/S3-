@@ -1,13 +1,19 @@
 package com.gp.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 
 @TableName()
 public class User {
-    @TableId("user_id")
+    @TableId(value = "user_id",type = IdType.AUTO)
     private Integer id;
     @TableField(value = "user_name")
     private String name;

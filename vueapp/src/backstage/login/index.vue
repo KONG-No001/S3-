@@ -73,6 +73,10 @@
                             }
                             loading.close();
                         }).catch(()=>{
+                            _this.$message({
+                                message:"登录异常！！！请联系管理员！！！",
+                                type: "error"
+                            });
                             loading.close();
                         })
                     }else {

@@ -6,7 +6,34 @@
         <result property="goodsTypeId" column="goods_type_id"/>
         <association property="goodsTypeVo" javaType="com.gp.vo.GoodsTypeVo"
                      column="goods_type_id" select="com.gp.dao.GoodsTypeDao.selectById"
-                      >
+        >
         </association>
     </resultMap>
+
+    <sql id="allFiledSql">
+        goods_id
+        ,goods_code,goods_name,goods_brand,goods_type_id,
+        goods_guige,goods_in_price,goods_img,goods_time,goods_factory,
+        goods_address,goods_status
+    </sql>
+
+    <sql id="tableName">
+        goods
+    </sql>
+
+    <!-- Page<GoodsVo> selectPageVo(@Param("pageVo") Page<GoodsVo> pageVo, @Param("goodsVo") GoodsVo goodsVo); -->
+    <select id="selectPageVo" resultMap="GoodsMap">
+        select
+        <include refid="allFiledSql"/>
+        from
+        <include refid="tableName"/>
+        <where>
+            <if test="goodsVo !=null">
+                <if test="goodsVo.goodsName != null and goodsVo.goodsName!=''">and goods_name like
+                    CONCAT('%',#{goodsVo.goodsName},'%')
+                </if>
+                <if test="goodsVo.goodsTypeId != null">and goods_type_id = #{goodsVo.goodsTypeId}</if>
+            </if>
+        </where>
+    </select>
 </mapper>

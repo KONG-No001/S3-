@@ -91,7 +91,10 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" @click="editGoods(scope.row)"></el-button>
-          <el-popconfirm title="这是一段内容确定删除吗？" @confirm="delGoods(scope.row)">
+          <el-popconfirm icon="el-icon-info"
+                         icon-color="red"
+                         title="确定删除吗？"
+                         @confirm="delGoods(scope.row)">
             <el-button slot="reference" type="danger" icon="el-icon-delete"></el-button>
           </el-popconfirm>
         </template>
@@ -337,7 +340,8 @@ export default {
         method: "post",
         params: this.editForm,
       }).then((result) => {
-        this.$message({
+        this.$notify({
+          title: '提示',
           message: result.data == true ? '添加成功' : '添加失败',
           type: 'success'
         });
@@ -363,7 +367,8 @@ export default {
         method: "post",
         params: this.editForm,
       }).then((result) => {
-        this.$message({
+        this.$notify({
+          title: '提示',
           message: result.data == true ? '修改成功' : '修改失败',
           type: 'success'
         });

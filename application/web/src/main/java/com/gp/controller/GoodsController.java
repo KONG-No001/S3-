@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gp.service.GoodsService;
 import com.gp.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Console;
 import java.util.List;
 
 /**
@@ -54,6 +53,12 @@ public class GoodsController {
     @RequestMapping("/delete.action")
     public boolean delete(Integer goodsId) {
         return goodsService.removeById(goodsId);
+    }
+
+    //批量删除
+    @RequestMapping("/deleteByIds.action")
+    public boolean deleteByIds( @RequestParam(value = "goodsIds") List<Integer> goodsIds) {
+        return goodsService.removeByIds(goodsIds);
     }
 
     //增

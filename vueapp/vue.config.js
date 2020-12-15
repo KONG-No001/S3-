@@ -52,6 +52,10 @@ module.exports = {
             // 标题
             title: "商品详情"
         },
+        "demo1":{
+            entry: "src/demo/demo1.js",
+            template: INDEX_HTML,
+        },
     },
     // 服务器配置
     devServer: {

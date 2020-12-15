@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import staffManagement from "@/backstage/home/view/staffManagement.vue";
+import roleManagement from "@/backstage/home/view/roleManagement.vue";
 import goodsList from "@/backstage/home/view/goodsList.vue";
 import goodsType from "@/backstage/home/view/goodsType.vue"
 import supplier from "@/backstage/home/view/supplier.vue"
@@ -25,6 +26,11 @@ let routes = [
         path:"/goodsType",
         name: "goodsType",
         component: goodsType,
+    },
+    {
+        path: "/roleManagement",
+        name: "roleManagement",
+        component: roleManagement,
     }
     ,{
             path:"/supplierManagement",

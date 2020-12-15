@@ -304,7 +304,7 @@ export default {
 
     //清空
     reset(){
-      this.goodsName='',
+      this.goodsName=''
       this.goodsTypeId=''
     },
 

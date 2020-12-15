@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class LoginController {
 
     @RequestMapping("login.action")
     @ResponseBody
-    public Boolean login(String name, String password, HttpSession session){
+    public Boolean login(String name, String password, boolean rememberMe){
         UsernamePasswordToken token = new UsernamePasswordToken(name,password);
+
+        System.out.println(rememberMe);
+        token.setRememberMe(rememberMe);
+
         Subject subject = SecurityUtils.getSubject();
         try{
             subject.login(token);
@@ -30,10 +36,16 @@ public class LoginController {
 
     @RequestMapping("test.action")
     @ResponseBody
-    public Boolean test(String name, String password, HttpSession session){
+    public Map<String,Object> test(String name){
         Subject subject = SecurityUtils.getSubject();
-        System.out.println(subject.isAuthenticated());
-        return subject.isAuthenticated();
+        System.out.println(subject.getSession().getAttribute("name"));
+        subject.getSession().setAttribute("name",name);
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("isAuth",subject.isAuthenticated());
+        map.put("isReMe",subject.isRemembered());
+
+        return map;
     }
 
 }

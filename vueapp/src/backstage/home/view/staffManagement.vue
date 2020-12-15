@@ -21,7 +21,7 @@
                 <template slot="header" slot-scope="scope">
                     <el-row>
                         <el-col :span="5">
-                            <el-button size="small" @click="handleAdd" >添加</el-button>
+                            <el-button size="small" @click="handleAdd" type="primary" >添加</el-button>
                         </el-col>
                         <el-col :span="18" :offset="1">
                             <el-input
@@ -39,15 +39,15 @@
                 <template slot-scope="scope">
                     <el-button
                             @click="roleEdit(scope.$index,scope.row)"
-                            type="">
+                            type="" size="small">
                         角色
                     </el-button>
-                    <el-button @click="handleEdit(scope.$index,scope.row)">
+                    <el-button @click="handleEdit(scope.$index,scope.row)" type="info" size="small">
                         编辑
                     </el-button>
                     <el-button
                         @click="handleDelete(scope.$index,scope.row)"
-                        type="danger">
+                        type="danger" size="small">
                         删除
                     </el-button>
                 </template>
@@ -143,11 +143,12 @@
         methods:{
             loadingTable(){
                 let _this = this;
+                _this.loading = true;
                 Axios.get("/application/user/listUser.action",{
                     params: _this.search
                 }).then((request)=>{
                     _this.userList = request.data;
-                    this.loading = false;
+                    _this.loading = false;
                 })
             },
             handleEdit:function (index, row) {

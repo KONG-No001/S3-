@@ -23,10 +23,30 @@
 
 <!--    </bean>-->
 
+<!--    创建RememberMeCooke -->
+    <bean id="rememberMeCooke" class="org.apache.shiro.web.servlet.SimpleCookie">
+<!--        构造函数参数 -->
+        <constructor-arg value="rememberMe"/>
+<!--        仅限Http -->
+        <property name="httpOnly" value="true"/>
+<!--        设置最大寿命 -->
+        <property name="maxAge" value="604800"/>
+
+    </bean>
+
+<!--    创建rememberMe管理器 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+<!--        设置Cooke -->
+        <property name="cookie" ref="rememberMeCooke"/>
+    </bean>
+
+
 <!--    创建安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 <!--        设置Realm -->
         <property name="realm" ref="myRealm"/>
+<!--        设置rememberMe管理器 -->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
 
     </bean>
 

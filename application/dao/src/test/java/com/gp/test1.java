@@ -16,6 +16,6 @@ public class test1 {
         ApplicationContext context = new ClassPathXmlApplicationContext("dao-config.xml");
 
         GoodsTypeDao bean = context.getBean(GoodsTypeDao.class);
-        System.out.println(bean.selectPage(new Page(1,2), null).getRecords().size());
+        System.out.println(bean.selectPage(new Page(1,2), null).getRecords());
     }
 }

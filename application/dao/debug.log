@@ -1,0 +1,4 @@
+2020-12-14 16:59:52  [ main:6070 ] - [ DEBUG ]  ==>  Preparing: SELECT goods_type_id,goods_type_name,goods_type_remark FROM goods_type LIMIT ?
+2020-12-14 16:59:52  [ main:6071 ] - [ DEBUG ]  ==> Parameters: 2(Long)
+2020-12-14 16:59:53  [ main:6113 ] - [ DEBUG ]  <==      Total: 2
+2020-12-14 16:59:53  [ main:6114 ] - [ DEBUG ]  Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1b66c0fb]

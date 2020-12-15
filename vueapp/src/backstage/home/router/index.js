@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import staffManagement from "@/backstage/home/view/staffManagement.vue";
 import goodsList from "@/backstage/home/view/goodsList.vue";
 import goodsType from "@/backstage/home/view/goodsType.vue"
+import supplier from "@/backstage/home/view/supplier.vue"
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,11 @@ let routes = [
         name: "goodsType",
         component: goodsType,
     }
+    ,{
+            path:"/supplierManagement",
+            name: "supplierManagement",
+            component: supplier,
+        }
 ];
 
 export default new VueRouter({

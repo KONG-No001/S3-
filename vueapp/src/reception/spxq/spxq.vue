@@ -29,13 +29,18 @@
 
 <!--     展示商品数据   -->
         <el-main>
-            <div class="block" style="width: 400px; background-color: #99a9bf;" >
-                <span class="demonstration">默认 Hover 指示器触发</span>
-                <el-carousel height="150px" >
-                    <el-carousel-item v-for="item in imgs" :key="item">
-                       <img style="width: 100%;height: 100%" :src="item.url">
-                    </el-carousel-item>
-                </el-carousel>
+            <div>
+<!--     商品图片展示           -->
+                <div class="block" style="width: 400px; background-color: #99a9bf;" >
+                    <span class="demonstration">默认 Hover 指示器触发</span>
+                    <el-carousel height="150px" >
+                        <el-carousel-item v-for="(item,key) in imgs" :key="key">
+                           <img style="width: 100%;height: 100%" :src="item.url">
+                        </el-carousel-item>
+                    </el-carousel>
+                </div>
+
+
             </div>
         </el-main>
     </div>

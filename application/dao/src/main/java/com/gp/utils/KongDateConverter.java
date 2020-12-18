@@ -1,4 +1,4 @@
-package com.gp.util;
+package com.gp.utils;
 
 import org.springframework.core.convert.converter.Converter;
 

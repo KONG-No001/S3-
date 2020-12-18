@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Arrays;
+
 @TableName()
 public class Menu {
     @TableId("menu_id")
@@ -12,6 +14,8 @@ public class Menu {
     private String field;
     @TableField(value = "menu_title")
     private String title;
+    @TableField(value = "menu_path")
+    private String path;
     @TableField(value = "menu_url")
     private String url;
     @TableField(value = "menu_icon")
@@ -33,10 +37,11 @@ public class Menu {
     }
 
 
-    public Menu(Integer id, String field, String title, String url, String icon, Integer print, String prints, Integer i, Integer level, Integer isParent, Object[] children) {
+    public Menu(Integer id, String field, String title, String path, String url, String icon, Integer print, String prints, Integer i, Integer level, Integer isParent, Object[] children) {
         this.id = id;
         this.field = field;
         this.title = title;
+        this.path = path;
         this.url = url;
         this.icon = icon;
         this.print = print;
@@ -53,6 +58,7 @@ public class Menu {
                 "id=" + id +
                 ", field='" + field + '\'' +
                 ", title='" + title + '\'' +
+                ", path='" + path + '\'' +
                 ", url='" + url + '\'' +
                 ", icon='" + icon + '\'' +
                 ", print=" + print +
@@ -60,8 +66,16 @@ public class Menu {
                 ", i=" + i +
                 ", level=" + level +
                 ", isParent=" + isParent +
-                ", children=" + children +
+                ", children=" + Arrays.toString(children) +
                 '}';
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Object getChildren() {

@@ -29,7 +29,9 @@
                 </el-aside>
                 <el-main>
                     <el-scrollbar style="height: 100%;" wrap-style="overflow: hidden scroll;">
-                        <router-view></router-view>
+                        <div style="width: 99%">
+                            <router-view></router-view>
+                        </div>
                     </el-scrollbar>
                 </el-main>
             </el-container>

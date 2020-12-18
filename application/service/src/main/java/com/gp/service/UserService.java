@@ -11,4 +11,6 @@ public interface UserService {
     Boolean addUser(User user);
     Boolean deleteUser(int id);
 
+    Boolean updateRoleRelation(int userId, List<Integer> roleIds);
+
 }

@@ -8,7 +8,7 @@
             <span slot="title" >{{menu.title}}</span>
             <menu-item :aside-menus="menu.children"></menu-item>
         </el-submenu>
-        <el-menu-item v-else :index="''+menu.id" :key="menu.id" :route="menu.url">
+        <el-menu-item v-else :index="''+menu.id" :key="menu.id" :route="menu.path">
             <i :class="menu.icon"></i>
             <span slot="title" >{{menu.title}}</span>
         </el-menu-item>

@@ -10,11 +10,10 @@
             <el-table-column label="头像" property="portrait" :width="120">
                 <el-image src="#" style="width: 26mm;height: 32mm;"></el-image>
             </el-table-column>
-            <el-table-column label="角色" property="null" width="200">
-                <template>
-                    <el-tag>角色1</el-tag>
-                    <el-tag>角色2</el-tag>
-                    <el-tag>+1</el-tag>
+            <el-table-column label="角色" property="null" width="225">
+                <template slot-scope="scope" >
+                    <el-tag class="col_role_tag" v-for="role in scope.row.roles.slice(0,3)" :key="role.id" :type="role.type">{{role.name}}</el-tag>
+                    <el-tag class="col_role_tag" v-if="scope.row.roles.length>3" type="info" >+{{scope.row.roles.length-3}}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column align="right">
@@ -72,7 +71,7 @@
                                 class="avatar-uploader"
                                 action="#"
                                 :show-file-list="false">
-                            <img v-if="userForm.portrait" class="avatar" :src="userForm.portrait" >
+                            <img v-if="userForm.portrait" class="avatar" :src="userForm.portrait">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </el-form-item>
@@ -92,7 +91,22 @@
                 角色
             </template>
             <template slot="default">
-                <el-transfer :data="roleList"></el-transfer>
+                <el-transfer
+                        :data="roleList"
+                        v-model="currentRole"
+                        :titles="['未使用角色','已使用角色']"
+                        :props="{
+                            key: 'id',
+                            label: 'name',
+                        }"
+                >
+                    <el-tag slot-scope="{option}" :type="option.type" size="small" >{{option.name}}</el-tag>
+                </el-transfer>
+
+            </template>
+            <template slot="footer">
+                <el-button size="small" >取消</el-button>
+                <el-button type="primary" size="small" @click="onUpdateRoleRelation" >确认</el-button>
             </template>
         </el-dialog>
     </div>
@@ -128,10 +142,9 @@
                         {required:true,message:"请输入所属部门"}
                     ]
                 },
-                roleList:[
-
-                ],
-
+                roleList:[],
+                currentRole:[],
+                currentUser:0,
                 types: [
                     {text:"NO",value:"id"},
                     {text:"职员名称",value:"name"},
@@ -159,8 +172,6 @@
             },
             handleDelete:function (index, row) {
                 let _this =  this;
-
-
 
                 _this.$confirm("此操作将永久删除该条记录, 是否继续?",'确认删除',{
                     confirmButtonText: "确定",
@@ -208,8 +219,16 @@
 
             },
             roleEdit(index,row){
+                let _this = this;
                 this.roleDialogBox.visible = true;
-                console.log(index, row);
+                _this.currentRole = [];
+                _this.currentUser = row.id;
+                Axios.get("/application/role/show.action").then(response=>{
+                    _this.roleList = response.data;
+                });
+                row.roles.forEach(role=>{
+                    _this.currentRole.push(role.id);
+                })
             },
             userEditSub(){
                 let _this = this;
@@ -245,7 +264,6 @@
                 });
 
             },
-
             handleAdd(){
                 this.userDialogBox.visible = true;
                 this.userDialogBox.formType = "add";
@@ -291,7 +309,40 @@
                     }
                 })
             },
-
+            onUpdateRoleRelation(){
+                let _this = this;
+                const loading = _this.$loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                Axios.post("/application/user/updateRoleRelation.action", {
+                    userId: this.currentUser,
+                    roleIds:this.currentRole
+                }).then(response=>{
+                    if(response.data){
+                        _this.$message({
+                            message: "添加成功！！！",
+                            type: "success"
+                        });
+                        _this.roleDialogBox.visible=false;
+                        _this.loadingTable();
+                    }else {
+                        _this.$message({
+                            message:"添加失败",
+                            type: "error"
+                        });
+                    }
+                    loading.close();
+                }).catch(()=>{
+                    _this.$message({
+                        message:"添加异常",
+                        type: "error"
+                    });
+                    loading.close();
+                });
+            }
         },
         created: function () {
             this.loadingTable();
@@ -324,6 +375,9 @@
         height: 32mm;
         line-height: 32mm;
         text-align: center;
+    }
+    .col_role_tag{
+        margin: 5px;
     }
 
 </style>

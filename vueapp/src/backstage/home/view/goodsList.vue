@@ -74,8 +74,32 @@
       </el-table-column>
       <el-table-column
           prop="goodsImg"
-          label="图片地址">
+          label="图片1">
+        <template slot-scope="scope">
+          <img  :src="scope.row.goodsImg" style="width: 30px"/>
+        </template>
       </el-table-column>
+        <el-table-column
+            prop="goodsImg2"
+            label="图片2">
+          <template slot-scope="scope">
+            <img  :src="scope.row.goodsImg2" style="width: 30px"/>
+          </template>
+        </el-table-column>
+          <el-table-column
+              prop="goodsImg3"
+              label="图片3">
+            <template slot-scope="scope">
+              <img  :src="scope.row.goodsImg3" style="width: 30px"/>
+            </template>
+          </el-table-column>
+            <el-table-column
+                prop="goodsImg4"
+                label="图片4">
+              <template slot-scope="scope">
+                <img  :src="scope.row.goodsImg4" style="width: 30px"/>
+              </template>
+            </el-table-column>
       <el-table-column
           prop="goodsTime"
           label="生产日期">
@@ -146,8 +170,17 @@
         <el-form-item label="进价" prop="goodsInPrice">
           <el-input v-model="editForm.goodsInPrice"></el-input>
         </el-form-item>
-        <el-form-item label="图片地址" prop="goodsImg">
-          <el-input v-model="editForm.goodsImg"></el-input>
+        <el-form-item label="商品图片1" >
+          <input type="file" @change="getFile($event)">
+        </el-form-item>
+        <el-form-item label="商品图片2" >
+          <input type="file" @change="getFile2($event)">
+        </el-form-item>
+        <el-form-item label="商品图片3" >
+          <input type="file" @change="getFile3($event)">
+        </el-form-item>
+        <el-form-item label="商品图片4" >
+          <input type="file" @change="getFile4($event)">
         </el-form-item>
         <el-form-item label="生产时间" prop="goodsTime">
           <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="选择日期" v-model="editForm.goodsTime"
@@ -207,13 +240,22 @@
         <el-form-item label="进价" prop="goodsInPrice">
           <el-input v-model="editForm.goodsInPrice"></el-input>
         </el-form-item>
-        <el-form-item label="图片地址" prop="goodsImg">
-          <el-input v-model="editForm.goodsImg"></el-input>
-        </el-form-item>
         <el-form-item label="生产时间" prop="goodsTime">
           <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="选择日期" v-model="editForm.goodsTime"
                           style="width: 100%;">
           </el-date-picker>
+        </el-form-item>
+        <el-form-item label="商品图片1" >
+          <input type="file" @change="getFile($event)">
+        </el-form-item>
+        <el-form-item label="商品图片2" >
+          <input type="file" @change="getFile2($event)">
+        </el-form-item>
+        <el-form-item label="商品图片3" >
+          <input type="file" @change="getFile3($event)">
+        </el-form-item>
+        <el-form-item label="商品图片4" >
+          <input type="file" @change="getFile4($event)">
         </el-form-item>
         <el-form-item label="厂家" prop="goodsFactory">
           <el-input v-model="editForm.goodsFactory"></el-input>
@@ -252,7 +294,8 @@ export default {
       dialogFormVisibleAdd: false,
       editForm: {
         goodsId: '', goodsCode: '', goodsName: '', goodsBrand: '',
-        goodsTypeId: '', goodsGuige: '', goodsInPrice: '', goodsImg: '',
+        goodsTypeId: '', goodsGuige: '', goodsInPrice: '',
+        img: '',img2: '',img3: '',img4: '',
         goodsTime: '', goodsFactory: '', goodsAddress: '', goodsStatus: ''
       },
       total: 0,
@@ -304,7 +347,7 @@ export default {
 
     //清空
     reset(){
-      this.goodsName='',
+      this.goodsName=''
       this.goodsTypeId=''
     },
 
@@ -342,10 +385,19 @@ export default {
     //添加信息
     addGoods2() {
       this.dialogFormVisibleAdd = false;
+
+      let  formData = new FormData();
+      Object.keys(this.editForm).forEach((key) => {
+        formData.append(key, this.editForm[key]);
+      });
+
       Axios({
         url: '/application/goods/add.action',
         method: "post",
-        params: this.editForm,
+        data:formData,
+        headers: {
+          'Content-Type':'multipart/form-data'
+        }
       }).then((result) => {
         this.$notify({
           title: '提示',
@@ -363,16 +415,24 @@ export default {
     editGoods(row) {
       this.dialogFormVisible = true;
       this.editForm = row;
+      this.$delete(this.editForm,'goodsTypeVo');
     },
 
     //修改信息
     editGoods2() {
       this.dialogFormVisible = false;
-      this.editForm.goodsTypeVo = null;
+      let  formData = new FormData();
+      Object.keys(this.editForm).forEach((key) => {
+        formData.append(key, this.editForm[key]);
+      });
+      // formData.set("goodsTypeVo","null");
       Axios({
         url: '/application/goods/update.action',
         method: "post",
-        params: this.editForm,
+        data:formData,
+        headers: {
+          'Content-Type':'multipart/form-data'
+        }
       }).then((result) => {
         this.$notify({
           title: '提示',
@@ -428,6 +488,22 @@ export default {
       }).catch((error) => {
         alert(error);
       })
+    },
+
+    getFile: function (event) {
+      this.editForm.img = event.target.files[0];
+    },
+
+    getFile2: function (event) {
+      this.editForm.img2 = event.target.files[0];
+    },
+
+    getFile3: function (event) {
+      this.editForm.img3 = event.target.files[0];
+    },
+
+    getFile4: function (event) {
+      this.editForm.img4 = event.target.files[0];
     }
   },
 

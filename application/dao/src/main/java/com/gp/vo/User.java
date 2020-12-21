@@ -1,13 +1,14 @@
 package com.gp.vo;
-
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 
-@TableName()
+import java.util.List;
+
+@TableName(resultMap = "resultMap")
 public class User {
-    @TableId("user_id")
+    @TableId(value = "user_id",type = IdType.AUTO)
     private Integer id;
     @TableField(value = "user_name")
     private String name;
@@ -18,15 +19,19 @@ public class User {
     @TableField(value = "user_portrait")
     private String portrait;
 
+    @TableField(exist=false)
+    private List<Role> roles;
+
     public User() {
     }
 
-    public User(Integer id, String name, String password, String department, String portrait) {
+    public User(Integer id, String name, String password, String department, String portrait, List<Role> roles) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.department = department;
         this.portrait = portrait;
+        this.roles = roles;
     }
 
     @Override
@@ -37,7 +42,16 @@ public class User {
                 ", password='" + password + '\'' +
                 ", department='" + department + '\'' +
                 ", portrait='" + portrait + '\'' +
+                ", roles=" + roles +
                 '}';
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public String getDepartment() {

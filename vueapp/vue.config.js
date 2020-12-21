@@ -52,24 +52,6 @@ module.exports = {
             // 标题
             title: "商品详情"
         },
-        "reception/gwc": {
-            // 打包入口
-            entry: "src/reception/gwc/gwc.js",
-
-            // 打包模板
-            template: INDEX_HTML,
-            // 标题
-            title: "购物车"
-        },
-        "reception/index": {
-            // 打包入口
-            entry: "src/reception/index.js",
-
-            // 打包模板
-            template: INDEX_HTML,
-            // 标题
-            title: "主页"
-        },
     },
     // 服务器配置
     devServer: {

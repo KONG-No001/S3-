@@ -40,12 +40,6 @@
         <property name="dataSource" ref="druidDataSource"/>
         <!--            将MyBatis配置文件注入属性[configLocation]-->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-
-        <property name="plugins">
-            <array>
-                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>
-            </array>
-        </property>
     </bean>
 
     <!--        创建映射扫描配置器[mapperScannerConfigurer]-->

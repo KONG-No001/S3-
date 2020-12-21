@@ -7,6 +7,7 @@ import router from "./router/index.js";
 import Vuex from "vuex";
 import store from"./store/index.js"
 
+
 Vue.use(Vuex);
 
 new Vue({
@@ -14,7 +15,6 @@ new Vue({
     router,
     store,
 }).$mount("#app")
-
 
 
 

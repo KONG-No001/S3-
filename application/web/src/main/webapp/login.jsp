@@ -12,7 +12,8 @@
 </head>
 <form action="login.action">
     <label for="form-input-name">账号：</label><input id="form-input-name" name="name" value="zhang3"/><br/>
-    <label for="form-input-password">账号：</label><input id="form-input-password" name="password" value="123456"/>
+    <label for="form-input-password">账号：</label><input id="form-input-password" name="password" value="123456"/><br/>
+    <label for="form-input-rememberMe">账号：</label><input id="form-input-rememberMe" type="checkbox" name="rememberMe" value="true"/><br/>
     <input type="submit">
 </form>
 <body>

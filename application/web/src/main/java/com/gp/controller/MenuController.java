@@ -23,4 +23,11 @@ public class MenuController {
     }
 
 
+    @RequestMapping("/listRoutes.action")
+    @ResponseBody
+    public List<Map<String,Object>> listRoutes(){
+        return menuService.listRoutes();
+    }
+
+
 }

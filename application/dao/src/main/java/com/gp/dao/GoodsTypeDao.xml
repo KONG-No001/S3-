@@ -5,4 +5,15 @@
     <select id="queryById" resultType="com.gp.vo.GoodsTypeVo">
         select * from goods_type where goods_type_id = #{id}
     </select>
+
+    <select id="selectPageVo" resultType="com.gp.vo.GoodsTypeVo">
+        select * from goods_type
+        <where>
+            <if test="goodsTypeVo !=null">
+                <if test="goodsTypeVo.goodsTypeName != null and goodsTypeVo.goodsTypeName!=''">and goods_type_name like
+                    CONCAT('%',#{goodsTypeVo.goodsTypeName},'%')
+                </if>
+            </if>
+        </where>
+    </select>
 </mapper>

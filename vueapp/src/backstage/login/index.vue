@@ -60,11 +60,12 @@
                         Axios.get("/application/login.action",{
                             params: {
                                 name: _this.form.account,
-                                password: _this.form.password
+                                password: _this.form.password,
+                                rememberMe: _this.form.rememberMe
                             }
                         }).then((response)=>{
                             if(response.data === true){
-                                location.assign("/backstage/home")
+                                location.assign("/backstage/home/")
                             }else {
                                 _this.$message({
                                     message:"登录失败！！！检查账户和密码是否匹配！！！",
@@ -73,6 +74,10 @@
                             }
                             loading.close();
                         }).catch(()=>{
+                            _this.$message({
+                                message:"登录异常！！！请联系管理员！！！",
+                                type: "error"
+                            });
                             loading.close();
                         })
                     }else {

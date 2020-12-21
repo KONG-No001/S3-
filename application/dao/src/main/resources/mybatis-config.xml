@@ -33,7 +33,10 @@
         <plugin interceptor="com.github.pagehelper.PageInterceptor">
             <property name="helperDialect" value="mysql"/>
         </plugin>
-
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor">
+            <property name="@page" value="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor"/>
+            <property name="page:dbType" value="h2"/>
+        </plugin>
     </plugins>
 
     <mappers>

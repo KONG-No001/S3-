@@ -25,7 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(value = { "handler" })
-@TableName(value = "goods",resultMap = "GoodsMap")
+@TableName(value = "goods")
 public class GoodsVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +54,15 @@ public class GoodsVo implements Serializable {
     @TableField("goods_img")
     private String goodsImg;
 
+    @TableField("goods_img2")
+    private String goodsImg2;
+
+    @TableField("goods_img3")
+    private String goodsImg3;
+
+    @TableField("goods_img4")
+    private String goodsImg4;
+
     @TableField("goods_time")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     @JSONField(format = "yyyy-MM-dd")
@@ -69,5 +78,6 @@ public class GoodsVo implements Serializable {
     @TableField("goods_status")
     private Integer goodsStatus;
 
+    @TableField(exist=false)
     private GoodsTypeVo goodsTypeVo;
 }

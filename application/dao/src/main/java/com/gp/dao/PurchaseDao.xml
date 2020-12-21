@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.dao.PurchaseDao">
+    <resultMap id="PurchaseMap" type="com.gp.vo.PurchaseVo">
+
+        <result property="supplierId" column="supplier_id"/>
+        <association property="list" javaType="list"
+                     column="supplier_id" select="com.gp.dao.SupplierDao.selectById">
+        </association>
+    </resultMap>
+
+
+    <select id="selectPageVo" resultMap="PurchaseMap">
+        select * from purchase
+        <where>
+            <if test="purchaseVo !=null">
+                <if test="purchaseVo.status != null">and status = #{purchaseVo.status}</if>
+            </if>
+        </where>
+    </select>
+
+    <update id="sp">
+        UPDATE `purchase`
+        SET
+            `status` = #{status}
+        WHERE `id` = #{id};
+    </update>
+</mapper>

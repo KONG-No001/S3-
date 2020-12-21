@@ -8,4 +8,9 @@ public interface RoleService {
 
     List<Role> listRole(Role role);
 
+    boolean addRole(Role role);
+
+    boolean updateRole(Role role);
+    List<Role> showRole();
+
 }

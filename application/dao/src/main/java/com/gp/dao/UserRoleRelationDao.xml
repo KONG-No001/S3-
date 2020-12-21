@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gp.dao.UserRoleRelationDao">
+
+    <resultMap id="roleResultMap" type="com.gp.vo.Role">
+        <id property="id" column="role_id"/>
+        <result column="role_name" property="name"/>
+        <result column="role_type" property="type"/>
+        <result column="role_remark" property="remark"/>
+    </resultMap>
+
+    <select id="getRolesByUserId" parameterType="int" resultMap="roleResultMap">
+        SELECT `r`.* FROM `user` `u`
+        INNER JOIN `user_role_relation` `urr`
+            ON u.`user_id` = `urr`.`user_role_relation_user`
+        INNER JOIN `role` r
+            ON `urr`.`user_role_relation_role` = `r`.`role_id`
+        WHERE `u`.`user_id` = #{id}
+    </select>
+
+    <insert id="updateRoleRelation">
+        INSERT INTO `user_role_relation`
+        (`user_role_relation_user`,
+        `user_role_relation_role`)
+        VALUES
+        <foreach collection="roleIds" item="roleId" separator="," >
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+    <delete id="closeRoleRelation" parameterType="int">
+        DELETE FROM `user_role_relation`
+        WHERE `user_role_relation_user`=#{userId} ;
+    </delete>
+
+</mapper>

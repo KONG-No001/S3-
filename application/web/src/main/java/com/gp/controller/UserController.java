@@ -1,5 +1,6 @@
 package com.gp.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gp.service.UserService;
 import com.gp.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("user/listUser.action")
+    @RequestMapping(value = "user/listUser.action",produces = "application/json;charset=utf-8")
     @ResponseBody()
-    public List<User> listUesr(String type,String value){
-        return userService.listUser("user_"+type,value);
+    public String listUesr(String type,String value){
+        return JSONObject.toJSONString(userService.listUser("user_"+type,value)) ;
     }
 
-    @RequestMapping("user/test")
-    @ResponseBody()
-    public User testUser(User user){
-        return user;
-    }
 
     @RequestMapping(value = "user/update.action",method = RequestMethod.POST)
     @ResponseBody
@@ -49,5 +45,10 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    @RequestMapping(value = "user/updateRoleRelation.action",method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean updateRoleRelation(@RequestBody Map<String,Object> params){
+        return userService.updateRoleRelation((int)params.get("userId"),(List<Integer>) params.get("roleIds")) ;
+    }
 
 }

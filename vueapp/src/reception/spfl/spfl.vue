@@ -12,7 +12,9 @@
             <span>首页</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="2">商品分类</el-menu-item>
+        <el-menu-item index="2">
+          <router-link to="/spfl">商品分类</router-link>
+        </el-menu-item>
         <el-submenu index="3">
           <template slot="title">我的</template>
           <el-menu-item index="3-1">个人信息</el-menu-item>
@@ -66,12 +68,25 @@
                           <div class="bottom clearfix">
                               <span>价格：${{sp.goodsInPrice}}</span>
                             <!-- 带参数跳转 -->
-                            <el-button type="text" class="button" @click="gm">查看详情</el-button>
+                            <el-button type="text" class="button" @click="gm(sp.goodsId)">查看详情</el-button>
                           </div>
                       </div>
                   </el-card>
               </el-col>
           </el-row>
+
+        <!-- 分页-->
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[5, 10, 15, 20]"
+            :page-size="row"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+        </el-pagination>
+
+<!--        返回顶部-->
           <el-backtop target=".page .el-main" :bottom="100">
               <div
                       style="{
@@ -104,7 +119,11 @@
         input: '',
         spfl:[],
         sps:[],
-        flid:'1'
+        flid:'1',
+        total: 0,
+        pages: 0,
+        row: 5,
+        page: 1
       }
     },
     created() {
@@ -126,13 +145,15 @@
       getsp(){
         var _this = this;
         var params = new URLSearchParams();
-        params.append('page',1);
-        params.append('row',50);
+        params.append('page',_this.page);
+        params.append('row',_this.row);
         params.append('goodsTypeId',_this.flid);
         params.append('goodsName',_this.input);
         this.
         $axios.post('/application/goods/fenYe.action',params).
         then(function(result) {
+          _this.total = result.data.total;
+          _this.pages = result.data.pages;
           _this.sps = result.data.records;
         }).
         catch(function(error) {
@@ -146,11 +167,26 @@
       chaXuan(){
         this.getsp();
       },
-      gm(){
+      gm(id){
         this.$router.push(
-            {path:"/spxq"}
+            {
+              name:"spxq",
+              params:{id:id}
+            }
         );
-      }
+      },
+
+      //每页条数变化
+      handleSizeChange(val) {
+        this.row = val;
+        this.getData();
+      },
+
+      //页数变化
+      handleCurrentChange(val) {
+        this.page = val;
+        this.getData();
+      },
     }
   }
 

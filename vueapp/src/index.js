@@ -5,10 +5,6 @@ import Axios from "axios";
 Vue.use(ElementUI);
 Vue.prototype.$axios = Axios;
 
-
-import Axios from "axios";
-Vue.prototype.$axios = Axios;
-
 export default Vue
 
 

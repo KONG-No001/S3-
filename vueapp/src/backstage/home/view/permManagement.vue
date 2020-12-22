@@ -152,7 +152,7 @@
                         loading.close();
                     }).catch(() => {
                         this.$message({
-                            type: 'danger',
+                            type: 'error',
                             message: '执行异常!'
                         });
                         loading.close();

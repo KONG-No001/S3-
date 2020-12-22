@@ -223,7 +223,6 @@
             },
             showAppendMenuNodePage(id){
                 let _this = this;
-                let aa = ""
                 _this.pageProps.type = "append";
                 _this.pageLoading = true;
                 _this.$axios.get("/application/menu/getMenu.action",{

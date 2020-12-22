@@ -15,7 +15,4 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface PurchaseDao extends BaseMapper<PurchaseVo> {
     Page<PurchaseVo> selectPageVo(@Param("pageVo") Page<PurchaseVo> pageVo, @Param("purchaseVo") PurchaseVo purchaseVo);
-
-    //审核
-    /*int sp(@Param("id")int id,@Param("status")int status);*/
 }

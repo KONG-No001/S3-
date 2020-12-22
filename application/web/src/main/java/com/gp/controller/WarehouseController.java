@@ -38,12 +38,6 @@ public class WarehouseController {
         return service.list();
     }
 
-    //增  采购批准自动添加
-//    @RequestMapping("add.action")
-//    public boolean add(WarehouseVo warehouseVo) {
-//        return service.save(warehouseVo);
-//    }
-
     //删
     @RequestMapping("delete.action")
     public boolean delete(Integer id){

@@ -26,10 +26,6 @@
         </foreach>
     </insert>
 
-    <delete id="deleteByPurchaseId">
-        delete from purchase_goods where purchase_id = #{id}
-    </delete>
-
     <select id="queryByPurchaseId" resultMap="PurchaseGoodsMap">
         select * from purchase_goods where purchase_id = #{id}
     </select>

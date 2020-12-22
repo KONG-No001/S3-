@@ -4,7 +4,7 @@
     <resultMap id="PurchaseMap" type="com.gp.vo.PurchaseVo">
 
         <result property="supplierId" column="supplier_id"/>
-        <association property="list" javaType="list"
+        <association property="supplierVo" javaType="com.gp.vo.SupplierVo"
                      column="supplier_id" select="com.gp.dao.SupplierDao.selectById">
         </association>
     </resultMap>
@@ -12,17 +12,6 @@
 
     <select id="selectPageVo" resultMap="PurchaseMap">
         select * from purchase
-        <!--<where>
-            <if test="purchaseVo !=null">
-                <if test="purchaseVo.status != null">and status = #{purchaseVo.status}</if>
-            </if>
-        </where>-->
     </select>
 
-   <!-- <update id="sp">
-        UPDATE `purchase`
-        SET
-            `status` = #{status}
-        WHERE `id` = #{id};
-    </update>-->
 </mapper>

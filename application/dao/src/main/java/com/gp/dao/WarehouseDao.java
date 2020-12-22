@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface WarehouseDao extends BaseMapper<WarehouseVo> {
     Page<WarehouseVo> selectPageVo(@Param("pageVo") Page<WarehouseVo> pageVo, @Param("warehouseVo") WarehouseVo warehouseVo);
+
+    WarehouseVo queryByGoodsId(int id);
 }

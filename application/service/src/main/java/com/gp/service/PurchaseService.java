@@ -23,5 +23,5 @@ public interface PurchaseService extends IService<PurchaseVo> {
 
         int delete(int id, int purchaseId);
 
-        int sp(int id, int status);
+        /*int sp(int id, int status);*/
 }

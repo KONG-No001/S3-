@@ -65,10 +65,10 @@ public class PurchaseController {
     }
 
     //审批
-    @RequestMapping("sp.action")
+    /*@RequestMapping("sp.action")
     public boolean sp(Integer id, Integer status) {
         return service.sp(id, status) > 0;
-    }
+    }*/
 
     //删
     @RequestMapping("delete.action")

@@ -55,11 +55,11 @@
           prop="sum"
           label="总计">
       </el-table-column>
-      <el-table-column
+<!--      <el-table-column
           prop="status"
           label="状态"
           :formatter="formatterStatus">
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" @click="editBtn(scope.row)"></el-button>
@@ -267,7 +267,6 @@ export default {
       purchaseGoods:{id:'',purchaseId:'',goodsId:'',count:''},
       goodsName:'',
       goodsTypeId:'',
-      status:"",
     }
   },
 
@@ -335,14 +334,14 @@ export default {
     },
 
     //显示状态
-    formatterStatus(row) {
+    /*formatterStatus(row) {
       if (row.status == "0") {
         return "未审核";
       }else if (row.status == "1"){
         return "已批准";
       }
       return "未批准";
-    },
+    },*/
 
     //显示供应商
     formatterSupplier(row){
@@ -457,9 +456,9 @@ export default {
     //删除信息
     del(row) {
       Axios({
-        url: '/application/supplier/delete.action',
+        url: '/application/purchase/delete.action',
         method: "get",
-        params: {id: row.supplierId},
+        params: {id: row.id},
       }).then((result) => {
         this.$notify({
           title: '提示',

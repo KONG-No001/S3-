@@ -45,7 +45,21 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseVo> im
         //添加到采购单记录表
         purchaseDao.insert(purchaseVo);
         //添加到采购单和商品关联表
-        return purchaseGoodsDao.add(purchaseVo.getId(),purchaseGoodsVo);
+         purchaseGoodsDao.add(purchaseVo.getId(),purchaseGoodsVo);
+        //添加到仓库
+        List<PurchaseGoodsVo> list=purchaseGoodsDao.queryByPurchaseId(purchaseVo.getId());
+        System.out.println(list);
+        WarehouseVo warehouseVo=new WarehouseVo();
+        for (int i = 0; i < list.size(); i++) {
+            //赋值
+            warehouseVo.setGoodsId(list.get(i).getGoodsId());
+            warehouseVo.setName(list.get(i).getGoodsVo().getGoodsName());
+            warehouseVo.setGoodsTypeId(list.get(i).getGoodsVo().getGoodsTypeId());
+            warehouseVo.setGoodsOutPrice(list.get(i).getGoodsVo().getGoodsInPrice());
+            warehouseVo.setCount(list.get(i).getCount());
+            warehouseDao.insert(warehouseVo);
+        }
+        return 1;
     }
 
     //删除
@@ -57,7 +71,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseVo> im
         return purchaseDao.deleteById(id);
     }
     //审核
-    @Override
+    /*@Override
     public int sp(int id, int status){
         if(status==1){
             //添加到仓库
@@ -75,5 +89,5 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseVo> im
             }
         }
         return purchaseDao.sp(id,status);
-    }
+    }*/
 }

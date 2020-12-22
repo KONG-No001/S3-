@@ -12,17 +12,17 @@
 
     <select id="selectPageVo" resultMap="PurchaseMap">
         select * from purchase
-        <where>
+        <!--<where>
             <if test="purchaseVo !=null">
                 <if test="purchaseVo.status != null">and status = #{purchaseVo.status}</if>
             </if>
-        </where>
+        </where>-->
     </select>
 
-    <update id="sp">
+   <!-- <update id="sp">
         UPDATE `purchase`
         SET
             `status` = #{status}
         WHERE `id` = #{id};
-    </update>
+    </update>-->
 </mapper>

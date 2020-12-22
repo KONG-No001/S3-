@@ -74,9 +74,6 @@ public class GoodsVo implements Serializable {
     @TableField("goods_address")
     private String goodsAddress;
 
-    @TableField("goods_status")
-    private Integer goodsStatus;
-
     @TableField(exist=false)
     private GoodsTypeVo goodsTypeVo;
 

@@ -2,6 +2,7 @@ package com.gp.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gp.vo.PurchaseGoodsVo;
 import com.gp.vo.PurchaseVo;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface PurchaseService extends IService<PurchaseVo> {
 
         Page<PurchaseVo> fenYe(Integer page,Integer row,PurchaseVo purchaseVo);
 
-        int add(PurchaseVo purchaseVo, List<Integer> goodsIds);
+        int add(PurchaseVo purchaseVo, List<PurchaseGoodsVo> purchaseGoodsVo);
 
         int delete(int id, int purchaseId);
 

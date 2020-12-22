@@ -14,7 +14,7 @@
         goods_id
         ,goods_code,goods_name,goods_brand,goods_type_id,
         goods_guige,goods_in_price,goods_img,goods_img2,goods_img3,goods_img4,goods_time,goods_factory,
-        goods_address,goods_status
+        goods_address
     </sql>
 
     <sql id="tableName">

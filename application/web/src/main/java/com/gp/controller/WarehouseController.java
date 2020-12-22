@@ -3,11 +3,9 @@ package com.gp.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gp.service.WarehouseService;
-import com.gp.vo.PurchaseVo;
 import com.gp.vo.WarehouseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,11 +38,11 @@ public class WarehouseController {
         return service.list();
     }
 
-    //增
-    @RequestMapping("add.action")
-    public boolean add(WarehouseVo warehouseVo) {
-        return service.save(warehouseVo);
-    }
+    //增  采购批准自动添加
+//    @RequestMapping("add.action")
+//    public boolean add(WarehouseVo warehouseVo) {
+//        return service.save(warehouseVo);
+//    }
 
     //删
     @RequestMapping("delete.action")

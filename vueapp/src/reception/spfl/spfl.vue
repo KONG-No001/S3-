@@ -3,20 +3,18 @@
   <el-container>
       <!--    顶部菜单栏    -->
     <el-header class="el-header">
-      <el-menu default-active="1"
+      <el-menu default-active="2"
                background-color="#545c64"
                text-color="#fff"
                active-text-color="#ffd04b" class="el-menu-demo" mode="horizontal">
         <el-menu-item index="1">
           <template slot="title">
-<!--            <el-image-->
-<!--                    style="width: 100px; height: 100px"-->
-<!--                    :src="pjyx.PNG"-->
-<!--                    :fit="cover"></el-image>-->
             <span>首页</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="2">商品分类</el-menu-item>
+        <el-menu-item index="2">
+          <router-link to="/spfl">商品分类</router-link>
+        </el-menu-item>
         <el-submenu index="3">
           <template slot="title">我的</template>
           <el-menu-item index="3-1">个人信息</el-menu-item>
@@ -24,7 +22,9 @@
           <el-menu-item index="3-3">我的订单</el-menu-item>
           <el-menu-item index="3-4">注销账号</el-menu-item>
         </el-submenu>
-        <el-menu-item index="4">购物车</el-menu-item>
+        <el-menu-item index="4" route="true">
+          <router-link to="/gwc"> 购物车</router-link>
+          </el-menu-item>
       </el-menu>
     </el-header>
     <el-container class="page">
@@ -34,24 +34,13 @@
               <el-col :span="12">
                   <h5 style="margin-left: 22px">商品分类</h5>
                   <el-menu
-                          default-active="2"
+                      @select="xz"
+                      active-text-color="#ffd04b"
+                          :default-active="flid"
                           class="el-menu-vertical-demo"
-                            >
-                      <el-menu-item index="1">
-                          <i class="el-icon-menu"></i>
-                          <span slot="title">商品分类</span>
-                      </el-menu-item>
-                      <el-menu-item index="2">
-                          <i class="el-icon-menu"></i>
-                          <span slot="title">商品分类</span>
-                      </el-menu-item>
-                      <el-menu-item index="3">
-                          <i class="el-icon-document"></i>
-                          <span slot="title">商品分类</span>
-                      </el-menu-item>
-                      <el-menu-item index="4">
-                          <i class="el-icon-setting"></i>
-                          <span slot="title">商品分类</span>
+                          v-for="(sp,i) in spfl" :key="i" >
+                      <el-menu-item :index="(i+1).toString()">
+                        <template slot="title">{{sp.goodsTypeName}}</template>
                       </el-menu-item>
                   </el-menu>
               </el-col>
@@ -66,23 +55,38 @@
                        prefix-icon="el-icon-search"
                        v-model="input" clearable>
         </el-input>&nbsp;
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search"
+                     @click="chaXuan">搜索</el-button>
         </div>
 
           <el-row :gutter="20">
-              <el-col :span="5" v-for="o in 50" :key="o">
+              <el-col :span="5" v-for="(sp,i) in sps" :key="i">
                   <el-card :body-style="{ padding: '0px' }" shadow="hover" class="sp">
                       <img src="@/assets/logo.png" class="image">
                       <div style="padding: 14px;">
-                          <span>商品名称</span>
+                          <span>[{{sp.goodsBrand}}]{{sp.goodsName}}</span>
                           <div class="bottom clearfix">
-                              <span>价格：$12</span>
-                              <el-button type="text" class="button">操作按钮</el-button>
+                              <span>价格：${{sp.goodsInPrice}}</span>
+                            <!-- 带参数跳转 -->
+                            <el-button type="text" class="button" @click="gm(sp.goodsId)">查看详情</el-button>
                           </div>
                       </div>
                   </el-card>
               </el-col>
           </el-row>
+
+        <!-- 分页-->
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[5, 10, 15, 20]"
+            :page-size="row"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+        </el-pagination>
+
+<!--        返回顶部-->
           <el-backtop target=".page .el-main" :bottom="100">
               <div
                       style="{
@@ -108,15 +112,85 @@
 </template>
 
 <script>
+// import Axios from "axios";
   export default {
     data() {
       return {
-        input: ''
+        input: '',
+        spfl:[],
+        sps:[],
+        flid:'1',
+        total: 0,
+        pages: 0,
+        row: 5,
+        page: 1
       }
+    },
+    created() {
+      this.getdata();
+      this.getsp();
+    },
+    methods :{
+      getdata(){
+        var _this = this;
+        this.
+        $axios.post('/application/goodsType/queryAll.action').
+        then(function(result) {
+          _this.spfl = result.data;
+        }).
+        catch(function(error) {
+          alert(error)
+        });
+      },
+      getsp(){
+        var _this = this;
+        var params = new URLSearchParams();
+        params.append('page',_this.page);
+        params.append('row',_this.row);
+        params.append('goodsTypeId',_this.flid);
+        params.append('goodsName',_this.input);
+        this.
+        $axios.post('/application/goods/fenYe.action',params).
+        then(function(result) {
+          _this.total = result.data.total;
+          _this.pages = result.data.pages;
+          _this.sps = result.data.records;
+        }).
+        catch(function(error) {
+          alert(error)
+        });
+      },
+      xz(i){
+        this.flid=i;
+        this.getsp();
+      },
+      chaXuan(){
+        this.getsp();
+      },
+      gm(id){
+        this.$router.push(
+            {
+              name:"spxq",
+              params:{id:id}
+            }
+        );
+      },
+
+      //每页条数变化
+      handleSizeChange(val) {
+        this.row = val;
+        this.getData();
+      },
+
+      //页数变化
+      handleCurrentChange(val) {
+        this.page = val;
+        this.getData();
+      },
     }
   }
-</script>
 
+</script>
 <style>
     .el-header {
         position: relative;
@@ -127,7 +201,7 @@
         display: block;
         position: absolute;
         left: 0;
-        top: 60px;
+        top: 80px;
         bottom: 0;
     }
     .el-main {

@@ -337,7 +337,8 @@ export default {
       let _this = this;
       Axios.get('/application/goodsType/queryAll.action')
           .then(function (result) {
-            _this.goodsType = result.data;
+            _this.goodsType = result.data.row;
+            console.log(result)
           }).catch(function (error) {
         alert(error)
       });

@@ -34,27 +34,14 @@ module.exports = {
             // 标题
             title: "后台管理系统"
         },
-        "reception/spfl": {
+        "reception/index": {
             // 打包入口
-            entry: "src/reception/spfl/spfl.js",
+            entry: "src/reception/index.js",
 
             // 打包模板
             template: INDEX_HTML,
             // 标题
-            title: "商品分类"
-        },
-        "reception/spxq": {
-            // 打包入口
-            entry: "src/reception/spxq/spxq.js",
-
-            // 打包模板
-            template: INDEX_HTML,
-            // 标题
-            title: "商品详情"
-        },
-        "demo1":{
-            entry: "src/demo/demo1.js",
-            template: INDEX_HTML,
+            title: "平价优选"
         },
     },
     // 服务器配置

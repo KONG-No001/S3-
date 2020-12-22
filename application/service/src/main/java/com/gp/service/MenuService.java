@@ -7,8 +7,14 @@ import java.util.Map;
 
 public interface MenuService {
 
-    List<Menu> getMenu(int id);
+    List<Menu> listMenu(int id);
 
     List<Map<String,Object>> listRoutes();
+    List<Map<String,Object>> listMenuTree(int id);
+
+    Menu getMenu(int id);
+
+    boolean deleteMenu(int id);
+
 
 }

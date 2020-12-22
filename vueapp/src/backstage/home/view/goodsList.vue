@@ -112,11 +112,6 @@
           prop="goodsAddress"
           label="地址">
       </el-table-column>
-      <el-table-column
-          prop="goodsStatus"
-          label="状态"
-          :formatter="formatterGoodsStatus">
-      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" @click="editGoods(scope.row)"></el-button>
@@ -193,13 +188,6 @@
         <el-form-item label="地址" prop="goodsAddress">
           <el-input v-model="editForm.goodsAddress"></el-input>
         </el-form-item>
-        <!-- 单选按钮-->
-        <el-form-item label="状态" prop="goodsStatus">
-          <el-radio-group v-model="editForm.goodsStatus">
-            <el-radio :label="0">销售中</el-radio>
-            <el-radio :label="1">已下架</el-radio>
-          </el-radio-group>
-        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -263,13 +251,6 @@
         <el-form-item label="地址" prop="goodsAddress">
           <el-input v-model="editForm.goodsAddress"></el-input>
         </el-form-item>
-        <!-- 单选按钮-->
-        <el-form-item label="状态" prop="goodsStatus">
-          <el-radio-group v-model="editForm.goodsStatus">
-            <el-radio :label="0">销售中</el-radio>
-            <el-radio :label="1">已下架</el-radio>
-          </el-radio-group>
-        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -296,7 +277,7 @@ export default {
         goodsId: '', goodsCode: '', goodsName: '', goodsBrand: '',
         goodsTypeId: '', goodsGuige: '', goodsInPrice: '',
         img: '',img2: '',img3: '',img4: '',
-        goodsTime: '', goodsFactory: '', goodsAddress: '', goodsStatus: ''
+        goodsTime: '', goodsFactory: '', goodsAddress: ''
       },
       total: 0,
       pages: 0,
@@ -368,13 +349,6 @@ export default {
       return row.goodsTypeVo.goodsTypeName;
     },
 
-    //显示状态
-    formatterGoodsStatus(row) {
-      if (row.goodsStatus == "0") {
-        return "销售中";
-      }
-      return "已下架";
-    },
 
     //点击添加按钮
     addGoods() {

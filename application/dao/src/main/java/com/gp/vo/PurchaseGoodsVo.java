@@ -32,5 +32,12 @@ public class PurchaseGoodsVo implements Serializable {
     @TableField("goods_id")
     private Integer goodsId;
 
+    @TableField("count")
+    private Integer count;
 
+    @TableField(exist=false)
+    private GoodsVo goodsVo;
+
+    @TableField(exist=false)
+    private PurchaseVo purchaseVo;
 }

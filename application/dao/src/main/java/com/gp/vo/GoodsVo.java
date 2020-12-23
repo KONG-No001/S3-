@@ -25,7 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(value = { "handler" })
-@TableName(value = "goods")
+@TableName(value = "goods",resultMap = "GoodsMap")
 public class GoodsVo implements Serializable {
 
     private static final long serialVersionUID = 1L;

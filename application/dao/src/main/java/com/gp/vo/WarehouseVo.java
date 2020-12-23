@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @JsonIgnoreProperties(value = { "handler" })
 @EqualsAndHashCode(callSuper = false)
-@TableName("warehouse")
+@TableName(value = "warehouse",resultMap = "WarehouseMap")
 public class WarehouseVo implements Serializable {
 
     private static final long serialVersionUID = 1L;

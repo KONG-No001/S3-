@@ -148,7 +148,7 @@
       </div>
       <br>
       <el-form :inline="true" :model="form" ref="form" size="medium" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="供应商" >
+        <el-form-item label="供应商">
           <el-select placeholder="请选择商品类型" v-model="form.supplierId">
             <el-option
                 v-for="item in supplier"

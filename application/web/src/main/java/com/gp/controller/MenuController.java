@@ -46,9 +46,31 @@ public class MenuController {
     @RequestMapping(value = "/menu/deleteMenu.action",method = RequestMethod.POST)
     @ResponseBody
     public boolean deleteMenu(@RequestBody Map<String,Object> data){
-        System.out.println(data);
-//        return false;
         return menuService.deleteMenu((int)data.get("id"));
+    }
+
+    @RequestMapping(value = "/menu/getAppendInfo.action",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getAppendInfo(int id){
+        return menuService.getAppendInfo(id);
+    }
+
+    @RequestMapping(value = "/menu/getUpdateInfo.action",method = RequestMethod.GET)
+    @ResponseBody
+    public Menu getUpdateInfo(int id){
+        return menuService.getUpdateInfo(id);
+    }
+
+    @RequestMapping(value = "/menu/appendMenu.action",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> appendMenu(@RequestBody Menu data){
+        return menuService.appendMenu(data);
+    }
+
+    @RequestMapping(value = "/menu/updateMenu.action",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> updateMenu(@RequestBody Menu data){
+        return menuService.updateMenu(data);
     }
 
 }

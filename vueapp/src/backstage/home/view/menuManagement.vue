@@ -19,7 +19,7 @@
                                          :load="loadingMenuNode"
                                          :default-expanded-keys="defaultExpandedKeys"
                                          @node-collapse="collapseMenuNode"
-                                         @node-click="menuNodeClick"
+                                         @node-click="showMenuNodeInfoPage"
                                 >
                                     <span class="custom-tree-node"  slot-scope="{node,data}">
                                         <span>
@@ -27,6 +27,7 @@
                                         </span>
                                         <span>
                                             <el-button type="text" size="mini" @click.stop="showAppendMenuNodePage(data)">追加</el-button>
+                                            <el-button type="text" size="mini" @click.stop="showUpdateMenuNodePage(data)">更改</el-button>
                                             <el-button type="text" size="mini" @click.stop="deleteMenuNode(data)">删除</el-button>
                                         </span>
                                     </span>
@@ -38,45 +39,91 @@
             </el-col>
             <el-col :span="16">
                 <el-card style="width: 100%;height: 540px;" body-style="height:445px;padding:0">
-                    <template v-if="pageProps.type==='add'||pageProps.type==='append'" >
+                    <template v-if="pageProps.type==='form'" >
                         <template slot="header">
-                            <el-page-header :content="pageProps.title"></el-page-header>
+                            <el-page-header @back="doGoBack" :content="pageProps.title"></el-page-header>
                         </template>
                         <template>
-                            <el-scrollbar slot="default" style="height: 100%;border-bottom: 1px solid #EBEEF5;" wrap-style="overflow: hidden scroll;">
-                                <el-form style="margin: 10px 20px" label-width="100px" label-position="right">
-                                    <el-form-item label="字段:">
-                                        <el-input></el-input>
+                            <template v-if="menuFormPageData=== undefined ||menuFormPageData==null || Object.keys(menuFormPageData).length===0">
+                                <div style="width: 100%; height: 445px; display: flex; justify-content:center; align-items: center">
+                                    <span style="color: #606266;font-size: 20px;">你不应该看到这条信息的(っ °Д °;)っ</span>
+                                </div>
+                            </template>
+                            <el-scrollbar v-loading="pageLoading" v-else slot="default" style="height: 100%;border-bottom: 1px solid #EBEEF5;" wrap-style="overflow: hidden scroll;">
+                                <el-form style="margin: 10px 20px" ref="menuForm" :rules="menuFormPageRules" :model="menuFormPageData" label-width="100px" label-position="left">
+                                    <el-form-item label="字段:" prop="field">
+                                        <el-input v-model="menuFormPageData.field" ></el-input>
                                     </el-form-item>
-                                    <el-form-item label="标题:">
-                                        <el-input></el-input>
+                                    <el-form-item label="标题:" prop="title">
+                                        <el-input v-model="menuFormPageData.title"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="路由地址:">
-                                        <el-input></el-input>
+                                    <el-form-item label="路由地址:" prop="path">
+                                        <el-input v-model="menuFormPageData.path"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="组件地址:">
-                                        <el-input></el-input>
+                                    <el-form-item label="组件地址:" prop="url">
+                                        <el-input v-model="menuFormPageData.url"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="图标:">
+                                    <el-form-item label="图标:" prop="icon">
                                         <el-row>
                                             <el-col :span="2">
-                                                <i class="el-icon-platform-eleme menu-form-icon-i"></i>
+                                                <div class="demo">
+                                                    <i :class="menuFormPageData.icon+' menu-form-icon-i'"></i>
+                                                </div>
+
                                             </el-col>
                                             <el-col :span="22">
-                                                <el-input ></el-input>
+                                                <el-autocomplete
+                                                        v-model="menuFormPageData.icon"
+                                                        :fetch-suggestions="queryIconClassSearch"
+                                                        style="width: 100%"
+                                                        clearable
+                                                >
+                                                    <template slot-scope="{item}">
+                                                        <span style="float:left">
+                                                            <span v-for="(span,index) in splitIconClassValue(item.value,menuFormPageData.icon)" :key="index" >
+                                                                <span v-if="index===1" style="color: #409EFF;font-weight:bold;">{{span}}</span>
+                                                                <span v-else>{{span}}</span>
+                                                            </span>
+                                                        </span>
+                                                        <span>
+                                                            <i :class="item.value" class="menu-form-icon-search-icon-i"></i>
+                                                        </span>
+                                                    </template>
+                                                </el-autocomplete>
                                             </el-col>
                                         </el-row>
                                     </el-form-item>
+                                    <el-form-item label="父节点:">
+                                        <span style="line-height: 40px ">{{menuFormPageData.print}}</span>
+                                    </el-form-item>
+                                    <el-form-item label="节点地址:">
+                                        <span style="line-height: 40px ">{{menuFormPageData.prints}}/<span v-if="menuFormPageData.field">{{menuFormPageData.id}}</span><span v-else>#</span></span>
+                                    </el-form-item>
+                                    <el-form-item label="下标:">
+                                        <span style="line-height: 40px ">{{menuFormPageData.i}}</span>
+                                    </el-form-item>
+                                    <el-form-item label="层级:">
+                                        <span style="line-height: 40px ">{{menuFormPageData.level}}</span>
+                                    </el-form-item>
+                                    <el-form-item v-if="pageProps.form==='update'" label="是否为父类:">
+                                        <el-tag size="small" :type="menuFormPageData.isParent===1?'success':'danger'" effect="dark" >{{menuFormPageData.isParent===1}}</el-tag>
+                                    </el-form-item>
                                 </el-form>
-                                <div style="margin: 10px 20px;">
-                                    <el-button type="warning" style="float: right">更改</el-button>
-                                </div>
+                                <el-row class="menu-info-row">
+                                    <el-col :span="24">
+                                    <span style="float: right">
+                                        <el-button v-if="pageProps.form==='add'" type="success" size="small">确认</el-button>
+                                        <el-button v-if="pageProps.form==='append'" type="success" size="small" @click="doAppendMenuNodeAction">确认</el-button>
+                                        <el-button v-if="pageProps.form==='update'" type="success" size="small" @click="doUpdateMenuNodeAction">确认</el-button>
+                                    </span>
+                                    </el-col>
+                                </el-row>
                             </el-scrollbar>
                         </template>
                     </template>
                     <template v-else-if="pageProps.type==='info'">
                         <template slot="header">
-                            <el-page-header content="节点详情"></el-page-header>
+                            <el-page-header @back="doClearPage" :content="pageProps.title"></el-page-header>
                         </template>
                         <template v-if="menuInfoPageData=== undefined ||menuInfoPageData==null || Object.keys(menuInfoPageData).length===0">
                             <div style="width: 100%; height: 445px; display: flex; justify-content:center; align-items: center">
@@ -144,14 +191,14 @@
                             <el-row class="menu-info-row">
                                 <el-col :span="24">
                                     <span style="float: right">
-                                        <el-button type="warning" size="small">更改</el-button>
+                                        <el-button type="primary" size="small" @click="showAppendMenuNodePage({id:menuInfoPageData.id,label:menuInfoPageData.title})">追加</el-button>
+                                        <el-button type="warning" size="small" @click="showUpdateMenuNodePage({id:menuInfoPageData.id,label:menuInfoPageData.title})">更改</el-button>
                                         <el-button type="danger" size="small" @click="deleteMenuNode(menuInfoPageData)">删除</el-button>
                                     </span>
                                 </el-col>
                             </el-row>
                         </el-scrollbar>
                     </template>
-                    <template v-else-if="pageProps.type==='update'"></template>
                     <template v-else>
                         <div style="width: 100%; height: 540px; display: flex; justify-content:center; align-items: center">
                             <span style="color: #606266;font-size: 20px;">你还没有选择数据...</span>
@@ -175,8 +222,27 @@
                 pageProps:{
                     type:"",
                     title:"",
+                    form:"",
+                    doBack:{},
                 },
                 menuInfoPageData:null,
+                menuFormPageRules:{
+                    field:[
+                        {required:"true",message: '该属性是必须输入的'}
+                    ],
+                    title:[
+                        {required:"true",message: '该属性是必须输入的'}
+                    ],
+                    path:[
+                        {required:"true",message: '该属性是必须输入的'}
+                    ],
+                    url:[
+                        {required:"true",message: '该属性是必须输入的'}
+                    ],
+                    icon:[
+                        {required:"true",message: '该属性是必须输入的'}
+                    ],
+                },
                 menuFormPageData:null,
                 pageLoading:true,
             }
@@ -210,9 +276,10 @@
                 let index = _this.defaultExpandedKeys.indexOf(data.id);
                 _this.defaultExpandedKeys.splice(index,1)
             },
-            menuNodeClick({id}){
+            showMenuNodeInfoPage({id,label}){
                 let _this = this;
                 _this.pageProps.type = "info";
+                _this.pageProps.title = label;
                 _this.pageLoading = true;
                 _this.$axios.get("/application/menu/getMenu.action",{
                     params:{id}
@@ -221,17 +288,33 @@
                     _this.pageLoading = false;
                 })
             },
-            showAppendMenuNodePage(id){
+            showAppendMenuNodePage({id,label}){
                 let _this = this;
-                _this.pageProps.type = "append";
+                _this.pageProps.type = "form";
+                _this.pageProps.form = "append";
+                _this.pageProps.title = label+" / 追加节点";
+                _this.pageProps.doBack = {id,label};
                 _this.pageLoading = true;
-                _this.$axios.get("/application/menu/getMenu.action",{
+                _this.$axios.get("/application/menu/getAppendInfo.action",{
                     params:{id}
                 }).then(response=>{
-                    _this.menuFormPageData = response.data;
+                    _this.menuFormPageData = response.data
                     _this.pageLoading = false;
                 })
-
+            },
+            showUpdateMenuNodePage({id,label}){
+                let _this = this;
+                _this.pageProps.type = "form";
+                _this.pageProps.form = "update";
+                _this.pageProps.title = label+" / 更改节点";
+                _this.pageProps.doBack = {id,label};
+                _this.pageLoading = true;
+                _this.$axios.get("/application/menu/getUpdateInfo.action",{
+                    params:{id}
+                }).then(response=>{
+                    _this.menuFormPageData = response.data
+                    _this.pageLoading = false;
+                })
             },
             addMenuRootNode(){
                 console.log("AddRoot")
@@ -256,6 +339,7 @@
                                 type: "success"
                             });
                             _this.refreshMenuTree();
+                            _this.doClearPage();
                         }else {
                             _this.$message({
                                 message:"删除失败",
@@ -277,12 +361,159 @@
                     });
                 });
 
+            },
+            doGoBack(){
+                this.showMenuNodeInfoPage(this.pageProps.doBack)
+            },
+            doAppendMenuNodeAction(){
+                let _this = this;
+                let data = _this.menuFormPageData;
+                const h = _this.$createElement;
+                const parentElTag = h('span',{style:{color:"#409EFF"}},_this.pageProps.doBack.label);
+                const currentElTag = h('span',{style:{color:"#F56C6C"}},data.title);
+                _this.$refs["menuForm"].validate(valid=>{
+                    if(valid){
+                        _this.$msgbox({
+                            title: "确认追加",
+                            message:h(
+                                "p",null,[
+                                    h('span',null,"此操作将该在 "),
+                                    parentElTag,
+                                    h('span',null," 节点下追加 "),
+                                    currentElTag,
+                                    h('span',null," 子节点,"),
+                                    h('span',null," 如果该 "),
+                                    parentElTag,
+                                    h('span',null," 节点有路由数据, 该路由将会被忽略。"),
+                                ]
+                            ),
+                            confirmButtonText: "确认",
+                            cancelButtonText: "取消",
+                            showCancelButton:true,
+                            type: "warning"
+                        }).then(()=>{
+                            const loading = _this.$loading({
+                                lock: true,
+                                text: "Loading",
+                                spinner: 'el-icon-loading',
+                                background: 'rgba(0, 0, 0, 0.7)'
+                            });
+                            _this.$axios.post("/application/menu/appendMenu.action",data).then(response=>{
+                                if(response.data.state){
+                                    _this.$message({
+                                        message: "追加成功！！！",
+                                        type: "success"
+                                    });
+                                    _this.refreshMenuTree();
+                                    _this.showMenuNodeInfoPage(response.data)
+
+                                }else {
+                                    _this.$message({
+                                        message:"追加失败",
+                                        type: "error"
+                                    });
+                                }
+                                loading.close();
+                            }).catch(() => {
+                                this.$message({
+                                    type: 'error',
+                                    message: '执行异常!'
+                                });
+                                loading.close();
+                            });
+                        }).catch(() => {
+                            this.$message({
+                                type: 'info',
+                                message: '已取消追加'
+                            });
+                        });
+                    }else {
+                        _this.$message({
+                            message:"请将信息输入完整！！！",
+                            type: "error"
+                        });
+                    }
+                });
+            },
+            doUpdateMenuNodeAction(){
+                let _this = this;
+                let data = _this.menuFormPageData;
+
+                _this.$refs["menuForm"].validate(valid=>{
+                    if(valid){
+                        _this.$confirm("请确认修改无误，否则可能会有意想不到的事情发生","确认更改",{
+                            confirmButtonText: "确认",
+                            cancelButtonText: "取消",
+                            type: "warning"
+                        }).then(()=>{
+                            const loading = _this.$loading({
+                                lock: true,
+                                text: "Loading",
+                                spinner: 'el-icon-loading',
+                                background: 'rgba(0, 0, 0, 0.7)'
+                            });
+                            _this.$axios.post("/application/menu/updateMenu.action",data).then(response=>{
+                                if(response.data.state){
+                                    _this.$message({
+                                        message: "更改成功！！！",
+                                        type: "success"
+                                    });
+                                    _this.refreshMenuTree();
+                                    _this.showMenuNodeInfoPage(response.data)
+                                }else {
+                                    _this.$message({
+                                        message:"更改失败",
+                                        type: "error"
+                                    });
+                                }
+                                loading.close();
+                            }).catch(() => {
+                                this.$message({
+                                    type: 'error',
+                                    message: '执行异常!'
+                                });
+                                loading.close();
+                            });
+                        }).catch(()=>{
+                            this.$message({
+                                type: 'info',
+                                message: '已取消更改'
+                            });
+                        })
+
+                    }else{
+                        _this.$message({
+                            message:"请将信息输入完整！！！",
+                            type: "error"
+                        });
+                    }
+                })
+            },
+            queryIconClassSearch(queryString, cb){
+                import("@/assets/element-uI-icon-list.json").then(data=>{
+                    let restaurants = data.default;
+                    let results = queryString? restaurants.filter((restaurant)=>{
+                        return restaurant.value.indexOf(queryString) > -1;
+                    }) : restaurants;
+                    cb(results);
+                })
+            },
+            splitIconClassValue(value,search){
+                let results = search?value.split(search):[value];
+                if(results.length>1)results.splice(1,0,search)
+                return results;
+            },
+            doClearPage(){
+                this.pageProps.type = "";
+                this.pageProps.title = "";
+                this.pageProps.form = "";
+                this.pageProps.doBack = {};
+                this.menuInfoPageData = null;
+                this.menuFormPageData = null;
             }
 
         },
-        // created(){
-        //     this.refreshMenuTree(0);
-        // }
+        computed:{}
     }
 </script>
 
@@ -296,7 +527,8 @@
         padding-right: 8px;
     }
     .menu-form-icon-i{
-        display: block;
+        display: inline-block;
+        min-height: 40px;
         font-size: 32px;
         color: #606266;
         line-height: 40px;
@@ -307,7 +539,6 @@
     }
 
     .menu-info-icon-i{
-        display: inline-block;
         font-size: 32px;
         color: #606266;
         line-height: 40px;
@@ -318,6 +549,17 @@
     }
     .menu-info-row{
         margin: 10px 20px 20px 20px;
+    }
+    .menu-form-icon-search-icon-i{
+        float:right;
+        min-height: 34px;
+        font-size:24px;
+        color: #606266;
+        line-height:34px;
+        transition: color .15s linear;
+    }
+    .menu-form-icon-search-icon-i:hover{
+        color: #409EFF;
     }
 
 </style>

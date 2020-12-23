@@ -16,5 +16,12 @@ public interface MenuService {
 
     boolean deleteMenu(int id);
 
+    Map<String,Object> getAppendInfo(int id);
+
+    Map<String,Object> appendMenu(Menu data);
+    Map<String,Object> updateMenu(Menu data);
+
+    Menu getUpdateInfo(int id);
+
 
 }

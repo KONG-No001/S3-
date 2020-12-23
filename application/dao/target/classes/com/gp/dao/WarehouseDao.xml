@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.dao.WarehouseDao">
+
+    <resultMap id="WarehouseMap" type="com.gp.vo.WarehouseVo">
+
+        <result property="goodsId" column="goods_id"/>
+        <result property="goodsTypeId" column="goods_type_id"/>
+        <association property="goodsVo" javaType="com.gp.vo.GoodsVo"
+                     column="goods_id" select="com.gp.dao.GoodsDao.selectById">
+        </association>
+        <association property="goodsTypeVo" javaType="com.gp.vo.GoodsTypeVo"
+                     column="goods_type_id" select="com.gp.dao.GoodsTypeDao.selectById">
+        </association>
+    </resultMap>
+
+    <select id="selectPageVo" resultMap="WarehouseMap">
+        select
+        *
+        from
+        warehouse
+        <where>
+            <if test="warehouseVo !=null">
+                <if test="warehouseVo.name != null and warehouseVo.name!=''">and name like
+                    CONCAT('%',#{goodsVo.name},'%')
+                </if>
+                <if test="warehouseVo.goodsTypeId != null">and goods_type_id = #{warehouseVo.goodsTypeId}</if>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByGoodsId" resultType="com.gp.vo.WarehouseVo">
+        select * from warehouse where goods_id = #{id}
+    </select>
+</mapper>

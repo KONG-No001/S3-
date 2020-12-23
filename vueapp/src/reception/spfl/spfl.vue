@@ -64,11 +64,11 @@
                   <el-card :body-style="{ padding: '0px' }" shadow="hover" class="sp">
                       <img src="@/assets/logo.png" class="image">
                       <div style="padding: 14px;">
-                          <span>[{{sp.goodsBrand}}]{{sp.goodsName}}</span>
+                          <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span>
                           <div class="bottom clearfix">
-                              <span>价格：${{sp.goodsInPrice}}</span>
+                              <span>价格：${{sp.goodsOutPrice}}</span>
                             <!-- 带参数跳转 -->
-                            <el-button type="text" class="button" @click="gm(sp.goodsId)">查看详情</el-button>
+                            <el-button type="text" class="button" @click="gm(sp.id)">查看详情</el-button>
                           </div>
                       </div>
                   </el-card>
@@ -148,9 +148,9 @@
         params.append('page',_this.page);
         params.append('row',_this.row);
         params.append('goodsTypeId',_this.flid);
-        params.append('goodsName',_this.input);
+        params.append('name',_this.input);
         this.
-        $axios.post('/application/goods/fenYe.action',params).
+        $axios.post('/application/warehouse/fenYe.action',params).
         then(function(result) {
           _this.total = result.data.total;
           _this.pages = result.data.pages;

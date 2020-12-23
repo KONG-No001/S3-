@@ -47,6 +47,6 @@ public class PurchaseVo implements Serializable {
     private Double sum;
 
     @TableField(exist=false)
-    private List<GoodsVo> list;
+    private SupplierVo supplierVo;
 
 }

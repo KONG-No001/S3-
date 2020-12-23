@@ -151,6 +151,7 @@
         <!-- 下拉框 -->
         <el-form-item label="类型" prop="goodsTypeId">
           <el-select v-model="editForm.goodsTypeId" placeholder="请选择商品类型">
+
             <el-option
                 v-for="item in goodsType"
                 :key="item.goodsTypeId"
@@ -337,8 +338,7 @@ export default {
       let _this = this;
       Axios.get('/application/goodsType/queryAll.action')
           .then(function (result) {
-            _this.goodsType = result.data.row;
-            console.log(result)
+            _this.goodsType = result.data;
           }).catch(function (error) {
         alert(error)
       });
@@ -399,7 +399,7 @@ export default {
       Object.keys(this.editForm).forEach((key) => {
         formData.append(key, this.editForm[key]);
       });
-      // formData.set("goodsTypeVo","null");
+
       Axios({
         url: '/application/goods/update.action',
         method: "post",

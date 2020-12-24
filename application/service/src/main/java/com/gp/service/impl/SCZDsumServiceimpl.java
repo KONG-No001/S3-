@@ -1,9 +1,11 @@
 package com.gp.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.gp.dao.PurchaseDao;
 import com.gp.dao.SCZDsumDao;
 import com.gp.service.SCZDsumService;
 import com.gp.vo.PageVo;
+import com.gp.vo.PurchaseVo;
 import com.gp.vo.SCZDsum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.List;
 public class SCZDsumServiceimpl implements SCZDsumService {
     @Autowired
     SCZDsumDao sczDsumDao;
+    @Autowired
+    PurchaseDao purchaseDao;
     @Override
     public List<SCZDsum> querySCZDsumAll(SCZDsum sczDsum,int page, int rows) {
         PageHelper.startPage(page,rows);
@@ -27,6 +31,11 @@ public class SCZDsumServiceimpl implements SCZDsumService {
         PageHelper.startPage(page,rows);
         pageVo.setRows(sczDsumDao.querySCZDsumAll(sczDsum));
         pageVo.setTotal(sczDsumDao.SCZDsumCount(sczDsum));
+
+        //所有采购订单
+        List<PurchaseVo> purchaseVos=purchaseDao.selectList(null);
+
+
 
         return pageVo;
     }

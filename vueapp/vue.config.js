@@ -43,6 +43,15 @@ module.exports = {
             // 标题
             title: "平价优选"
         },
+        "reception/mygrzx": {
+            // 打包入口
+            entry: "src/reception/mygrzx/mygrzx.js",
+
+            // 打包模板
+            template: INDEX_HTML,
+            // 标题
+            title: "平价优选"
+        },
     },
     // 服务器配置
     devServer: {

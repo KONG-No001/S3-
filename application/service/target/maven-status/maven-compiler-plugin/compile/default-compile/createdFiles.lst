@@ -1,0 +1,9 @@
+com\gp\service\GoodsTypeService.class
+com\gp\service\impl\GoodsServiceImpl.class
+com\gp\service\impl\MenuServiceImpl.class
+com\gp\App.class
+com\gp\realm\MyRealm.class
+com\gp\service\impl\GoodsTypeServiceImpl.class
+com\gp\service\MenuService.class
+com\gp\service\Service.class
+com\gp\service\GoodsService.class

@@ -32,20 +32,22 @@
             <div>
 <!--     商品图片展示           -->
               <el-row>
-                <el-col :sp="12" class="block" style="width: 400px; background-color: #99a9bf;" >
-                    <el-carousel height="300px" >
+                <el-col :sp="12" class="block" style="width: 350px; background-color: #99a9bf;" >
+                    <el-carousel height="350px" >
                         <el-carousel-item v-for="(item,key) in imgs" :key="key">
-                           <img style="width: 100%;height: 100%" :src="item.url">
+                           <img style="width: 100%;height: 100%" :src="item">
                         </el-carousel-item>
                     </el-carousel>
                 </el-col>
 
                 <el-row :sp="12" style="left: 20px">
-                  <span style="">[{{sp.goodsBrand}}]{{sp.goodsName}}</span><br><br>
-                  <span>商品规格:{{sp.goodsGuige}}</span><br><br>
-                  <span>商品价格:{{sp.goodsInPrice}}</span><br><br>
-                  <span>商品公司:{{sp.goodsFactory}}</span><br><br>
-                  <span>产地:{{sp.goodsAddress}}</span><br><br><br><br>
+                  <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span><br><br>
+                  <span>商品规格:&nbsp;{{sp.goodsVo.goodsGuige}}</span><br><br>
+                  <span>商品价格:&nbsp;{{sp.goodsOutPrice}}</span><br><br>
+                  <span>生产日期:&nbsp;{{sp.goodsVo.goodsTime}}</span><br><br>
+                  <span>厂家:&nbsp;{{sp.goodsVo.goodsFactory}}</span><br><br>
+                  <span>产地:&nbsp;{{sp.goodsVo.goodsAddress}}</span><br><br>
+                  数量：<el-input-number size="mini" v-model="num" :min="1" :max="sp.count" label="数量"></el-input-number><br><br>
                   <el-button type="primary">加入购物车</el-button>
                   <el-button style="left: 150px;" type="primary">立即购买</el-button>
                 </el-row>
@@ -62,12 +64,10 @@
         data() {
             return {
                 imgs:[
-                    {url:require('@/assets/logo.png')},
-                    {url:require('@/assets/logo.png')},
-                    {url:require('@/assets/logo.png')},
-                    {url:require('@/assets/logo.png')}
+
                 ],
-              sp:[]
+              sp:[],
+              num:1
             }
         },
       created() {
@@ -77,13 +77,17 @@
         getdata(){
           var _this = this;
           var params = new URLSearchParams();
-          params.append("goodsId",this.$route.params.id);
+          params.append("id",this.$route.params.id);
 
           this.
-          $axios.post('/application/goods/queryById.action',params).
+          $axios.post('/application/warehouse/queryById.action',params).
           then(function(result) {
-            console.log(result.data)
+            console.log(result)
             _this.sp = result.data;
+            _this.imgs.push(result.data.goodsVo.goodsImg);
+            _this.imgs.push(result.data.goodsVo.goodsImg2);
+            _this.imgs.push(result.data.goodsVo.goodsImg3);
+            _this.imgs.push(result.data.goodsVo.goodsImg4);
           }).
           catch(function(error) {
             alert(error)

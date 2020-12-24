@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.dao.GoodsCarDao">
+    <resultMap id="GoodsCarmap" type="GoodsCar">
+        <id column="id" property="id"></id>
+        <result column="wid" property="warehouseVo.id"></result>
+        <association property="warehouseVo" javaType="com.gp.vo.WarehouseVo"
+                     column="wid" select="com.gp.dao.WarehouseDao.selectById"
+                     fetchType="lazy">
+        </association>
+    </resultMap>
+    <select id="chaXunByTJ" parameterType="int"
+            resultMap="GoodsCarmap">
+		select * from goods_car where uid=#{uid}
+	</select>
+
+    <insert id="tianJia" parameterType="GoodsCar">
+		insert into goods_car values(#{id},#{warehouseVo.id},#{uid})
+	</insert>
+
+    <delete id="shanChu" parameterType="int">
+		delete from goods_car where id=#{id}
+	</delete>
+
+    <update id="xiuGai" parameterType="int">
+		update Car set shu=#{sl}
+		where id=#{id}
+	</update>
+</mapper>

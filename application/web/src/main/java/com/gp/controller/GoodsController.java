@@ -75,6 +75,8 @@ public class GoodsController {
         img4.transferTo(new File(path,img4.getOriginalFilename()));
 
 
+
+
         return goodsService.save(goodsVo);
     }
 

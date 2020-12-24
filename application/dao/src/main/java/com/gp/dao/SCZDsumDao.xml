@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gp.dao.SCZDsumDao">
+
 	<resultMap id="SCZDsummap" type="com.gp.vo.SCZDsum">
 		<result property="supplierId" column="supplier_id"/>
 		<association property="purchaseVoList" javaType="com.gp.vo.PurchaseVo"
@@ -14,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from sczdsum where sczd_id=#{sczd_id}
 	</select>
 	<!-- 查所有 -->
-	<select id="querySCZDsumAll" parameterType="SCZDsum" resultType="SCZDsummap">
+	<select id="querySCZDsumAll" parameterType="SCZDsum" resultMap="SCZDsummap">
 		select * from sczdsum
 <!--		<where>-->
 <!--			<if test="sh_name != null and sh_name!=''">and sh_name like CONCAT('%',#{sh_name},'%')</if>-->

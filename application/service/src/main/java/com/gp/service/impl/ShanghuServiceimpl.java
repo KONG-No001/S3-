@@ -29,6 +29,7 @@ public class ShanghuServiceimpl implements ShanghuService {
         PageHelper.startPage(page,rows);
         pageVo.setRows(shanghuDao.queryShanghuAll(shanghu));
         pageVo.setTotal(shanghuDao.ShanghuCount(shanghu));
+        System.out.println(shanghu);
         return pageVo;
     }
 

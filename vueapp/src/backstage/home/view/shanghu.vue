@@ -1,8 +1,8 @@
 <template>
     <div id="shanghu">
-        <el-row>
-            <el-col :span="4">
-                <el-input placeholder="请输入商户名" clearable style="width: 250px;margin-right: 1100px" v-model="querysh_name" @change="selectname">
+        <el-row :gutter="20">
+            <el-col :span="7">
+                <el-input placeholder="请输入商户名" clearable style="width: 100%;margin-right: 1100px" v-model="querysh_name" @change="selectname">
                     <template slot="prepend">商户名</template>
                 </el-input>
             </el-col>
@@ -15,22 +15,22 @@
             @selection-change="selectionchange">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="sh_id" label="ID" width="180">
+            <el-table-column prop="id" label="ID" width="180">
             </el-table-column>
-            <el-table-column prop="sh_name" label="商户名" width="180">
+            <el-table-column prop="name" label="商户名" width="180">
             </el-table-column>
-            <el-table-column prop="sh_phone" label="商户电话" width="180">
+            <el-table-column prop="phone" label="商户电话" width="180">
             </el-table-column>
             <el-table-column
-                    prop="sh_image"
+                    prop="image"
                     label="图片">
                 <template slot-scope="scope">
-                    <img  :src="scope.row.sh_image" style="width: 30px"/>
+                    <img  :src="'/'+scope.row.image" style="width: 30px"/>
                 </template>
             </el-table-column>
-            <el-table-column prop="sh_address" label="详细地址" width="180">
+            <el-table-column prop="address" label="详细地址" width="180">
             </el-table-column>
-            <el-table-column prop="sh_createtime" label="商户创造时间" width="180">
+            <el-table-column prop="createTime" label="商户创造时间" width="180">
             </el-table-column>
             <el-table-column prop="" label="操作" width="380">
                 <template slot-scope="scope">

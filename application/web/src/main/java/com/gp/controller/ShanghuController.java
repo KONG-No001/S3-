@@ -39,7 +39,9 @@ public class ShanghuController {
                                        @RequestParam(value = "page",defaultValue = "1") int page,
                                        @RequestParam(value = "rows",defaultValue = "5") int rows){
         PageVo<Shanghu> pageVo = shanghuService.ShanghuPageVo(shanghu,page,rows);
-        System.out.println(pageVo.getRows());
+//        System.out.println("TRUE-------------------------------");
+//        System.out.println(pageVo.getRows());
+//        System.out.println("TRUE-------------------------------");
         return pageVo;
 
     }
@@ -55,7 +57,7 @@ public class ShanghuController {
     public Map addShanghu(Shanghu shanghu, @RequestParam("img") MultipartFile img,
                               HttpServletRequest request) throws IOException {
         Map<String,String> map =new HashMap<String,String>();
-        shanghu.setSh_image("/assets/"+img.getOriginalFilename());
+        shanghu.setImage("/assets/"+img.getOriginalFilename());
         //将文件持久化 保存到 服务端 本地磁盘（项目发布的路径）
         //目录发布的路径
         String path=request.getServletContext().getRealPath("/assets");
@@ -93,7 +95,7 @@ public class ShanghuController {
     public Map updateShanghu(Shanghu shanghu, @RequestParam("img") MultipartFile img,
                              HttpServletRequest request) throws IOException{
         Map<String,String> map =new HashMap<String,String>();
-        shanghu.setSh_image("/assets/"+img.getOriginalFilename());
+        shanghu.setImage("/assets/"+img.getOriginalFilename());
         //将文件持久化 保存到 服务端 本地磁盘（项目发布的路径）
         //目录发布的路径
         String path=request.getServletContext().getRealPath("/assets");

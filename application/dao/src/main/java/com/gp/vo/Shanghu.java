@@ -1,78 +1,87 @@
 package com.gp.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
+
 public class Shanghu {
-    private int sh_id;
-    private String sh_name;
-    private String sh_phone;
-    private String sh_image;
-    private String sh_address;
 
+    private int id;
 
-    private Date sh_createtime;
+    private String name;
 
+    private String phone;
 
-    public String getSh_image() {
-        return sh_image;
-    }
+    private String image;
 
-    public void setSh_image(String sh_image) {
-        this.sh_image = sh_image;
-    }
+    private String address;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    @JSONField(format = "yyyy-MM-dd hh:mm")
+    private Date createTime;
 
-    public int getSh_id() {
-        return sh_id;
-    }
-
-    public void setSh_id(int sh_id) {
-        this.sh_id = sh_id;
-    }
-
-    public String getSh_name() {
-        return sh_name;
-    }
-
-    public void setSh_name(String sh_name) {
-        this.sh_name = sh_name;
-    }
-
-    public String getSh_phone() {
-        return sh_phone;
-    }
-
-    public void setSh_phone(String sh_phone) {
-        this.sh_phone = sh_phone;
-    }
-
-    public String getSh_address() {
-        return sh_address;
-    }
-
-    public void setSh_address(String sh_address) {
-        this.sh_address = sh_address;
-    }
-
-    public Date getSh_creattime() {
-        return sh_createtime;
-    }
-
-    public void setSh_creattime(Date sh_creattime) {
-        this.sh_createtime = sh_creattime;
+    public Shanghu() {
     }
 
     @Override
     public String toString() {
         return "Shanghu{" +
-                "sh_id=" + sh_id +
-                ", sh_name='" + sh_name + '\'' +
-                ", sh_phone='" + sh_phone + '\'' +
-                ", sh_image='" + sh_image + '\'' +
-                ", sh_address='" + sh_address + '\'' +
-                ", sh_creattime=" + sh_createtime +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", image='" + image + '\'' +
+                ", address='" + address + '\'' +
+                ", createTime=" + createTime +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

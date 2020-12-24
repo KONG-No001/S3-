@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gp.dao.UserRoleRelationDao">
+<mapper namespace="com.gp.dao.StaffRoleRelationDao">
 
     <resultMap id="roleResultMap" type="com.gp.vo.Role">
         <id property="id" column="role_id"/>
@@ -11,27 +11,27 @@
         <result column="role_remark" property="remark"/>
     </resultMap>
 
-    <select id="getRolesByUserId" parameterType="int" resultMap="roleResultMap">
-        SELECT `r`.* FROM `user` `u`
-        INNER JOIN `user_role_relation` `urr`
-            ON u.`user_id` = `urr`.`user_role_relation_user`
+    <select id="getRolesByStaffId" parameterType="int" resultMap="roleResultMap">
+        SELECT `r`.* FROM `staff` `u`
+        INNER JOIN `staff_role_relation` `urr`
+            ON u.`staff_id` = `urr`.`staff_role_relation_staff`
         INNER JOIN `role` r
-            ON `urr`.`user_role_relation_role` = `r`.`role_id`
-        WHERE `u`.`user_id` = #{id}
+            ON `urr`.`staff_role_relation_role` = `r`.`role_id`
+        WHERE `u`.`staff_id` = #{id}
     </select>
 
     <insert id="updateRoleRelation">
-        INSERT INTO `user_role_relation`
-        (`user_role_relation_user`,
-        `user_role_relation_role`)
+        INSERT INTO `staff_role_relation`
+        (`staff_role_relation_staff`,
+        `staff_role_relation_role`)
         VALUES
         <foreach collection="roleIds" item="roleId" separator="," >
-            (#{userId},#{roleId})
+            (#{staffId},#{roleId})
         </foreach>
     </insert>
     <delete id="closeRoleRelation" parameterType="int">
-        DELETE FROM `user_role_relation`
-        WHERE `user_role_relation_user`=#{userId} ;
+        DELETE FROM `staff_role_relation`
+        WHERE `staff_role_relation_staff`=#{staffId} ;
     </delete>
 
 </mapper>

@@ -1,31 +1,37 @@
 package com.gp.vo;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.util.List;
 
-@TableName(resultMap = "resultMap")
-public class User {
-    @TableId(value = "user_id",type = IdType.AUTO)
+@TableName(
+        resultMap = "resultMap"
+)
+public class Staff {
+    @TableId(
+            value = "staff_id",
+            type = IdType.AUTO
+    )
     private Integer id;
-    @TableField(value = "user_name")
+    @TableField("staff_name")
     private String name;
-    @TableField(value = "user_password")
+    @TableField("staff_password")
     private String password;
-    @TableField(value = "user_department")
+    @TableField("staff_department")
     private String department;
-    @TableField(value = "user_portrait")
+    @TableField("staff_portrait")
     private String portrait;
-
-    @TableField(exist=false)
+    @TableField(
+            exist = false
+    )
     private List<Role> roles;
 
-    public User() {
+    public Staff() {
     }
 
-    public User(Integer id, String name, String password, String department, String portrait, List<Role> roles) {
+    public Staff(Integer id, String name, String password, String department, String portrait, List<Role> roles) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -34,20 +40,12 @@ public class User {
         this.roles = roles;
     }
 
-    @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", department='" + department + '\'' +
-                ", portrait='" + portrait + '\'' +
-                ", roles=" + roles +
-                '}';
+        return "User{id=" + this.id + ", name='" + this.name + '\'' + ", password='" + this.password + '\'' + ", department='" + this.department + '\'' + ", portrait='" + this.portrait + '\'' + ", roles=" + this.roles + '}';
     }
 
     public List<Role> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(List<Role> roles) {
@@ -55,7 +53,7 @@ public class User {
     }
 
     public String getDepartment() {
-        return department;
+        return this.department;
     }
 
     public void setDepartment(String department) {
@@ -63,7 +61,7 @@ public class User {
     }
 
     public String getPortrait() {
-        return portrait;
+        return this.portrait;
     }
 
     public void setPortrait(String portrait) {
@@ -71,7 +69,7 @@ public class User {
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -79,7 +77,7 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -87,11 +85,10 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

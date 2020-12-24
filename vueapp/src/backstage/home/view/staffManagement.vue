@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table :data="userList" v-loading="loading" height="500">
+        <el-table :data="staffList" v-loading="loading" height="500">
             <el-table-column label="NO" property="id" width="50" align="center">
             </el-table-column>
             <el-table-column label="账号名称" property="name" width="150">
@@ -52,18 +52,18 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog :visible.sync="userDialogBox.visible" width="360px">
+        <el-dialog :visible.sync="staffDialogBox.visible" width="360px">
             <template slot="title">
-                <span v-if="userDialogBox.formType==='edit'" >Edit: No:{{userForm.id}}</span>
+                <span v-if="staffDialogBox.formType==='edit'" >Edit: No:{{staffForm.id}}</span>
             </template>
             <template slot="default">
-                <el-form ref="userForm" :rules="userRules" :model="userForm" label-position="right" label-width="80px" size="small">
+                <el-form ref="staffForm" :rules="staffRules" :model="staffForm" label-position="right" label-width="80px" size="small">
                     <el-form-item label="账户名称" prop="name" >
-                        <el-input v-model="userForm.name"></el-input>
+                        <el-input v-model="staffForm.name"></el-input>
                     </el-form-item>
-                    <template v-if="userDialogBox.formType==='edit'" >
+                    <template v-if="staffDialogBox.formType==='edit'" >
                         <el-form-item label="账户密码">
-                            <el-checkbox label="重置密码" v-model="userForm.resetpwd"></el-checkbox>
+                            <el-checkbox label="重置密码" v-model="staffForm.resetpwd"></el-checkbox>
                         </el-form-item>
                     </template>
                     <el-form-item label="用户头像" prop="portrait">
@@ -71,19 +71,19 @@
                                 class="avatar-uploader"
                                 action="#"
                                 :show-file-list="false">
-                            <img v-if="userForm.portrait" class="avatar" :src="userForm.portrait">
+                            <img v-if="staffForm.portrait" class="avatar" :src="staffForm.portrait">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </el-form-item>
                     <el-form-item label="所属部门" prop="department" >
-                        <el-input v-model="userForm.department"></el-input>
+                        <el-input v-model="staffForm.department"></el-input>
                     </el-form-item>
                 </el-form>
             </template>
             <template slot="footer">
-                <el-button v-if="userDialogBox.formType==='edit'" size="small" type="success" @click="userEditSub" >确认</el-button>
-                <el-button v-if="userDialogBox.formType==='add'" size="small" type="success" @click="userAddSub" >确认</el-button>
-                <el-button size="small" type="info" @click="userDialogBox.visible=false" >取消</el-button>
+                <el-button v-if="staffDialogBox.formType==='edit'" size="small" type="success" @click="staffEditSub" >确认</el-button>
+                <el-button v-if="staffDialogBox.formType==='add'" size="small" type="success" @click="staffAddSub" >确认</el-button>
+                <el-button size="small" type="info" @click="staffDialogBox.visible=false" >取消</el-button>
             </template>
         </el-dialog>
         <el-dialog :visible.sync="roleDialogBox.visible" width="627px" >
@@ -119,22 +119,22 @@
         name: "staffManagement",
         data: function(){
             return {
-                userList: [],
+                staffList: [],
                 search: {
                     type: "id",
                     value: "",
                 },
                 loading: true,
-                userDialogBox: {
+                staffDialogBox: {
                     formType: "edit",
                     visible: false,
                 },
                 roleDialogBox:{
                     visible: false,
                 },
-                userForm: {
+                staffForm: {
                 },
-                userRules: {
+                staffRules: {
                     name: [
                         {required:true,message:"请输入用户名称"}
                     ],
@@ -144,7 +144,7 @@
                 },
                 roleList:[],
                 currentRole:[],
-                currentUser:0,
+                currentStaff:0,
                 types: [
                     {text:"NO",value:"id"},
                     {text:"职员名称",value:"name"},
@@ -157,18 +157,18 @@
             loadingTable(){
                 let _this = this;
                 _this.loading = true;
-                Axios.get("/application/user/listUser.action",{
+                Axios.get("/application/staff/listStaff.action",{
                     params: _this.search
                 }).then((request)=>{
-                    _this.userList = request.data;
+                    _this.staffList = request.data;
                     _this.loading = false;
                 })
             },
             handleEdit:function (index, row) {
-                this.userDialogBox.visible = true;
-                this.userDialogBox.formType = "edit";
-                // 将row转变为无属性对象，不然会与userList的item冲突
-                this.userForm = JSON.parse(JSON.stringify(row));
+                this.staffDialogBox.visible = true;
+                this.staffDialogBox.formType = "edit";
+                // 将row转变为无属性对象，不然会与staffList的item冲突
+                this.staffForm = JSON.parse(JSON.stringify(row));
             },
             handleDelete:function (index, row) {
                 let _this =  this;
@@ -186,7 +186,7 @@
                         background: 'rgba(0, 0, 0, 0.7)'
                     });
 
-                    Axios.get("/application/user/remove.action",{
+                    Axios.get("/application/staff/remove.action",{
                         params: {id: row.id}
                     }).then((response)=>{
                         if(response.data){
@@ -222,7 +222,7 @@
                 let _this = this;
                 this.roleDialogBox.visible = true;
                 _this.currentRole = [];
-                _this.currentUser = row.id;
+                _this.currentStaff = row.id;
                 Axios.get("/application/role/show.action").then(response=>{
                     _this.roleList = response.data;
                 });
@@ -230,7 +230,7 @@
                     _this.currentRole.push(role.id);
                 })
             },
-            userEditSub(){
+            staffEditSub(){
                 let _this = this;
 
                 const loading = _this.$loading({
@@ -240,13 +240,13 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
 
-                Axios.post("/application/user/update.action",_this.userForm).then(response=>{
+                Axios.post("/application/staff/update.action",_this.staffForm).then(response=>{
                     if(response.data===true){
                         _this.$message({
                             message: "更改成功！！！",
                             type: "success"
                         });
-                        _this.userDialogBox.visible=false;
+                        _this.staffDialogBox.visible=false;
                         _this.loadingTable();
                     }else {
                         _this.$message({
@@ -265,13 +265,13 @@
 
             },
             handleAdd(){
-                this.userDialogBox.visible = true;
-                this.userDialogBox.formType = "add";
-                this.userForm = {};
+                this.staffDialogBox.visible = true;
+                this.staffDialogBox.formType = "add";
+                this.staffForm = {};
             },
-            userAddSub(){
+            staffAddSub(){
                 let _this = this;
-                this.$refs["userForm"].validate(valid=>{
+                this.$refs["staffForm"].validate(valid=>{
                     if(valid){
                         const loading = _this.$loading({
                             lock: true,
@@ -279,13 +279,13 @@
                             spinner: 'el-icon-loading',
                             background: 'rgba(0, 0, 0, 0.7)'
                         });
-                        Axios.post("/application/user/add.action",_this.userForm).then(response=>{
+                        Axios.post("/application/staff/add.action",_this.staffForm).then(response=>{
                             if(response.data){
                                 _this.$message({
                                     message: "添加成功！！！",
                                     type: "success"
                                 });
-                                _this.userDialogBox.visible=false;
+                                _this.staffDialogBox.visible=false;
                                 _this.loadingTable();
                             }else {
                                 _this.$message({
@@ -317,8 +317,8 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
-                Axios.post("/application/user/updateRoleRelation.action", {
-                    userId: this.currentUser,
+                Axios.post("/application/staff/updateRoleRelation.action", {
+                    staffId: this.currentStaff,
                     roleIds:this.currentRole
                 }).then(response=>{
                     if(response.data){

@@ -22,7 +22,7 @@
         <where>
             <if test="warehouseVo !=null">
                 <if test="warehouseVo.name != null and warehouseVo.name!=''">and name like
-                    CONCAT('%',#{goodsVo.name},'%')
+                    CONCAT('%',#{warehouseVo.name},'%')
                 </if>
                 <if test="warehouseVo.goodsTypeId != null">and goods_type_id = #{warehouseVo.goodsTypeId}</if>
             </if>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.dao.AccountDao">
+
+    <resultMap id="accountMap" type="com.gp.vo.Account">
+        <result property="purchaseId" column="purchase_id"/>
+        <result property="orderId" column="order_id"/>
+
+        <association property="purchaseVo" javaType="com.gp.vo.PurchaseVo"
+                     column="purchase_id" select="com.gp.dao.PurchaseDao.selectById">
+        </association>
+        <association property="dingDan" javaType="com.gp.vo.DingDan"
+                     column="order_id" select="com.gp.dao.DingDanDao.queryById">
+        </association>
+    </resultMap>
+
+    <insert id="add">
+        insert into account values (null,#{purchaseId},#{orderId},#{time},#{total},#{accountType})
+    </insert>
+
+    <select id="queryAll" resultType="com.gp.vo.Account">
+        select * from account
+    </select>
+
+</mapper>

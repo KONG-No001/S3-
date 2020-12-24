@@ -2,10 +2,12 @@ package com.gp.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gp.dao.AccountDao;
 import com.gp.dao.PurchaseDao;
 import com.gp.dao.PurchaseGoodsDao;
 import com.gp.dao.WarehouseDao;
 import com.gp.service.PurchaseService;
+import com.gp.vo.Account;
 import com.gp.vo.PurchaseGoodsVo;
 import com.gp.vo.PurchaseVo;
 import com.gp.vo.WarehouseVo;
@@ -31,6 +33,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseVo> im
     PurchaseGoodsDao purchaseGoodsDao;
     @Autowired
     WarehouseDao warehouseDao;
+    @Autowired
+    AccountDao accountDao;
 
     //分页
     @Override
@@ -48,6 +52,15 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseVo> im
          purchaseGoodsDao.add(purchaseVo.getId(),purchaseGoodsVo);
         //添加到仓库
         List<PurchaseGoodsVo> list=purchaseGoodsDao.queryByPurchaseId(purchaseVo.getId());
+
+        //添加到账单表
+        Account account=new Account();
+        account.setPurchaseId(purchaseVo.getId());
+        account.setOrderId(null);
+        account.setTotal(purchaseVo.getSum());
+        account.setTime(purchaseVo.getTime());
+        account.setAccountType(0);
+        accountDao.add(account);
 
         for (int i = 0; i < list.size(); i++) {
             //仓库查这个商品

@@ -490,7 +490,7 @@
                 })
             },
             queryIconClassSearch(queryString, cb){
-                import("@/assets/element-uI-icon-list.json").then(data=>{
+                import("@/assets/element-ui-icon-list.json").then(data=>{
                     let restaurants = data.default;
                     let results = queryString? restaurants.filter((restaurant)=>{
                         return restaurant.value.indexOf(queryString) > -1;

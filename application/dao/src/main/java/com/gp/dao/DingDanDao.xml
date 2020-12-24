@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gp.dao.DingDanDao">
+    <resultMap id="DingDanmap" type="DingDan">
+        <id column="id" property="id"></id>
+        <result column="shid" property="shanghu.id"></result>
+        <result column="uid" property="user.id"></result>
+
+        <association property="shanghu" column="shid" javaType="com.gp.vo.Shanghu" select="com.gp.dao.ShanghuDao.queryShanghuId"
+                     fetchType="lazy">
+        </association>
+        <association property="user" column="uid" javaType="com.gp.vo.User" select="com.gp.dao.UserDao.queryById"
+                     fetchType="lazy">
+        </association>
+        <collection property="dingDanWarehouses" column="id" javaType="list" ofType="com.gp.vo.DingDanWarehouse"
+                    select="com.gp.dao.DingDanWarehouseDao.chaXunByid" fetchType="lazy">
+        </collection>
+    </resultMap>
+
+    <select id="chaXunByid" parameterType="int" resultMap="DingDanmap">
+        select * from dingdan where id=#{id}
+    </select>
+</mapper>

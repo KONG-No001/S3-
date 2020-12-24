@@ -49,4 +49,10 @@ public class WarehouseController {
     public boolean update(WarehouseVo warehouseVo){
         return service.updateById(warehouseVo);
     }
+
+    //
+    @RequestMapping("queryById.action")
+    public WarehouseVo getId(Integer id){
+        return service.getById(id);
+    }
 }

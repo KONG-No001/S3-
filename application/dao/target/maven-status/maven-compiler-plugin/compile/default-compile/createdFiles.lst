@@ -1,0 +1,8 @@
+com\gp\vo\GoodsTypeVo.class
+com\gp\vo\Menu.class
+com\gp\vo\User.class
+com\gp\dao\MenuDao.class
+com\gp\vo\GoodsVo.class
+com\gp\dao\GoodsTypeDao.class
+com\gp\dao\UserDao.class
+com\gp\dao\GoodsDao.class

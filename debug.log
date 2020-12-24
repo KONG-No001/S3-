@@ -1,2 +1,5 @@
-2020-12-18 15:05:43  [ main:185 ] - [ DEBUG ]  "templates/serviceImpl.java.ftl"("zh_CN", UTF-8, parsed) cached copy not yet stale; using cached.
-2020-12-18 15:05:43  [ main:186 ] - [ DEBUG ]  "templates/controller.java.ftl"("zh_CN", UTF-8, parsed) cached copy not yet stale; using cached.
+2020-12-24 09:41:56  [ main:162 ] - [ DEBUG ]  Couldn't find template in cache for "templates/controller.java.ftl"("zh_CN", UTF-8, parsed); will try to load it.
+2020-12-24 09:41:56  [ main:162 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/controller.java_zh_CN.ftl"): Not found
+2020-12-24 09:41:56  [ main:163 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/controller.java_zh.ftl"): Not found
+2020-12-24 09:41:56  [ main:163 ] - [ DEBUG ]  TemplateLoader.findTemplateSource("templates/controller.java.ftl"): Found
+2020-12-24 09:41:56  [ main:163 ] - [ DEBUG ]  Loading template for "templates/controller.java.ftl"("zh_CN", UTF-8, parsed) from "jar:file:/C:/Users/weikang/.m2/repository/com/baomidou/mybatis-plus-generator/3.4.0/mybatis-plus-generator-3.4.0.jar!/templates/controller.java.ftl"

@@ -8,9 +8,9 @@ import com.gp.vo.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -61,5 +61,47 @@ public class MenuServiceImpl implements MenuService {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("menu_prints",id).or().eq("menu_id",id);
         return menuDao.delete(queryWrapper)>0;
+    }
+
+    @Override
+    public Map<String, Object> getAppendInfo(int id) {
+        return menuDao.getAppendInfo(id);
+    }
+
+    @Override
+    public Map<String,Object> appendMenu(Menu data) {
+        Map<String,Object> map = new HashMap<>();
+        menuDao.updateById(new Menu(
+                data.getPrint(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                1,
+                null
+        ));
+        map.put("state",menuDao.insert(data)>0);
+        map.put("id",data.getId());
+        map.put("label",data.getTitle());
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> updateMenu(Menu data) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("state",menuDao.updateById(data)>0);
+        map.put("id",data.getId());
+        map.put("label",data.getTitle());
+        return map;
+    }
+
+    @Override
+    public Menu getUpdateInfo(int id) {
+        return menuDao.selectById(id);
     }
 }

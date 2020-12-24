@@ -10,12 +10,9 @@ import com.gp.vo.PurchaseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Console;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -47,40 +44,13 @@ public class PurchaseController {
     //增
     @RequestMapping("add.action")
     public boolean add(@RequestBody Map<String, Object> data) {
-//        System.out.println(data);
-//        System.out.println(data.get("form"));
-//        System.out.println(data.get("goodsIds"));
-//        PurchaseGoodsVo purchaseGoodsVo=new PurchaseGoodsVo();
-//        for (int i = 0; i < data.get("goodsIds").; i++) {
-//
-//        }
-//        purchaseGoodsVo.setGoodsId(data.get("goodsIds"));
-        //ArrayList<PurchaseGoodsVo> purchaseGoodsVoList = (ArrayList<PurchaseGoodsVo>)data.get("goodsIds");
-//        PurchaseVo purchaseVo = new PurchaseVo();
-
-
-//        return false;
-
         return service.add(JSON.parseObject(JSON.toJSONString(data.get("form")),new TypeReference<PurchaseVo>(){}), (ArrayList<PurchaseGoodsVo>)data.get("goodsIds"))>0;
     }
 
-    //审批
-    @RequestMapping("sp.action")
-    public boolean sp(Integer id, Integer status) {
-        return service.sp(id, status) > 0;
+    //根据订单Id查询所有商品
+    @RequestMapping("queryByPurchaseId.action")
+    public List<PurchaseGoodsVo> queryByPurchaseId(Integer id) {
+        return service.queryByPurchaseId(id);
     }
-
-    //删
-    @RequestMapping("delete.action")
-    public boolean delete(Integer id,Integer purchaseId){
-        return service.delete(id,purchaseId)>0;
-    }
-
-    //改
-    @RequestMapping("update.action")
-    public boolean update(PurchaseVo purchaseVo){
-        return service.updateById(purchaseVo);
-    }
-
 
 }

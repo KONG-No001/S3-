@@ -18,7 +18,5 @@ import java.util.List;
 public interface PurchaseGoodsDao extends BaseMapper<PurchaseGoodsVo> {
         int add(@Param("purchaseId") int purchaseId, @Param("purchaseGoods")List<PurchaseGoodsVo> purchaseGoodsVo);
 
-        int deleteByPurchaseId(int id);
-
         List<PurchaseGoodsVo> queryByPurchaseId(int id);
 }

@@ -1,11 +1,13 @@
 package com.gp.vo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,13 +20,14 @@ import lombok.EqualsAndHashCode;
  * @since 2020-12-18
  */
 @Data
+@JsonIgnoreProperties(value = { "handler" })
 @EqualsAndHashCode(callSuper = false)
-@TableName("warehouse")
+@TableName(value = "warehouse",resultMap = "WarehouseMap")
 public class WarehouseVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId("id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
     @TableField("goods_id")
@@ -42,10 +45,10 @@ public class WarehouseVo implements Serializable {
     @TableField("count")
     private Integer count;
 
-    @TableField("status")
-    private Integer status;
-
     @TableField(exist=false)
     private GoodsVo goodsVo;
+
+    @TableField(exist=false)
+    private GoodsTypeVo goodsTypeVo;
 
 }

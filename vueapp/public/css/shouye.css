@@ -1,0 +1,113 @@
+#sousuo1{
+	width: 700px;
+	height: 50px;
+	border-radius: 25px;
+	border:1px solid gray;
+	margin-left: 540px;
+	font-size: 16px;
+	margin-top: 20px;
+}
+#sousuo2{
+	width: 100px;
+	height: 50px;
+	border-radius: 25px;
+	border:1px solid gray;
+	font-size: 16px;
+	color: white;
+	background-color: #FF6700;
+}
+#sousuo2:hover{
+	background-color: #E62318;
+}
+#logo{
+	position: absolute;
+	left: 20px;
+	top: 40px;
+	width: 100px;
+	height: 50px;
+}
+#hotshop1{
+	position: absolute;
+	width: 250px;
+	height: 220px;
+	left: 163px;
+	top: 649px;
+}
+#hotshop2{
+	position: absolute;
+	left: 943px;
+	top: 649px;
+	width: 250px;
+	height: 220px;
+}
+#hotshop3{
+	position: absolute;
+	left: 683px;
+	top: 649px;
+	width: 250px;
+	height: 220px;
+}
+#hotshop4{
+	position: absolute;
+	left: 423px;
+	top: 649px;
+	width: 250px;
+	height: 220px;
+}
+#hotshop5{
+	position: absolute;
+	left: 163px;
+	top: 829px;
+	width: 250px;
+	height: 220px;
+}
+#hotshop6{
+	position: absolute;
+	left: 423px;
+	top: 829px;
+	width: 250px;
+	height: 220px;
+}
+#hotshop7{
+	position: absolute;
+	left: 683px;
+	top: 829px;
+	width: 250px;
+	height: 220px;
+}
+#hotshop8{
+	position: absolute;
+	left: 943px;
+	top: 829px;
+	width: 250px;
+	height: 220px;
+}
+
+#hotdiv{
+	margin-top: 10px;
+	text-align: center;
+}
+#hotgengduo{
+	position: absolute;
+	left: 1135px;
+	top: 624px;
+	
+}
+.hotimg{
+	width: 250px;
+	height: 150px;
+}
+a{
+	text-decoration: none;
+	color: gray;
+}
+a:hover{
+	color: red;
+}
+#hotname{
+	margin-top: 15px;
+}
+#topmenu{
+	margin-left:10px;
+	margin-top: 5px;
+}

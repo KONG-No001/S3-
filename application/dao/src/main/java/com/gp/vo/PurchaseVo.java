@@ -46,10 +46,7 @@ public class PurchaseVo implements Serializable {
     @TableField("sum")
     private Double sum;
 
-    @TableField("status")
-    private Integer status;
-
     @TableField(exist=false)
-    private List<GoodsVo> list;
+    private SupplierVo supplierVo;
 
 }

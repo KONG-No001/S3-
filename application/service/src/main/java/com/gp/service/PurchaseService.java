@@ -21,7 +21,5 @@ public interface PurchaseService extends IService<PurchaseVo> {
 
         int add(PurchaseVo purchaseVo, List<PurchaseGoodsVo> purchaseGoodsVo);
 
-        int delete(int id, int purchaseId);
-
-        int sp(int id, int status);
+        List<PurchaseGoodsVo> queryByPurchaseId(int purchaseId);
 }

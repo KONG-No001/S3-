@@ -43,37 +43,37 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseVo> im
     @Override
     public int add(PurchaseVo purchaseVo, List<PurchaseGoodsVo> purchaseGoodsVo) {
         //添加到采购单记录表
-        purchaseDao.insert(purchaseVo);
+        int flag=purchaseDao.insert(purchaseVo);
         //添加到采购单和商品关联表
-        return purchaseGoodsDao.add(purchaseVo.getId(),purchaseGoodsVo);
+         purchaseGoodsDao.add(purchaseVo.getId(),purchaseGoodsVo);
+        //添加到仓库
+        List<PurchaseGoodsVo> list=purchaseGoodsDao.queryByPurchaseId(purchaseVo.getId());
+
+        for (int i = 0; i < list.size(); i++) {
+            //仓库查这个商品
+            WarehouseVo warehouseVo=warehouseDao.queryByGoodsId(list.get(i).getGoodsId());
+            //判断仓库是有这个商品
+            //如果没有
+            WarehouseVo warehouseVo1=new WarehouseVo();
+            if(warehouseVo==null){
+                warehouseVo1.setGoodsId(list.get(i).getGoodsId());
+                warehouseVo1.setName(list.get(i).getGoodsVo().getGoodsName());
+                warehouseVo1.setGoodsTypeId(list.get(i).getGoodsVo().getGoodsTypeId());
+                warehouseVo1.setGoodsOutPrice(list.get(i).getGoodsVo().getGoodsInPrice()*1.1);
+                warehouseVo1.setCount(list.get(i).getCount());
+                warehouseDao.insert(warehouseVo1);
+            }else {
+                //如果有
+                warehouseVo.setCount(warehouseVo.getCount()+list.get(i).getCount());
+                warehouseDao.updateById(warehouseVo);
+            }
+
+        }
+        return flag;
     }
 
-    //删除
     @Override
-    public int delete(int id, int purchaseId){
-        //删除关联表信息
-        purchaseGoodsDao.deleteByPurchaseId(purchaseId);
-        //删除主表信息
-        return purchaseDao.deleteById(id);
-    }
-    //审核
-    @Override
-    public int sp(int id, int status){
-        if(status==1){
-            //添加到仓库
-            List<PurchaseGoodsVo> list=purchaseGoodsDao.queryByPurchaseId(id);
-            for (int i = 0; i < list.size(); i++) {
-                WarehouseVo warehouseVo=new WarehouseVo();
-                //赋值
-                warehouseVo.setGoodsId(list.get(i).getGoodsId());
-                warehouseVo.setName(list.get(i).getGoodsVo().getGoodsName());
-                warehouseVo.setGoodsTypeId(list.get(i).getGoodsVo().getGoodsTypeId());
-                warehouseVo.setGoodsOutPrice(list.get(i).getGoodsVo().getGoodsInPrice());
-                warehouseVo.setCount(list.get(i).getCount());
-                warehouseVo.setStatus(0);
-                warehouseDao.insert(warehouseVo);
-            }
-        }
-        return purchaseDao.sp(id,status);
+    public List<PurchaseGoodsVo> queryByPurchaseId(int purchaseId) {
+        return purchaseGoodsDao.queryByPurchaseId(purchaseId);
     }
 }

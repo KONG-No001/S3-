@@ -55,9 +55,6 @@ public class DeliveryVo implements Serializable {
     private Integer status;
 
     @TableField(exist=false)
-    private User user;
-
-    @TableField(exist=false)
-    private Shanghu shanghu;
+    private DingDan dingDan;
 
 }

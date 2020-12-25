@@ -167,16 +167,16 @@
           <el-input v-model="editForm.goodsInPrice"></el-input>
         </el-form-item>
         <el-form-item label="商品图片1" >
-          <input type="file" @change="getFile($event)">
+          <input class="img" type="file" @change="getFile($event)">
         </el-form-item>
         <el-form-item label="商品图片2" >
-          <input type="file" @change="getFile2($event)">
+          <input class="img"  type="file" @change="getFile2($event)">
         </el-form-item>
         <el-form-item label="商品图片3" >
-          <input type="file" @change="getFile3($event)">
+          <input class="img" type="file" @change="getFile3($event)">
         </el-form-item>
         <el-form-item label="商品图片4" >
-          <input type="file" @change="getFile4($event)">
+          <input class="img" type="file" @change="getFile4($event)">
         </el-form-item>
         <el-form-item label="生产时间" prop="goodsTime">
           <el-date-picker value-format="yyyy-MM-dd" type="date" placeholder="选择日期" v-model="editForm.goodsTime"
@@ -235,16 +235,16 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="商品图片1" >
-          <input type="file" @change="getFile($event)">
+          <input class="img" type="file" @change="getFile($event)">
         </el-form-item>
         <el-form-item label="商品图片2" >
-          <input type="file" @change="getFile2($event)">
+          <input class="img" type="file" @change="getFile2($event)">
         </el-form-item>
         <el-form-item label="商品图片3" >
-          <input type="file" @change="getFile3($event)">
+          <input class="img" type="file" @change="getFile3($event)">
         </el-form-item>
         <el-form-item label="商品图片4" >
-          <input type="file" @change="getFile4($event)">
+          <input class="img" type="file" @change="getFile4($event)">
         </el-form-item>
         <el-form-item label="厂家" prop="goodsFactory">
           <el-input v-model="editForm.goodsFactory"></el-input>
@@ -354,6 +354,13 @@ export default {
     addGoods() {
       this.dialogFormVisibleAdd = true;
       this.editForm = {};
+      //清空文件框
+      let obj = document.getElementsByClassName("img");
+      console.log(obj);
+      for (let i = 0; i < obj.length; i++) {
+        // eslint-disable-next-line no-self-assign
+        obj[i].outerHTML=obj[i].outerHTML;
+      }
     },
 
     //添加信息
@@ -388,8 +395,17 @@ export default {
     //点击修改按钮
     editGoods(row) {
       this.dialogFormVisible = true;
-      this.editForm = row;
-      this.$delete(this.editForm,'goodsTypeVo');
+      this.editForm = {goodsId: row.goodsId, goodsCode: row.goodsCode, goodsName: row.goodsName, goodsBrand: row.goodsBrand,
+        goodsTypeId: row.goodsTypeId, goodsGuige: row.goodsGuige, goodsInPrice: row.goodsInPrice,
+        img: row.img,img2: row.img2,img3: row.img3,img4: row.img4,
+        goodsTime: row.goodsTime, goodsFactory: row.goodsFactory, goodsAddress: row.goodsAddress};
+      //清空文件框
+      let obj = document.getElementsByClassName("img");
+      console.log(obj);
+      for (let i = 0; i < obj.length; i++) {
+        // eslint-disable-next-line no-self-assign
+        obj[i].outerHTML=obj[i].outerHTML;
+      }
     },
 
     //修改信息

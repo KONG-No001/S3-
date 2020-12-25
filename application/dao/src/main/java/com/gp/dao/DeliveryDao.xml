@@ -6,12 +6,10 @@
 
         <result property="userId" column="user_id"/>
         <result property="shopId" column="sh_id"/>
+        <result property="dingdanId" column="dingdan_id"/>
 
-        <association property="user" javaType="com.gp.vo.User"
-                     column="user_id" select="com.gp.dao.UserDao.queryById">
-        </association>
-        <association property="shanghu" javaType="com.gp.vo.Shanghu"
-                     column="shop_id" select="com.gp.dao.ShanghuDao.queryShanghuId">
+        <association property="dingDan" javaType="com.gp.vo.DingDan"
+                     column="dingdan_id" select="com.gp.dao.DingDanDao.chaXunByid">
         </association>
     </resultMap>
 

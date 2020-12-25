@@ -26,6 +26,7 @@ public class FileUpdateController {
                 null,
                 "\\src\\main\\webapp\\assets\\",
                 "\\assets\\");
+
         FileUpdate.executeUpdate(
                 (FileInputStream) file.getInputStream(),
                 paths[0]+file.getOriginalFilename(),

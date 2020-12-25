@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.List;
 
-@TableName(
-        resultMap = "resultMap"
-)
+@TableName(resultMap = "resultMap")
 public class Staff {
     @TableId(
             value = "staff_id",

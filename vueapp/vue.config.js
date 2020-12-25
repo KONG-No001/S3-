@@ -10,7 +10,7 @@
  *
  * @type {string}
  */
-const INDEX_HTML = "public/demo.html";
+const INDEX_HTML = "public/root.html";
 
 
 module.exports = {
@@ -51,6 +51,14 @@ module.exports = {
             template: INDEX_HTML,
             // 标题
             title: "平价优选"
+        },
+        "test/fileupdate":{
+            // 打包入口
+            entry: "src/test/fileupdate/main.js",
+            // 打包模板
+            template: INDEX_HTML,
+            // 标题
+            title: "测试/FileUpdate"
         },
     },
     // 服务器配置

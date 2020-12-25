@@ -38,10 +38,15 @@
                       active-text-color="#ffd04b"
                           :default-active="flid"
                           class="el-menu-vertical-demo"
-                          v-for="(sp,i) in spfl" :key="i" >
+                          >
+                    <el-menu-item index="0">
+                      <template slot="title">全部</template>
+                    </el-menu-item>
+                    <div v-for="(sp,i) in spfl" :key="i" >
                       <el-menu-item :index="(i+1).toString()">
                         <template slot="title">{{sp.goodsTypeName}}</template>
                       </el-menu-item>
+                    </div>
                   </el-menu>
               </el-col>
           </el-row>
@@ -62,13 +67,13 @@
           <el-row :gutter="20">
               <el-col :span="5" v-for="(sp,i) in sps" :key="i">
                   <el-card :body-style="{ padding: '0px' }" shadow="hover" class="sp">
-                      <img src="@/assets/logo.png" class="image">
+                      <img :src="sp.goodsVo.goodsImg" class="image">
                       <div style="padding: 14px;">
-                          <span>[{{sp.goodsBrand}}]{{sp.goodsName}}</span>
+                          <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span>
                           <div class="bottom clearfix">
-                              <span>价格：${{sp.goodsInPrice}}</span>
+                              <span>价格：${{sp.goodsOutPrice}}</span>
                             <!-- 带参数跳转 -->
-                            <el-button type="text" class="button" @click="gm(sp.goodsId)">查看详情</el-button>
+                            <el-button type="text" class="button" @click="gm(sp.id)">查看详情</el-button>
                           </div>
                       </div>
                   </el-card>
@@ -80,7 +85,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="page"
-            :page-sizes="[5, 10, 15, 20]"
+            :page-sizes="[10, 15, 20,30]"
             :page-size="row"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total">
@@ -119,10 +124,10 @@
         input: '',
         spfl:[],
         sps:[],
-        flid:'1',
+        flid:'0',
         total: 0,
         pages: 0,
-        row: 5,
+        row: 10,
         page: 1
       }
     },
@@ -145,13 +150,14 @@
       getsp(){
         var _this = this;
         var params = new URLSearchParams();
+        params.append('name',_this.input);
         params.append('page',_this.page);
         params.append('row',_this.row);
-        params.append('goodsTypeId',_this.flid);
-        params.append('goodsName',_this.input);
+        params.append('goodsTypeId',_this.flid=='0'?"":_this.flid);
         this.
-        $axios.post('/application/goods/fenYe.action',params).
+        $axios.post('/application/warehouse/fenYe.action',params).
         then(function(result) {
+          console.log(result)
           _this.total = result.data.total;
           _this.pages = result.data.pages;
           _this.sps = result.data.records;
@@ -161,8 +167,8 @@
         });
       },
       xz(i){
-        this.flid=i;
-        this.getsp();
+          this.flid=i;
+          this.getsp();
       },
       chaXuan(){
         this.getsp();
@@ -179,13 +185,13 @@
       //每页条数变化
       handleSizeChange(val) {
         this.row = val;
-        this.getData();
+        this.getsp();
       },
 
       //页数变化
       handleCurrentChange(val) {
         this.page = val;
-        this.getData();
+        this.getsp();
       },
     }
   }

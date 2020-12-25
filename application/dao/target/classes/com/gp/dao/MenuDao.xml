@@ -4,4 +4,12 @@
 
 <mapper namespace="com.gp.dao.MenuDao">
 
+    <select id="getAppendInfo" parameterType="int" resultType="map">
+        SELECT A.`print`,`prints`,`level`,if(`index`,`index`,1) `i` FROM (
+            SELECT `menu_id` `print`,concat(`menu_prints`,"/",`menu_id`) `prints`,`menu_level`+1 `level` FROM mydb.menu where `menu_id` = #{id}
+        ) A inner join (
+            SELECT #{id} `print`, max(`menu_index`)+1 `index` FROM mydb.menu where `menu_print` = #{id}
+        )B on A.`print` = B.`print`;
+    </select>
+
 </mapper>

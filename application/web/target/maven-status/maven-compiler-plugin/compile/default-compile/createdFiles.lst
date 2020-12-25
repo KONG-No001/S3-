@@ -1,0 +1,5 @@
+com\gp\controller\GoodsController.class
+com\gp\controller\LoginController.class
+com\gp\App.class
+com\gp\controller\GoodsTypeController.class
+com\gp\controller\MenuController.class

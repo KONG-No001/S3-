@@ -10,7 +10,7 @@
  *
  * @type {string}
  */
-const INDEX_HTML = "public/root.html";
+const INDEX_HTML = "public/demo.html";
 
 
 module.exports = {
@@ -37,6 +37,15 @@ module.exports = {
         "reception/index": {
             // 打包入口
             entry: "src/reception/index.js",
+
+            // 打包模板
+            template: INDEX_HTML,
+            // 标题
+            title: "平价优选"
+        },
+        "reception/mygrzx": {
+            // 打包入口
+            entry: "src/reception/mygrzx/mygrzx.js",
 
             // 打包模板
             template: INDEX_HTML,

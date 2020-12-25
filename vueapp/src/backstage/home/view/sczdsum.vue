@@ -17,7 +17,9 @@
             </el-table-column>
             <el-table-column prop="sczd_id" label="ID" width="180">
             </el-table-column>
-            <el-table-column prop="sczd_money" label="金额" width="180">
+            <el-table-column prop="sczd_time" label="营收时间" width="180">
+            </el-table-column>
+            <el-table-column prop="sczd_money" label="总店营收" width="180">
             </el-table-column>
             <el-table-column prop="" label="操作" width="380">
                 <template slot-scope="scope">
@@ -48,9 +50,17 @@
                    :visible.sync="dialogAddsczdsum"
                    width="30%">
             <el-form :model="addform" label-width="80px">
+                <el-form-item label="总店营收时间">
+                    <el-date-picker value-format="yyyy-MM-dd"
+                                    v-model="addform.addsczd_time"
+                                    type="date"
+                                    placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
                 <el-form-item label="金额">
                     <el-input v-model="addform.addsczdsum_money"></el-input>
                 </el-form-item>
+
             </el-form >
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogAddsczdsum = false">取 消</el-button>
@@ -62,7 +72,14 @@
                    :visible.sync="dialogUpdsczdsum"
                    width="30%">
             <el-form :model="updform" label-width="80px">
-                <el-form-item label="商户名">
+                <el-form-item label="总店营收时间">
+                    <el-date-picker value-format="yyyy-MM-dd"
+                                    v-model="updform.updsczd_time"
+                                    type="date"
+                                    placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="总店营收">
                     <el-input v-model="updform.updsczdsum_money"></el-input>
                 </el-form-item>
             </el-form >
@@ -88,13 +105,14 @@
                 dialogAddsczdsum:false,
                 dialogUpdsczdsum:false,
                 addform:{
-                    addsczdsum_money:'',
+                    addsczd_time:'',
+                    addsczdsum_money:''
                 },
                 updform:{
                     updsczdsum_id:0,
-                    updsczdsum_money:'',
+                    updsczd_time:'',
+                    updsczdsum_money:''
                 },
-                // querysh_name:'',
                 selectid:"", //复选框选中的id
             }
         },
@@ -118,6 +136,7 @@
             addsczdsum(){
                 var _this = this;
                 var params = new URLSearchParams();
+                params.append("sczd_time",_this.addform.addsczd_time);
                 params.append("sczd_money",_this.addform.addsczdsum_money);
                 this.$axios.post("/application/addSCZDsum.do",params).then(function (result) {  //成功  执行then里面的方法
                         _this.$message({
@@ -133,8 +152,6 @@
             },
             delsczdsum({sczd_id:id}){
                 var _this=this;
-                // var params=new URLSearchParams();
-                // params.append("sh_id",id);
                 this.$axios.get("/application/deleteSCZDsum.do",{params:{id}}).
                 then(function (result) {
                         _this.$message({
@@ -151,12 +168,14 @@
             updsczdsum1(row){
                 this.dialogUpdsczdsum=true;
                 this.updform.updsczdsum_id=row.sczd_id;
+                this.updform.updsczd_time=row.sczd_time;
                 this.updform.updsczdsum_money=row.sczd_money;
             },
             updsczdsum2(){
                 var _this=this;
                 var params=new URLSearchParams();
                 params.append("sczd_id",_this.updform.updsczdsum_id);
+                params.append("sczd_time",_this.updform.updsczd_time);
                 params.append("sczd_money",_this.updform.updsczdsum_money);
                 this.$axios.post("/application/updateSCZDsum.do",params).
                 then(function (result) {
@@ -211,3 +230,4 @@
         }
     }
 </script>
+

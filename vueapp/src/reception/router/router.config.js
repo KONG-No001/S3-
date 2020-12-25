@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import spxq from "@/reception/spxq/spxq.vue";
 import spfl from "@/reception/spfl/spfl.vue";
 import gwc from "@/reception/gwc/gwc.vue";
-
+import mygrzx from "@/reception/mygrzx/mygrzx.vue";
 Vue.use(VueRouter)
 
 export  default  new VueRouter({
@@ -23,6 +23,11 @@ export  default  new VueRouter({
       path:"/gwc",
       name:"gwc",
       component:gwc
+    },
+    {
+      path:"/mygrzx",
+      name:"mygrzx",
+      component:mygrzx
     }
   ]
 })

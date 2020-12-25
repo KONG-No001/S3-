@@ -13,9 +13,11 @@ import java.util.List;
  * @since 2020-12-15
  */
 public interface AccountDao {
-    //根据id查用户
+    //查所有
     List<Account> queryAll();
 
     //添加
     int add(Account account);
+
+    int querycount();
 }

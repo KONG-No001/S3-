@@ -18,8 +18,11 @@
         insert into account values (null,#{purchaseId},#{orderId},#{time},#{total},#{accountType})
     </insert>
 
-    <select id="queryAll" resultType="com.gp.vo.Account">
+    <select id="queryAll" resultType="com.gp.vo.Account" >
         select * from account
-    </select>
 
+    </select>
+    <select id="querycount" parameterType="Account" >
+        select count(*) from account
+    </select>
 </mapper>

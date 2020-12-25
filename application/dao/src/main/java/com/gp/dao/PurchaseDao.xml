@@ -14,4 +14,8 @@
         select * from purchase
     </select>
 
+    <select id="queryAll" resultType="PurchaseVo">
+        select * from purchase
+    </select>
+
 </mapper>

@@ -9,28 +9,28 @@ import java.util.Date;
 public class Account {
     private Integer id;
 
-    private Integer purchaseId;
+    private Integer purchaseId;//采购单ID
 
-    private Integer orderId;
+    private Integer orderId;//销售单ID
 
-    private Double total;
+    private Double total;//订单金额
 
-    private Integer accountType;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Shanghai")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date time;
+    private Integer accountType;//订单类型 0代表采购 1代表销售
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Shanghai")
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date beginTime;
+    private Date time; //订单时间
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Shanghai")
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endTime;
+    private Date beginTime; //查询开始时间
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "Asia/Shanghai")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date endTime;//查询结束时间
 
     private PurchaseVo purchaseVo;
 

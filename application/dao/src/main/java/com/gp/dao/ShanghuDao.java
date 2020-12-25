@@ -13,7 +13,6 @@ public interface ShanghuDao{
     //查所有
     public List<Shanghu> queryShanghuAll(Shanghu shanghu);
 
-    public List<Map<String,Object>> queryShanghuAllMap();
 
     //数量
     public int ShanghuCount(Shanghu shanghu);

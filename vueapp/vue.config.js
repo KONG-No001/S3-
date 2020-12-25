@@ -10,7 +10,7 @@
  *
  * @type {string}
  */
-const INDEX_HTML = "public/demo.html";
+const INDEX_HTML = "public/root.html";
 
 
 module.exports = {

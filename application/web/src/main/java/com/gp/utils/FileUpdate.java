@@ -1,42 +1,11 @@
-package com.gp.controller;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+package com.gp.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Controller
 public class FileUpdate {
-
-    /**
-     * 直接提交文件的请求，默认只有文件参数。
-     * @param file 文件
-     * @return
-     */
-    @RequestMapping(value = "/FileUpdate/directSubmit.action", method = RequestMethod.POST)
-    @ResponseBody
-    public boolean directSubmit(MultipartFile file, HttpServletRequest request) throws Throwable {
-        String[] paths = getLocalPathAndServletPath(
-                request,
-                null,
-                "\\src\\main\\webapp\\assets\\",
-                "\\assets\\");
-        updateFile(
-                (FileInputStream) file.getInputStream(),
-                paths[0]+file.getOriginalFilename(),
-                paths[1]+file.getOriginalFilename());
-        return false;
-    }
-
 
     /**
      *
@@ -55,7 +24,7 @@ public class FileUpdate {
      * @throws Throwable 若正则表达式不能匹配出结果，则将掏出该错误
      *
      */
-    public String[] getLocalPathAndServletPath(HttpServletRequest request,String regExp, String appendLocalPath, String appendServletPath) throws Throwable {
+    public static String[] getLocalPathAndServletPath(HttpServletRequest request, String regExp, String appendLocalPath, String appendServletPath) throws Throwable {
         String pattern = "\\b.+:.*[\\\\]application[\\\\]web[\\\\]";
         String url = request.getServletContext().getRealPath("\\");
         String path;
@@ -79,7 +48,7 @@ public class FileUpdate {
      * @param localFilePath 本地仓库地址
      * @param servletFilePath 服务端地址
      */
-    public void updateFile (FileInputStream inputStream, String localFilePath, String servletFilePath) throws IOException{
+    public static void executeUpdate (FileInputStream inputStream, String localFilePath, String servletFilePath) throws IOException {
         BufferedInputStream bufferedInputStream = new BufferedInputStream((inputStream));
         File newLocalFile = new File(localFilePath);
         File newServletFile = new File(servletFilePath);

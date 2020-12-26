@@ -14,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface DeliveryService extends IService<DeliveryVo> {
     Page<DeliveryVo> fenYe(DeliveryVo deliveryVo,int page,int row);
+
+    //发货
+    int fh(int id);
+
+    //已收货
+    int sh(int id);
+
 }

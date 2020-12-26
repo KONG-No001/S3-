@@ -39,6 +39,9 @@ public class DeliveryVo implements Serializable {
     @TableField("user_id")
     private Integer userId;
 
+    @TableField(exist=false)
+    private String name;
+
     @TableField("shop_id")
     private Integer shopId;
 

@@ -33,7 +33,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-tickets" @click="xq(scope.row)" >订单详情</el-button>
+          <el-button type="primary" icon="el-icon-tickets" @click="xq(scope.row)" >采购详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -177,7 +177,7 @@
       </div>
     </el-dialog>
 
-    <!-- 订单详情模态框-->
+    <!-- 采购详情模态框-->
     <el-dialog title="采购商品详情" :visible.sync="dialogXQ" width="40%">
       <div>
         <el-table

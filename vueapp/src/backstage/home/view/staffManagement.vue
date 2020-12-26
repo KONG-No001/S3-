@@ -7,8 +7,8 @@
             </el-table-column>
             <el-table-column label="所属部门" property="department" width="200">
             </el-table-column>
-            <el-table-column label="头像" property="portrait" :width="120">
-                <el-image src="#" style="width: 26mm;height: 32mm;"></el-image>
+            <el-table-column label="头像" property="portrait" :width="150">
+                <el-image slot-scope="{row}" :src="row.portrait" style="width:32mm;height:32mm;"></el-image>
             </el-table-column>
             <el-table-column label="角色" property="null" width="225">
                 <template slot-scope="scope" >
@@ -69,8 +69,12 @@
                     <el-form-item label="用户头像" prop="portrait">
                         <el-upload
                                 class="avatar-uploader"
-                                action="#"
-                                :show-file-list="false">
+                                ref="portraitUploader"
+                                action="/application/FileUpdate/directUpdate.action"
+                                :show-file-list="false"
+                                :auto-upload="false"
+                                :on-change="handlePortraitChange"
+                                >
                             <img v-if="staffForm.portrait" class="avatar" :src="staffForm.portrait">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
@@ -132,7 +136,9 @@
                 roleDialogBox:{
                     visible: false,
                 },
-                staffForm: {
+                staffForm: {},
+                avatarUpdate:{
+                    file:null,
                 },
                 staffRules: {
                     name: [
@@ -169,6 +175,7 @@
                 this.staffDialogBox.formType = "edit";
                 // 将row转变为无属性对象，不然会与staffList的item冲突
                 this.staffForm = JSON.parse(JSON.stringify(row));
+                this.avatarUpdate.file = null;
             },
             handleDelete:function (index, row) {
                 let _this =  this;
@@ -230,8 +237,9 @@
                     _this.currentRole.push(role.id);
                 })
             },
-            staffEditSub(){
+            async staffEditSub(){
                 let _this = this;
+                let formData = new FormData()
 
                 const loading = _this.$loading({
                     lock: true,
@@ -239,8 +247,9 @@
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
-
-                Axios.post("/application/staff/update.action",_this.staffForm).then(response=>{
+                formData.append("staffUpdate",JSON.stringify(_this.staffForm))
+                if(_this.avatarUpdate.file)formData.append("avatarUpdate",_this.avatarUpdate.file.raw)
+                Axios.post("/application/staff/update.action",formData,{headers:{'content-type':'multipart/form-data;'}}).then(response=>{
                     if(response.data===true){
                         _this.$message({
                             message: "更改成功！！！",
@@ -342,7 +351,14 @@
                     });
                     loading.close();
                 });
-            }
+            },
+            handlePortraitChange(file){
+                this.staffForm = JSON.parse(JSON.stringify(Object.assign(
+                    this.staffForm,
+                    {portrait:URL.createObjectURL(file.raw)}
+                )));
+                this.avatarUpdate.file = file;
+            },
         },
         created: function () {
             this.loadingTable();
@@ -357,25 +373,35 @@
 
 <style scoped>
     .avatar-uploader{
-        border: 1px dashed #DDDDDD;
-        border-radius: 1px;
+        border: 2px dashed #d9d9d9;
+        border-radius: 6px;
         cursor: pointer;
         position: relative;
         overflow: hidden;
-        width: 26mm;
+        width: 32mm;
         height: 32mm;
     }
-    .avatar-uploader:hover{
-        border-color: #409EFF;;
+    .avatar-uploader:hover {
+        border-color: #409EFF;
     }
-    .avatar-uploader-icon{
+    .avatar-uploader-icon {
         font-size: 20px;
         color: #8c939d;
-        width: 26mm;
+        width: 32mm;
         height: 32mm;
         line-height: 32mm;
         text-align: center;
     }
+    .avatar-uploader-icon:hover {
+        color: #409EFF;
+    }
+    .avatar {
+        width: 32mm;
+        height: 32mm;
+        border-radius: 6px;
+        display: block;
+    }
+
     .col_role_tag{
         margin: 5px;
     }

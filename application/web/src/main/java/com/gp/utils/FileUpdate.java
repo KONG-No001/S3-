@@ -2,6 +2,8 @@ package com.gp.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,13 +50,28 @@ public class FileUpdate {
      * @param localFilePath 本地仓库地址
      * @param servletFilePath 服务端地址
      */
-    public static void executeUpdate (FileInputStream inputStream, String localFilePath, String servletFilePath) throws IOException {
+    public static Map<String,Object> executeUpdate (InputStream inputStream, String localFilePath, String servletFilePath) throws IOException {
         BufferedInputStream bufferedInputStream = new BufferedInputStream((inputStream));
+        Map<String,Object> map = new HashMap<>();
+
         File newLocalFile = new File(localFilePath);
         File newServletFile = new File(servletFilePath);
 
-        if(newLocalFile.exists()) newLocalFile.mkdirs();
-        if(newServletFile.exists()) newServletFile.mkdirs();
+        map.put("newLocalFile",newLocalFile);
+        map.put("newServletFile",newServletFile);
+
+        if(!newLocalFile.exists()) {
+            System.out.println("创建目录："+newLocalFile.getParent());
+            if(newLocalFile.getParentFile().mkdirs()){
+                System.out.println("目录创建成功！！");
+            }
+        }
+        if(!newServletFile.exists()) {
+            System.out.println("创建目录："+newServletFile.getParent());
+            if(newServletFile.getParentFile().mkdirs()){
+                System.out.println("目录创建成功！！");
+            }
+        }
 
         BufferedOutputStream localBufferedOutputStream = new BufferedOutputStream(new FileOutputStream(newLocalFile));
         BufferedOutputStream servletBufferedOutputStream = new BufferedOutputStream(new FileOutputStream(newServletFile));
@@ -69,6 +86,27 @@ public class FileUpdate {
         localBufferedOutputStream.close();
         servletBufferedOutputStream.flush();
         servletBufferedOutputStream.close();
+
+        return map;
     }
+
+    public static Map<String,Object> defaultFileUpdateInIdea(HttpServletRequest request, InputStream inputStream, String savePath ) throws Throwable {
+        Map<String,Object> map = new HashMap<>();
+        String[] paths = FileUpdate.getLocalPathAndServletPath(
+                request,
+                null,
+                "\\src\\main\\webapp\\",
+                "\\");
+        Map<String,Object> newFiles = FileUpdate.executeUpdate(
+                inputStream,
+                paths[0]+savePath,
+                paths[1]+savePath);
+
+        map.put("paths",paths);
+        map.putAll(newFiles);
+
+        return map;
+    }
+
 
 }

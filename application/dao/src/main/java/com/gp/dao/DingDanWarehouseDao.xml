@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gp.dao.DingDanWarehouseDao">
     <resultMap id="DingDanWarehousemap" type="DingDanWarehouse">
-        <result column="w.count" property="count"></result>
+        <result column="w.count" property="DingDanWarehouse.count"></result>
         <result column="wid" property="warehouseVo.id"></result>
         <association property="warehouseVo" column="wid" javaType="com.gp.vo.WarehouseVo"
                      select="com.gp.dao.WarehouseDao.selectById" fetchType="lazy">

@@ -30,4 +30,10 @@ public class DeliveryController {
         return deliveryService.fenYe(deliveryVo,page, row);
     }
 
+    //发货
+    @RequestMapping("/fh.action")
+    public boolean fh(Integer id){
+        return deliveryService.fh(id)>0;
+    }
+
 }

@@ -15,4 +15,11 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface DeliveryDao extends BaseMapper<DeliveryVo> {
     Page<DeliveryVo> selectPageVo(@Param("pageVo") Page<DeliveryVo> pageVo, @Param("deliveryVo") DeliveryVo deliveryVo);
+
+    //发货
+    int fh(int id);
+
+    //已收货
+    int sh(int id);
+
 }

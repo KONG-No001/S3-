@@ -27,4 +27,15 @@ public class DeliveryServiceImpl extends ServiceImpl<DeliveryDao, DeliveryVo> im
 
         return deliveryDao.selectPageVo(voPage,deliveryVo);
     }
+
+    @Override
+    public int fh(int id) {
+        return deliveryDao.fh(id);
+    }
+
+    @Override
+    public int sh(int id) {
+        return deliveryDao.sh(id);
+    }
+
 }

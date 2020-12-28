@@ -4,10 +4,17 @@
             <el-col :span="8">
                 <el-card style="width: 100%;height: 540px;" body-style="height:445px;padding:0">
                     <template slot="header">
-                        <span style="font-size: 18px;color: #303133;line-height: 24px">菜单树</span>
+                        <span style="font-size: 18px;color: #303133;line-height: 24px">
+                            菜单树
+                            <template v-if="treeEditMode.enable">
+                                <span style="color: #ff7600;font-size: 15px">[编辑模式开启]</span>
+                                <el-button type="text" size="mini" icon="el-icon-edit-outline" @click="closeTreeEditMode">关闭</el-button>
+                            </template>
+                            <el-button v-if="!treeEditMode.enable" type="text" size="mini" icon="el-icon-edit-outline" @click="enableTreeEditMode">编辑模式</el-button>
+                        </span>
                         <span style="float: right">
                             <el-button type="text" :loading="tableLoading" icon="el-icon-refresh-right" size="mini" @click="refreshMenuTree()"></el-button>
-                            <el-button type="text" size="mini" @click="addMenuRootNode">添加根</el-button>
+                            <el-button type="text" size="mini" :disabled="treeEditMode.enable" @click="showAddMenuRootNode">添加根</el-button>
                         </span>
                     </template>
                     <template>
@@ -15,20 +22,24 @@
                             <div style="width: 99%">
                                 <el-tree :data="menuTree"
                                          node-key="id"
-                                         lazy
+                                         ref="menuTree"
+                                         :props="treeProps"
+                                         :lazy="true"
                                          :load="loadingMenuNode"
+                                         :draggable="treeEditMode.enable"
                                          :default-expanded-keys="defaultExpandedKeys"
                                          @node-collapse="collapseMenuNode"
                                          @node-click="showMenuNodeInfoPage"
+                                         @node-drop="handleTreeDrag"
                                 >
                                     <span class="custom-tree-node"  slot-scope="{node,data}">
                                         <span>
                                             <span style="font-size: 13px;">{{node.label}}</span>
                                         </span>
                                         <span>
-                                            <el-button type="text" size="mini" @click.stop="showAppendMenuNodePage(data)">追加</el-button>
-                                            <el-button type="text" size="mini" @click.stop="showUpdateMenuNodePage(data)">更改</el-button>
-                                            <el-button type="text" size="mini" @click.stop="deleteMenuNode(data)">删除</el-button>
+                                            <el-button type="text" size="mini" :disabled="treeEditMode.enable" @click.stop="showAppendMenuNodePage(data)">追加</el-button>
+                                            <el-button type="text" size="mini" :disabled="treeEditMode.enable" @click.stop="showUpdateMenuNodePage(data)">更改</el-button>
+                                            <el-button type="text" size="mini" :disabled="treeEditMode.enable" @click.stop="deleteMenuNode(data)">删除</el-button>
                                         </span>
                                     </span>
                                 </el-tree>
@@ -41,7 +52,8 @@
                 <el-card style="width: 100%;height: 540px;" body-style="height:445px;padding:0">
                     <template v-if="pageProps.type==='form'" >
                         <template slot="header">
-                            <el-page-header @back="doGoBack" :content="pageProps.title"></el-page-header>
+                            <el-page-header v-if="pageProps.form==='add'" @back="doClearPage" :content="pageProps.title"></el-page-header>
+                            <el-page-header v-else @back="doGoBack" :content="pageProps.title"></el-page-header>
                         </template>
                         <template>
                             <template v-if="menuFormPageData=== undefined ||menuFormPageData==null || Object.keys(menuFormPageData).length===0">
@@ -93,28 +105,30 @@
                                             </el-col>
                                         </el-row>
                                     </el-form-item>
-                                    <el-form-item label="父节点:">
-                                        <span style="line-height: 40px ">{{menuFormPageData.print}}</span>
-                                    </el-form-item>
-                                    <el-form-item label="节点地址:">
-                                        <span style="line-height: 40px ">{{menuFormPageData.prints}}/<span v-if="menuFormPageData.field">{{menuFormPageData.id}}</span><span v-else>#</span></span>
-                                    </el-form-item>
-                                    <el-form-item label="下标:">
-                                        <span style="line-height: 40px ">{{menuFormPageData.i}}</span>
-                                    </el-form-item>
-                                    <el-form-item label="层级:">
-                                        <span style="line-height: 40px ">{{menuFormPageData.level}}</span>
-                                    </el-form-item>
-                                    <el-form-item v-if="pageProps.form==='update'" label="是否为父类:">
-                                        <el-tag size="small" :type="menuFormPageData.isParent===1?'success':'danger'" effect="dark" >{{menuFormPageData.isParent===1}}</el-tag>
-                                    </el-form-item>
+                                    <template v-if="pageProps.form!=='add'">
+                                        <el-form-item label="父节点:">
+                                            <span style="line-height: 40px ">{{menuFormPageData.print}}</span>
+                                        </el-form-item>
+                                        <el-form-item label="节点地址:">
+                                            <span style="line-height: 40px ">{{menuFormPageData.prints}}/<span v-if="menuFormPageData.field">{{menuFormPageData.id}}</span><span v-else>#</span></span>
+                                        </el-form-item>
+                                        <el-form-item label="下标:">
+                                            <span style="line-height: 40px ">{{menuFormPageData.i}}</span>
+                                        </el-form-item>
+                                        <el-form-item label="层级:">
+                                            <span style="line-height: 40px ">{{menuFormPageData.level}}</span>
+                                        </el-form-item>
+                                        <el-form-item v-if="pageProps.form==='update'" label="是否为父类:">
+                                            <el-tag size="small" :type="menuFormPageData.isParent===1?'success':'danger'" effect="dark" >{{menuFormPageData.isParent===1}}</el-tag>
+                                        </el-form-item>
+                                    </template>
                                 </el-form>
                                 <el-row class="menu-info-row">
                                     <el-col :span="24">
                                     <span style="float: right">
-                                        <el-button v-if="pageProps.form==='add'" type="success" size="small">确认</el-button>
-                                        <el-button v-if="pageProps.form==='append'" type="success" size="small" @click="doAppendMenuNodeAction">确认</el-button>
-                                        <el-button v-if="pageProps.form==='update'" type="success" size="small" @click="doUpdateMenuNodeAction">确认</el-button>
+                                        <el-button v-if="pageProps.form==='add'" type="success" size="small" :disabled="treeEditMode.enable" @click="doAddMenuRootNodeAction">确认</el-button>
+                                        <el-button v-if="pageProps.form==='append'" type="success" size="small" :disabled="treeEditMode.enable" @click="doAppendMenuNodeAction">确认</el-button>
+                                        <el-button v-if="pageProps.form==='update'" type="success" size="small" :disabled="treeEditMode.enable" @click="doUpdateMenuNodeAction">确认</el-button>
                                     </span>
                                     </el-col>
                                 </el-row>
@@ -191,9 +205,9 @@
                             <el-row class="menu-info-row">
                                 <el-col :span="24">
                                     <span style="float: right">
-                                        <el-button type="primary" size="small" @click="showAppendMenuNodePage({id:menuInfoPageData.id,label:menuInfoPageData.title})">追加</el-button>
-                                        <el-button type="warning" size="small" @click="showUpdateMenuNodePage({id:menuInfoPageData.id,label:menuInfoPageData.title})">更改</el-button>
-                                        <el-button type="danger" size="small" @click="deleteMenuNode(menuInfoPageData)">删除</el-button>
+                                        <el-button type="primary" size="small" :disabled="treeEditMode.enable" @click="showAppendMenuNodePage({id:menuInfoPageData.id,label:menuInfoPageData.title})">追加</el-button>
+                                        <el-button type="warning" size="small" :disabled="treeEditMode.enable" @click="showUpdateMenuNodePage({id:menuInfoPageData.id,label:menuInfoPageData.title})">更改</el-button>
+                                        <el-button type="danger" size="small" :disabled="treeEditMode.enable" @click="deleteMenuNode(menuInfoPageData)">删除</el-button>
                                     </span>
                                 </el-col>
                             </el-row>
@@ -201,7 +215,8 @@
                     </template>
                     <template v-else>
                         <div style="width: 100%; height: 540px; display: flex; justify-content:center; align-items: center">
-                            <span style="color: #606266;font-size: 20px;">你还没有选择数据...</span>
+                            <span v-if="!treeEditMode.enable" style="color: #606266;font-size: 20px;">你还没有选择数据......</span>
+                            <span v-else class="editModel-msg-span">在编辑模式下只能查看节点信息...</span>
                         </div>
                     </template>
                 </el-card>
@@ -216,14 +231,20 @@
         data(){
             return {
                 tableLoading: false,
-                treeProps:{},
                 defaultExpandedKeys:[],
+                treeProps:{label:"label"},
                 menuTree:[],
+                treeEditMode:{
+                    enable: false,
+                    nodeCurrentCount:0,
+                    nodeMaxCount:0,
+                    currentTreeNode: undefined,
+                },
                 pageProps:{
                     type:"",
                     title:"",
                     form:"",
-                    doBack:{},
+                    backInfo:{},
                 },
                 menuInfoPageData:null,
                 menuFormPageRules:{
@@ -251,49 +272,79 @@
             refreshMenuTree(){
                 let _this = this;
                 _this.tableLoading=true
-                _this.$axios.get("/application/menu/listMenuTree.action",{
+                let url = "/application"+(_this.treeEditMode.enable?"/listMenu.action":"/menu/listMenuTree.action");
+                _this.$axios.get(url,{
                     params:{id:0}
                 }).then(response=>{
                     _this.menuTree = response.data;
+                    _this.treeEditMode.nodeCurrentCount = response.data.length;
                     _this.tableLoading=false
                 })
             },
             loadingMenuNode(node, resolve){
                 let _this = this;
-                let id = 0
-                if (node.level !== 0){
-                    id = node.data.id;
-                    if(_this.defaultExpandedKeys.indexOf(id)===-1)_this.defaultExpandedKeys.push(id);
+                if(!_this.treeEditMode.enable || _this.treeEditMode.nodeCurrentCount<_this.treeEditMode.nodeMaxCount){
+                    let id = 0
+                    if (node.level !== 0){
+                        id = node.data.id;
+                        if(_this.defaultExpandedKeys.indexOf(id)===-1)_this.defaultExpandedKeys.push(id);
+                    }
+                    let url = "/application"+(_this.treeEditMode.enable?"/listMenu.action":"/menu/listMenuTree.action");
+                    _this.$axios.get(url,{
+                        params:{id}
+                    }).then(response=>{
+                        resolve(response.data);
+                        if(_this.treeEditMode.enable) _this.treeEditMode.nodeCurrentCount+=response.data.length
+                    })
+                }else{
+                    setTimeout(()=>{
+                        resolve([]);
+                        if(this.treeEditMode.currentTreeNode){
+                            let n = this.treeEditMode.currentTreeNode;
+                            this.treeEditMode.currentTreeNode = undefined;
+                            _this.updateTreePathInfo(node,n)
+                        }
+                    },10)
+
                 }
-                _this.$axios.get("/application/menu/listMenuTree.action",{
-                    params:{id}
-                }).then(response=>{
-                    resolve(response.data);
-                })
+
             },
             collapseMenuNode(data){
                 let _this = this;
-                let index = _this.defaultExpandedKeys.indexOf(data.id);
-                _this.defaultExpandedKeys.splice(index,1)
+                if(!_this.treeEditMode.enable){
+                    let index = _this.defaultExpandedKeys.indexOf(data.id);
+                    _this.defaultExpandedKeys.splice(index,1)
+                }
             },
-            showMenuNodeInfoPage({id,label}){
+            showMenuNodeInfoPage(data){
                 let _this = this;
+                let id;
+                let label;
                 _this.pageProps.type = "info";
-                _this.pageProps.title = label;
-                _this.pageLoading = true;
-                _this.$axios.get("/application/menu/getMenu.action",{
-                    params:{id}
-                }).then(response=>{
-                    _this.menuInfoPageData = response.data;
+                if(!_this.treeEditMode.enable){
+                    id = data.id;
+                    label = data.label;
+                    _this.pageProps.title = label;
+                    _this.pageLoading = true;
+                    _this.$axios.get("/application/menu/getMenu.action",{
+                        params:{id}
+                    }).then(response=>{
+                        _this.menuInfoPageData = response.data;
+                        _this.pageLoading = false;
+                    })
+                }else {
+                    _this.pageProps.title = data.title;
+                    _this.menuInfoPageData = data;
                     _this.pageLoading = false;
-                })
+                }
+
             },
             showAppendMenuNodePage({id,label}){
                 let _this = this;
                 _this.pageProps.type = "form";
                 _this.pageProps.form = "append";
                 _this.pageProps.title = label+" / 追加节点";
-                _this.pageProps.doBack = {id,label};
+                _this.pageProps.backInfo = {id,label};
                 _this.pageLoading = true;
                 _this.$axios.get("/application/menu/getAppendInfo.action",{
                     params:{id}
@@ -307,7 +358,7 @@
                 _this.pageProps.type = "form";
                 _this.pageProps.form = "update";
                 _this.pageProps.title = label+" / 更改节点";
-                _this.pageProps.doBack = {id,label};
+                _this.pageProps.backInfo = {id,label};
                 _this.pageLoading = true;
                 _this.$axios.get("/application/menu/getUpdateInfo.action",{
                     params:{id}
@@ -316,8 +367,15 @@
                     _this.pageLoading = false;
                 })
             },
-            addMenuRootNode(){
-                console.log("AddRoot")
+            showAddMenuRootNode(){
+                let _this = this;
+                _this.pageProps.type = "form";
+                _this.pageProps.form = "add";
+                _this.pageProps.title = "添加根节点";
+                _this.pageLoading = false;
+                _this.menuFormPageData = {
+                    id:-1
+                }
             },
             deleteMenuNode({id}){
                 let _this = this;
@@ -363,13 +421,13 @@
 
             },
             doGoBack(){
-                this.showMenuNodeInfoPage(this.pageProps.doBack)
+                this.showMenuNodeInfoPage(this.pageProps.backInfo)
             },
             doAppendMenuNodeAction(){
                 let _this = this;
                 let data = _this.menuFormPageData;
                 const h = _this.$createElement;
-                const parentElTag = h('span',{style:{color:"#409EFF"}},_this.pageProps.doBack.label);
+                const parentElTag = h('span',{style:{color:"#409EFF"}},_this.pageProps.backInfo.label);
                 const currentElTag = h('span',{style:{color:"#F56C6C"}},data.title);
                 _this.$refs["menuForm"].validate(valid=>{
                     if(valid){
@@ -404,6 +462,9 @@
                                         message: "追加成功！！！",
                                         type: "success"
                                     });
+                                    if(this.treeEditMode.enable){
+                                        _this.defaultExpandedKeys.push(response.data.id)
+                                    }
                                     _this.refreshMenuTree();
                                     _this.showMenuNodeInfoPage(response.data)
 
@@ -489,6 +550,73 @@
                     }
                 })
             },
+            doAddMenuRootNodeAction(){
+                let _this = this;
+                let data = _this.menuFormPageData;
+                const h = _this.$createElement;
+                const currentElTag = h('span',{style:{color:"#F56C6C"}},data.title);
+                _this.$refs["menuForm"].validate(valid=>{
+                    if(valid){
+                        _this.$msgbox({
+                            title: "添加根",
+                            message:h(
+                                "p",null,[
+                                    h('span',null,"将在目录下添加 "),
+                                    currentElTag,
+                                    h('span',null," 根节点, 是否继续"),
+                                ]
+                            ),
+                            confirmButtonText: "确认",
+                            cancelButtonText: "取消",
+                            showCancelButton:true,
+                            type: "warning"
+                        }).then(()=>{
+                            const loading = _this.$loading({
+                                lock: true,
+                                text: "Loading",
+                                spinner: 'el-icon-loading',
+                                background: 'rgba(0, 0, 0, 0.7)'
+                            });
+                            _this.$axios.post("/application/menu/addRootMenu.action",data).then(response=>{
+                                if(response.data.state){
+                                    _this.$message({
+                                        message: "添加成功！！！",
+                                        type: "success"
+                                    });
+                                    if(this.treeEditMode.enable){
+                                        _this.defaultExpandedKeys.push(response.data.id)
+                                    }
+                                    _this.refreshMenuTree();
+                                    _this.showMenuNodeInfoPage(response.data)
+
+                                }else {
+                                    _this.$message({
+                                        message:"添加失败",
+                                        type: "error"
+                                    });
+                                }
+                                loading.close();
+                            }).catch(() => {
+                                this.$message({
+                                    type: 'error',
+                                    message: '执行异常!'
+                                });
+                                loading.close();
+                            });
+                        }).catch(() => {
+                            this.$message({
+                                type: 'info',
+                                message: '已取消添加'
+                            });
+                        });
+                    }else {
+                        _this.$message({
+                            message:"请将信息输入完整！！！",
+                            type: "error"
+                        });
+                    }
+                });
+            },
             queryIconClassSearch(queryString, cb){
                 import("@/assets/element-ui-icon-list.json").then(data=>{
                     let restaurants = data.default;
@@ -507,13 +635,163 @@
                 this.pageProps.type = "";
                 this.pageProps.title = "";
                 this.pageProps.form = "";
-                this.pageProps.doBack = {};
+                this.pageProps.backInfo = {};
                 this.menuInfoPageData = null;
                 this.menuFormPageData = null;
+            },
+
+            enableTreeEditMode(){
+                let _this = this;
+                _this.$confirm("你将可以移动随意移动节点，并保存节点的树位置。注意！此功能对性能要求较高，请不要长时间开启节点编辑模式！！","开启编辑模式",{
+                    confirmButtonText: "开启",
+                    cancelButtonText: "取消",
+                    type: "warning",
+                    center: true
+                }).then(()=>{
+                    _this.treeEditMode.enable = true;
+                    _this.tableLoading = true;
+                    const loading = _this.$loading({
+                        lock: true,
+                        text: "Loading",
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    _this.$axios.get("/application/menu/listAllId.action").then(response=>{
+                        _this.defaultExpandedKeys = response.data;
+                        _this.treeEditMode.nodeMaxCount = response.data.length;
+                        _this.treeEditMode.nodeCurrentCount = response.data.length;
+                        _this.tableLoading = false;
+                        _this.treeProps.label="title";
+                        _this.doClearPage();
+                        _this.refreshMenuTree();
+                        loading.close();
+                        this.$message({
+                            type: 'success',
+                            message: '编辑模式已开启'
+                        });
+                        // setTimeout(function () {
+                        //
+                        // },1000)
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消编辑模式'
+                    });
+                });
+
+            },
+            closeTreeEditMode(){
+                let _this = this;
+                _this.$confirm("你对树节点的更改将被提交，请确保你对的节点所作的操作是符合你的要求","关闭编辑模式",{
+                    confirmButtonText: "提交更改",
+                    cancelButtonText: '放弃更改',
+                    type: "warning",
+                    distinguishCancelAndClose: true,
+                    center: true
+                }).then(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '正在提交修改'
+                    });
+                    const loading = _this.$loading({
+                        lock: true,
+                        text: "Loading",
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    let getMenuNode = _this.$refs["menuTree"].getNode;
+                    let keys = _this.defaultExpandedKeys;
+                    let menus = [];
+                    for(let i=0;i<keys.length;i++){
+                        menus.push(getMenuNode(keys[i]).data)
+                    }
+                    _this.$axios.post("/application/menu/updateMenuNode.action",menus).then(({data})=>{
+                        const h = _this.$createElement;
+                        _this.$notify({
+                            title:"已提交修改",
+                            message: h("div",null,[
+                                h("p",{style:{color:"#67C23A"}},"成功："+data.success),
+                                h("p",{style:{color:"#F56C6C"}},"失败："+data.error),
+                                h("p",{style:{color:"#E6A23C"}},"执行："+data.execute),
+                                h("p",{style:{color:"#909399"}},"总数："+data.total),
+                            ]),
+                            type: 'success',
+                        })
+                        _this.treeEditMode.enable = false;
+                        _this.defaultExpandedKeys = [];
+                        _this.treeProps.label="label";
+                        _this.refreshMenuTree();
+                        loading.close();
+                    })
+                }).catch(action=>{
+                    if(action === 'cancel'){
+                        this.$message({
+                            type: 'info',
+                            message: "已放弃修改"
+                        })
+                        const loading = _this.$loading({
+                            lock: true,
+                            text: "Loading",
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
+                        });
+                        _this.treeEditMode.enable = false;
+                        _this.defaultExpandedKeys = [];
+                        _this.treeProps.label="label";
+                        _this.refreshMenuTree();
+                        loading.close();
+                    }else {
+                        this.$message({
+                            type: 'info',
+                            message: "已取消"
+                        })
+                    }
+                })
+
+            },
+            handleTreeDrag(draggingNode,dropNode){
+                this.treeEditMode.currentTreeNode = draggingNode;
+                this.updateTreeStateInfo(dropNode.parent)
+            },
+            updateTreeStateInfo(pnode){
+                let _this = this;
+                let i = 0;
+                pnode.childNodes.forEach(node=>{
+                    let data = node.data
+                    data.i = i++;
+                    data.level = node.level-1;
+                    data.isParent = node.childNodes.length>0?1:0;
+                    if(pnode.parent){
+                        data.print = pnode.data.id;
+                        data.prints = pnode.data.prints+"/"+pnode.data.id;
+                    }else{
+                        data.print = 0;
+                        data.prints = "0";
+                    }
+                    _this.updateTreeStateInfo(node)
+                })
+            },
+            updateTreePathInfo(baseNode,currentNode){
+                let _this = this;
+                currentNode.childNodes.forEach(node=>{
+                    let data = node.data
+                    data.level = baseNode.data.level+1;
+                    data.print = baseNode.data.id;
+                    data.prints = baseNode.data.prints+"/"+baseNode.data.id;
+                    _this.$refs["menuTree"].append(data,baseNode.data)
+                    setTimeout(()=>{
+                        _this.updateTreePathInfo(node,node)
+                    },150)
+                })
+                this.treeEditMode.currentTreeNode = undefined;
             }
 
         },
-        computed:{}
+        computed:{
+        },
+        watch:{
+        }
     }
 </script>
 
@@ -538,6 +816,17 @@
         color: #409EFF;
     }
 
+    .editModel-msg-span{
+        display: inline-block;
+        min-height: 24px;
+        font-size: 18px;
+        color: #606266;
+        line-height: 24px;
+        transition: color .15s linear;
+    }
+    .editModel-msg-span:hover{
+        color: #ff7600;
+    }
     .menu-info-icon-i{
         font-size: 32px;
         color: #606266;

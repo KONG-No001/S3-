@@ -30,7 +30,17 @@ public class GoodsCarServiceImpl implements GoodsCarService {
     }
 
     @Override
+    public int shanChuDingDan(int id) {
+        return goodsCarDao.shanChuDingDan(id);
+    }
+
+    @Override
     public int xiuGai(Integer sl, Integer id) {
         return goodsCarDao.xiuGai(sl, id);
+    }
+
+    @Override
+    public GoodsCar chaXunBy(Integer uid, Integer wid) {
+        return goodsCarDao.chaXunBy(uid,wid);
     }
 }

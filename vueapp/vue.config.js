@@ -60,14 +60,6 @@ module.exports = {
             // 标题
             title: "测试/FileUpdate"
         },
-        "reception/shouye":{
-                    // 打包入口
-                    entry: "src/reception/shouye/shouye.js",
-                    // 打包模板
-                    template: INDEX_HTML,
-                    // 标题
-                    title: "首页"
-                },
 
     },
     // 服务器配置
@@ -79,7 +71,7 @@ module.exports = {
         // 启动完毕时打开浏览器
         open: true,
         // 打开浏览器时访问的页面
-        openPage: 'backstage/login',
+        openPage: "backstage/login",
         // 代理
         proxy: {
             //需要代理的URL

@@ -8,7 +8,7 @@
                  active-text-color="#ffd04b" class="el-menu-demo" mode="horizontal">
           <el-menu-item index="1">
             <template slot="title">
-              <span>首页</span>
+              <router-link to="/shouye"> 首页</router-link>
             </template>
           </el-menu-item>
           <el-menu-item index="2">
@@ -48,8 +48,8 @@
                   <span>厂家:&nbsp;{{sp.goodsVo.goodsFactory}}</span><br><br>
                   <span>产地:&nbsp;{{sp.goodsVo.goodsAddress}}</span><br><br>
                   数量：<el-input-number size="mini" v-model="num" :min="1" :max="sp.count" label="数量"></el-input-number><br><br>
-                  <el-button type="primary">加入购物车</el-button>
-                  <el-button style="left: 150px;" type="primary">立即购买</el-button>
+                  <el-button type="primary" @click="addCar(sp.id)">加入购物车</el-button>
+                  <el-button style="left: 150px;" @click="gm" type="primary">立即购买</el-button>
                 </el-row>
               </el-row>
 
@@ -93,6 +93,43 @@
             alert(error)
           });
         },
+        addCar(id){
+          var _this = this;
+          var params = new URLSearchParams();
+          params.append("uid",1);
+          params.append("WarehouseVo.id",id);
+          params.append("shu",_this.num);
+          this.
+          $axios.post('/application/goodscar/addGoodsCar.action',params).
+          then(function(result) {
+            console.log(result)
+            _this.$message({
+              message: result.data ,
+              type: 'success'
+            });
+          }).
+          catch(function(error) {
+            alert(error)
+          });
+        },
+        gm(){
+          var _this = this;
+          var params = new URLSearchParams();
+          params.append("User.id",1);
+          params.append("Shanghu.id",1);
+          params.append("count",1);
+          params.append("sum",_this.num*_this.sp.goodsOutPrice);
+          params.append("shu",_this.num);
+          params.append("wid",_this.sp.id);
+          this.
+          $axios.post('/application/dingdan/addDingDan.action',params).
+          then(function(result) {
+            _this.$router.push({name:"dingdan",params:{id:result.data}});
+          }).
+          catch(function(error) {
+            alert(error)
+          });
+        }
       }
     }
 </script>

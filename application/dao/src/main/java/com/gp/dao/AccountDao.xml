@@ -4,25 +4,75 @@
 
     <resultMap id="accountMap" type="com.gp.vo.Account">
         <result property="purchaseId" column="purchase_id"/>
-        <result property="orderId" column="order_id"/>
+        <result property="orderId" column="order_id"></result>
 
         <association property="purchaseVo" javaType="com.gp.vo.PurchaseVo"
                      column="purchase_id" select="com.gp.dao.PurchaseDao.selectById">
         </association>
+
         <association property="dingDan" javaType="com.gp.vo.DingDan"
-                     column="order_id" select="com.gp.dao.DingDanDao.queryById">
+                     column="order_id" select="com.gp.dao.DingDanDao.chaXunByid">
         </association>
+
     </resultMap>
 
     <insert id="add">
         insert into account values (null,#{purchaseId},#{orderId},#{time},#{total},#{accountType})
     </insert>
 
-    <select id="queryAll" resultType="com.gp.vo.Account" >
+    <select id="queryAll" resultType="com.gp.vo.Account" resultMap="accountMap">
         select * from account
-
     </select>
-    <select id="querycount" parameterType="Account" >
+
+    <select id="fenYe" resultType="com.gp.vo.Account" resultMap="accountMap">
+        select * from account
+        <where>
+            <if test="beginTime != null ">and time<![CDATA[>]]>#{beginTime}</if>
+            <if test="endTime != null ">and time<![CDATA[<=]]>#{endTime}</if>
+        </where>
+    </select>
+
+    <select id="queryCount" parameterType="Account" resultType="int">
         select count(*) from account
+        <where>
+            <if test="beginTime != null ">and time<![CDATA[>]]>#{beginTime}</if>
+            <if test="endTime != null ">and time<![CDATA[<=]]>#{endTime}</if>
+        </where>
+    </select>
+
+    <select id="fenYe1" resultType="com.gp.vo.Account" resultMap="accountMap">
+        select * from account
+        <where>
+            <if test="beginTime != null ">and time<![CDATA[>]]>#{beginTime}</if>
+            <if test="endTime != null ">and time<![CDATA[<=]]>#{endTime}</if>
+            and account_type = 0
+        </where>
+    </select>
+
+    <select id="queryCount1" parameterType="Account" resultType="int">
+        select count(*) from account
+        <where>
+            <if test="beginTime != null ">and time<![CDATA[>]]>#{beginTime}</if>
+            <if test="endTime != null ">and time<![CDATA[<=]]>#{endTime}</if>
+            and account_type = 0
+        </where>
+    </select>
+
+    <select id="fenYe2" resultType="com.gp.vo.Account" resultMap="accountMap">
+        select * from account
+        <where>
+            <if test="beginTime != null ">and time<![CDATA[>]]>#{beginTime}</if>
+            <if test="endTime != null ">and time<![CDATA[<=]]>#{endTime}</if>
+            and account_type = 1
+        </where>
+    </select>
+
+    <select id="queryCount2" parameterType="Account" resultType="int">
+        select count(*) from account
+        <where>
+            <if test="beginTime != null ">and time<![CDATA[>]]>#{beginTime}</if>
+            <if test="endTime != null ">and time<![CDATA[<=]]>#{endTime}</if>
+            and account_type = 1
+        </where>
     </select>
 </mapper>

@@ -67,7 +67,7 @@
           <el-row :gutter="20">
               <el-col :span="5" v-for="(sp,i) in sps" :key="i">
                   <el-card :body-style="{ padding: '0px' }" shadow="hover" class="sp">
-                      <img :src="sp.goodsVo.goodsImg" class="image">
+                      <img style="width: 200px;height: 200px" :src="sp.goodsVo.goodsImg" class="image">
                       <div style="padding: 14px;">
                           <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span>
                           <div class="bottom clearfix">

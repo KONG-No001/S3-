@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.gp.dao.AccountDao;
 import com.gp.service.AccountService;
 import com.gp.vo.Account;
+import com.gp.vo.DingDan;
 import com.gp.vo.PageVo;
+import com.gp.vo.PurchaseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,45 +21,40 @@ public class AccountServiceImpl implements AccountService {
 
     //所有订单
     @Override
-    public List<Account> queryAll(int page,int rows) {
-        PageHelper.startPage(page,rows);
+    public List<Account> queryAll() {
         return accountDao.queryAll();
     }
 
     @Override
-    public PageVo<Account> AccountPageVo(int page, int rows) {
+    public PageVo<Account> fenYe(Account account,int page, int rows) {
         PageVo<Account> pageVo=new PageVo<>();
         //放在查询代码前面
         PageHelper.startPage(page,rows);
-        pageVo.setRows(accountDao.queryAll());
-        pageVo.setTotal(accountDao.querycount());
+        pageVo.setRows(accountDao.fenYe(account));
+        pageVo.setTotal(accountDao.queryCount(account));
+        return pageVo;
+
+
+    }
+
+    @Override
+    public PageVo<Account> fenYe1(Account account, int page, int rows) {
+        PageVo<Account> pageVo=new PageVo<>();
+        //放在查询代码前面
+        PageHelper.startPage(page,rows);
+        pageVo.setRows(accountDao.fenYe1(account));
+        pageVo.setTotal(accountDao.queryCount1(account));
         return pageVo;
     }
 
-    //采购订单
     @Override
-    public List<Account> queryPurchase() {
-        List<Account> list= accountDao.queryAll();
-        List<Account> accounts=new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getAccountType()==0){
-                accounts.add(list.get(i));
-            }
-        }
-        return accounts;
+    public PageVo<Account> fenYe2(Account account, int page, int rows) {
+        PageVo<Account> pageVo=new PageVo<>();
+        //放在查询代码前面
+        PageHelper.startPage(page,rows);
+        pageVo.setRows(accountDao.fenYe2(account));
+        pageVo.setTotal(accountDao.queryCount2(account));
+        return pageVo;
     }
 
-    //销售订单
-    @Override
-    public List<Account> queryOrder() {
-
-        List<Account> list= accountDao.queryAll();
-        List<Account> accounts=new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getAccountType()==1){
-                accounts.add(list.get(i));
-            }
-        }
-        return accounts;
-    }
 }

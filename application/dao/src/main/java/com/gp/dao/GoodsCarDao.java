@@ -20,7 +20,7 @@ public interface GoodsCarDao {
     public int shanChu(int id);
 
     //删除订单商品
-    public int shanChuDingDan(int id);
+    public int shanChuDingDan(@Param(value = "id") int id,@Param(value = "uid")int uid);
 
     //修改
     public int xiuGai(@Param(value = "sl") Integer sl, @Param(value = "id") Integer id);

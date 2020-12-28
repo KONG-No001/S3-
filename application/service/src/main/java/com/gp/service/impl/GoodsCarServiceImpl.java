@@ -30,8 +30,8 @@ public class GoodsCarServiceImpl implements GoodsCarService {
     }
 
     @Override
-    public int shanChuDingDan(int id) {
-        return goodsCarDao.shanChuDingDan(id);
+    public int shanChuDingDan(int id,int uid) {
+        return goodsCarDao.shanChuDingDan(id,uid);
     }
 
     @Override

@@ -30,7 +30,7 @@
 	</delete>
 
     <delete id="shanChuDingDan" parameterType="int">
-        delete from goods_car where wid=#{id}
+        delete from goods_car where wid=#{id} and uid=#{uid}
     </delete>
 
     <update id="xiuGai" parameterType="int">

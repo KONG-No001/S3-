@@ -1,18 +1,23 @@
 package com.gp.service;
 
 import com.gp.vo.Account;
+import com.gp.vo.DingDan;
 import com.gp.vo.PageVo;
+import com.gp.vo.PurchaseVo;
 
 import java.util.List;
 
 public interface AccountService {
     //查所有
-    List<Account> queryAll(int page,int rows);
-    PageVo<Account> AccountPageVo(int page,int rows);
+    List<Account> queryAll();
+
+    PageVo<Account> fenYe(Account account, int page, int rows);
 
     //查采购
-    List<Account> queryPurchase();
+    PageVo<Account> fenYe1(Account account, int page, int rows);
 
     //查销售
-    List<Account> queryOrder();
+    PageVo<Account> fenYe2(Account account, int page, int rows);
+
+
 }

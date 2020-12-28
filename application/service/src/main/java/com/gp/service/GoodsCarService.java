@@ -16,7 +16,7 @@ public interface GoodsCarService {
     public int shanChu(int id);
 
     //删除订单商品
-    public int shanChuDingDan(int id);
+    public int shanChuDingDan(int id,int uid);
 
     //修改
     public int xiuGai(Integer sl,Integer id);

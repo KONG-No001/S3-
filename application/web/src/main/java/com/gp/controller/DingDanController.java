@@ -53,7 +53,7 @@ public class DingDanController {
             String[] shus=shu.split(",");
             for(int i=0;i<wids.length;i++){
                 dingDanService.addWarehouse(did,Integer.valueOf(wids[i]),Integer.valueOf(shus[i]));
-                goodsCarService.shanChuDingDan(Integer.valueOf(wids[i]));
+                goodsCarService.shanChuDingDan(Integer.valueOf(wids[i]),dingDan.getUser().getId());
             }
         }else{
             dingDanService.addWarehouse(did,Integer.valueOf(wid),Integer.valueOf(shu));

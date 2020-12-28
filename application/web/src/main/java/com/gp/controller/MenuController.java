@@ -24,6 +24,11 @@ public class MenuController {
         return menuService.listMenu(id);
     }
 
+    @RequestMapping("/menu/listAllId.action")
+    @ResponseBody
+    public List<Integer> listAllId(){
+        return menuService.listAllId();
+    }
 
     @RequestMapping("/listRoutes.action")
     @ResponseBody
@@ -72,5 +77,14 @@ public class MenuController {
     public Map<String, Object> updateMenu(@RequestBody Menu data){
         return menuService.updateMenu(data);
     }
+
+    @RequestMapping(value = "/menu/addRootMenu.action",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> addRootMenu(@RequestBody Menu data){ return menuService.addRootMenu(data); }
+
+    @RequestMapping(value = "/menu/updateMenuNode.action",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> updateMenuNode(@RequestBody List<Menu> menuList){ return menuService.updateMenuNode(menuList); }
+
 
 }

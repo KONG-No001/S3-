@@ -79,7 +79,7 @@ module.exports = {
         // 启动完毕时打开浏览器
         open: true,
         // 打开浏览器时访问的页面
-        openPage: 'backstage/login',
+        openPage: "backstage/login",
         // 代理
         proxy: {
             //需要代理的URL

@@ -16,16 +16,25 @@
 		select * from goods_car where uid=#{uid}
 	</select>
 
+    <select id="chaXunBy" parameterType="int"
+            resultMap="GoodsCarmap">
+        select * from goods_car where uid=#{uid} and wid=#{wid}
+    </select>
+
     <insert id="tianJia" parameterType="GoodsCar">
-		insert into goods_car values(#{id},#{warehouseVo.id},#{uid})
+		insert into goods_car values(#{id},#{warehouseVo.id},#{uid},#{shu})
 	</insert>
 
     <delete id="shanChu" parameterType="int">
 		delete from goods_car where id=#{id}
 	</delete>
 
+    <delete id="shanChuDingDan" parameterType="int">
+        delete from goods_car where wid=#{id}
+    </delete>
+
     <update id="xiuGai" parameterType="int">
-		update Car set shu=#{sl}
+		update goods_car set shu=#{sl}
 		where id=#{id}
 	</update>
 </mapper>

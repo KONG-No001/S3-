@@ -3,6 +3,7 @@ package com.gp.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gp.service.GoodsService;
+import com.gp.utils.FileUpdate;
 import com.gp.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -54,28 +57,27 @@ public class GoodsController {
                        @RequestParam("img2") MultipartFile img2,
                        @RequestParam("img3") MultipartFile img3,
                        @RequestParam("img4") MultipartFile img4,
-                       HttpServletRequest request) throws IOException {
+                       HttpServletRequest request) throws Throwable {
+
+        String[] paths = FileUpdate.getLocalPathAndServletPath(
+                request,null,"/src/main/webapp/assets/","/assets/");
+
+
+        MultipartFile[] imgs = new MultipartFile[]{
+                img,img2,img3,img4
+        };
+
+        for (MultipartFile file: imgs ) {
+            FileUpdate.executeUpdate(
+                    (FileInputStream)file.getInputStream(),
+                    paths[0]+file.getOriginalFilename(),
+                    paths[1]+file.getOriginalFilename());
+        }
+
         goodsVo.setGoodsImg("/application/assets/"+img.getOriginalFilename());
         goodsVo.setGoodsImg2("/application/assets/"+img2.getOriginalFilename());
         goodsVo.setGoodsImg3("/application/assets/"+img3.getOriginalFilename());
         goodsVo.setGoodsImg4("/application/assets/"+img4.getOriginalFilename());
-
-        //将文件持久化 保存到 服务端 本地磁盘（项目发布的路径）
-        //目发布的路径
-        String path = request.getServletContext().getRealPath("/assets");
-        System.out.println(path);
-        File file =new File(path);
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        //将文件持久化 保存到 服务端
-        img.transferTo(new File(path,img.getOriginalFilename()));
-        img2.transferTo(new File(path,img2.getOriginalFilename()));
-        img3.transferTo(new File(path,img3.getOriginalFilename()));
-        img4.transferTo(new File(path,img4.getOriginalFilename()));
-
-
-
 
         return goodsService.save(goodsVo);
     }
@@ -99,25 +101,36 @@ public class GoodsController {
                           @RequestParam("img2") MultipartFile img2,
                           @RequestParam("img3") MultipartFile img3,
                           @RequestParam("img4") MultipartFile img4,
-                          HttpServletRequest request) throws IOException {
+                          HttpServletRequest request, HttpServletResponse response) throws Throwable {
+
         goodsVo.setGoodsImg("/application/assets/"+img.getOriginalFilename());
         goodsVo.setGoodsImg2("/application/assets/"+img2.getOriginalFilename());
         goodsVo.setGoodsImg3("/application/assets/"+img3.getOriginalFilename());
         goodsVo.setGoodsImg4("/application/assets/"+img4.getOriginalFilename());
-        //将文件持久化 保存到 服务端 本地磁盘（项目发布的路径）
-        //目发布的路径
-        String path = request.getServletContext().getRealPath("/assets");
-        System.out.println(path);
-        File file =new File(path);
-        if(!file.exists()){
-            file.mkdirs();
+
+        String[] paths = FileUpdate.getLocalPathAndServletPath(
+                request,null,"/src/main/webapp/assets/","/assets/");
+
+
+        MultipartFile[] imgs = new MultipartFile[]{
+                img,img2,img3,img4
+        };
+
+        for (MultipartFile file: imgs ) {
+            FileUpdate.executeUpdate(
+                    (FileInputStream)file.getInputStream(),
+                    paths[0]+file.getOriginalFilename(),
+                    paths[1]+file.getOriginalFilename());
         }
-        //将文件持久化 保存到 服务端
-        img.transferTo(new File(path,img.getOriginalFilename()));
-        img2.transferTo(new File(path,img2.getOriginalFilename()));
-        img3.transferTo(new File(path,img3.getOriginalFilename()));
-        img4.transferTo(new File(path,img4.getOriginalFilename()));
+
+
+
+        goodsVo.setGoodsImg("/application/assets/"+img.getOriginalFilename());
+        goodsVo.setGoodsImg2("/application/assets/"+img2.getOriginalFilename());
+        goodsVo.setGoodsImg3("/application/assets/"+img3.getOriginalFilename());
+        goodsVo.setGoodsImg4("/application/assets/"+img4.getOriginalFilename());
 
         return goodsService.updateById(goodsVo);
     }
+
 }

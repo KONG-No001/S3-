@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gp.vo.PurchaseVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -14,5 +16,8 @@ import org.apache.ibatis.annotations.Param;
  * @since 2020-12-18
  */
 public interface PurchaseDao extends BaseMapper<PurchaseVo> {
+   //查所有
+    List<PurchaseVo> queryAll();
+
     Page<PurchaseVo> selectPageVo(@Param("pageVo") Page<PurchaseVo> pageVo, @Param("purchaseVo") PurchaseVo purchaseVo);
 }

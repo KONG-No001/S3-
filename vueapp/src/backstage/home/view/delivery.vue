@@ -3,7 +3,7 @@
     <!-- 添加、搜索 -->
     <el-row :gutter="10">
       <el-col :span="4">
-        <el-input placeholder="请输入类型名称" v-model="name"></el-input>
+        <el-input placeholder="订单号" v-model="did"></el-input>
       </el-col>
       <el-col :span="4">
         <el-button type="primary" @click="search">查询</el-button>
@@ -21,19 +21,24 @@
           label="ID">
       </el-table-column>
       <el-table-column
-          prop="user.name"
-          label="用户">
-      </el-table-column>
-      <el-table-column
           prop="dingdanId"
           label="订单号">
       </el-table-column>
       <el-table-column
-          prop="shanghu.name"
+          prop="dingDan.user.name"
+          label="用户">
+      </el-table-column>
+      <el-table-column
+          prop="dingDan.user.phone"
+          width="110"
+          label="电话">
+      </el-table-column>
+      <el-table-column
+          prop="dingDan.shanghu.name"
           label="商户">
       </el-table-column>
       <el-table-column
-          prop="shanghu.address"
+          prop="dingDan.shanghu.address"
           label="地址">
       </el-table-column>
       <el-table-column
@@ -52,15 +57,10 @@
           <el-tag v-else-if="row.status===4" type="danger">已取消</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" @click="editBtn(scope.row)"></el-button>
-          <el-popconfirm icon="el-icon-info"
-                         icon-color="red"
-                         title="确定删除吗？"
-                         @confirm="del(scope.row)">
-            <el-button slot="reference" type="danger" icon="el-icon-delete"></el-button>
-          </el-popconfirm>
+      <el-table-column width="280" label="操作">
+        <template slot-scope="{row}">
+          <el-button type="primary" icon="el-icon-tickets" @click="xq(row)">发货详情</el-button>
+          <el-button v-if="row.status===0" type="primary"  icon="el-icon-s-promotion" @click="fh(row)">发货</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -76,31 +76,39 @@
         :total="total">
     </el-pagination>
 
-    <!-- 编辑模态框-->
-    <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-      <el-form :inline="true" :model="form" ref="form" size="medium" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="ID" prop="supplierId">
-          <el-input v-model="form.supplierId" readonly></el-input>
-        </el-form-item>
-        <el-form-item label="名称" prop="supplierText">
-          <el-input v-model="form.supplierText"></el-input>
-        </el-form-item>
-        <el-form-item label="负责人" prop="supplierName">
-          <el-input v-model="form.supplierName"></el-input>
-        </el-form-item>
-        <el-form-item label="电话" prop="supplierTel">
-          <el-input v-model="form.supplierTel"></el-input>
-        </el-form-item>
-        <el-form-item label="地址" prop="supplierAddress">
-          <el-input v-model="form.supplierAddress"></el-input>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="edit">确 定</el-button>
+    <!-- 采购详情模态框-->
+    <el-dialog title="采购商品详情" :visible.sync="dialogXQ" width="40%">
+      <div>
+        <el-table
+            :data="goods"
+            stripe>
+          <el-table-column
+              prop="warehouseVo.goodsVo.goodsName"
+              label="商品名称">
+          </el-table-column>
+          <el-table-column
+              prop="warehouseVo.goodsVo.goodsImg"
+              label="图片">
+            <template slot-scope="scope">
+              <img  :src="scope.row.warehouseVo.goodsVo.goodsImg" style="width: 30px"/>
+            </template>
+          </el-table-column>
+          <el-table-column
+              prop="warehouseVo.goodsVo.goodsGuige"
+              label="规格">
+          </el-table-column>
+          <el-table-column
+              prop="warehouseVo.goodsVo.goodsInPrice"
+              label="单价">
+          </el-table-column>
+          <el-table-column
+              prop="count"
+              label="数量">
+          </el-table-column>
+        </el-table>
       </div>
     </el-dialog>
+
 
   </div>
 </template>
@@ -111,7 +119,9 @@ export default {
   data() {
     return {
       tableData: [],
+      goods:[],
       dialogFormVisible: false,
+      dialogXQ:false,
       form: {
         id: '', dingdanId: '', userId: '',shopId: '',time: '',status:''
       },
@@ -119,7 +129,7 @@ export default {
       pages: 0,
       row: 5,
       page: 1,
-      name:''
+      did:''
     }
   },
 
@@ -130,6 +140,7 @@ export default {
         url: '/application/delivery/fenYe.action',
         method: "get",
         params: {
+          dingdanId:this.did,
           page: this.page, row: this.row
         },
       }).then((result) => {
@@ -139,10 +150,6 @@ export default {
       }).catch((error) => {
         alert(error);
       })
-    },
-    formatterStatus(row){
-      alert(row)
-
     },
 
     //每页条数变化
@@ -164,45 +171,28 @@ export default {
 
     //清空
     reset(){
-      this.name='';
+      this.dingdanId='';
     },
 
-    //点击修改按钮
-    editBtn(row) {
-      this.dialogFormVisible = true;
-      this.form = row;
+    //详情
+    xq(row){
+      this.dialogXQ=true;
+      //console.log(row.dingDan.dingDanWarehouses);
+      this.goods=row.dingDan.dingDanWarehouses;
     },
 
-    //修改信息
-    edit() {
-      this.dialogFormVisible = false;
+    //发货
+    fh(row){
       Axios({
-        url: '/application/supplier/update.action',
-        method: "post",
-        params: this.form,
-      }).then((result) => {
-        this.$notify({
-          title: '提示',
-          message: result.data == true ? '修改成功' : '修改失败',
-          type: 'success'
-        });
-        this.getData();
-      }).catch((error) => {
-        alert(error);
-      })
-
-    },
-
-    //删除信息
-    del(row) {
-      Axios({
-        url: '/application/supplier/delete.action',
+        url: '/application/delivery/fh.action',
         method: "get",
-        params: {id: row.supplierId},
+        params: {
+          id:row.id
+        },
       }).then((result) => {
         this.$notify({
           title: '提示',
-          message: result.data == true ? '删除成功' : '删除失败',
+          message: result.data == true ? '发货成功' : '发货失败',
           type: 'success'
         });
         this.getData();

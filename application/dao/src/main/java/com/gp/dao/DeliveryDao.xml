@@ -6,20 +6,26 @@
 
         <result property="userId" column="user_id"/>
         <result property="shopId" column="sh_id"/>
+        <result property="dingdanId" column="dingdan_id"/>
 
-        <association property="user" javaType="com.gp.vo.User"
-                     column="user_id" select="com.gp.dao.UserDao.queryById">
-        </association>
-        <association property="shanghu" javaType="com.gp.vo.Shanghu"
-                     column="shop_id" select="com.gp.dao.ShanghuDao.queryShanghuId">
+        <association property="dingDan" javaType="com.gp.vo.DingDan"
+                     column="dingdan_id" select="com.gp.dao.DingDanDao.chaXunByid">
         </association>
     </resultMap>
+
+    <update id="fh">
+        update delivery set status=1 where id=#{id}
+    </update>
+
+    <update id="sh">
+        update delivery set status=2 where id=#{id}
+    </update>
 
     <select id="selectPageVo" resultMap="DeliveryMap">
         select * from delivery
         <where>
             <if test="deliveryVo !=null">
-                <if test="deliveryVo.userId != null and deliveryVo.userId!=''">and user_id =#{deliveryVo.userId}</if>
+                <if test="deliveryVo.dingdanId != null and deliveryVo.dingdanId!=''">and dingdan_id =#{deliveryVo.dingdanId}</if>
             </if>
         </where>
     </select>

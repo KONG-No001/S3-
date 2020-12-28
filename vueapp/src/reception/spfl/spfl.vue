@@ -29,9 +29,9 @@
     </el-header>
     <el-container class="page">
 <!--    左部菜单栏    -->
-      <el-aside width="200px" class="el-aside">
+      <el-aside style="margin-left: 20px;margin-top: -20px;width: 240px;" class="el-aside">
           <el-row class="tac">
-              <el-col :span="12">
+              <el-col :span="20">
                   <h5 style="margin-left: 22px">商品分类</h5>
                   <el-menu
                       @select="xz"
@@ -39,10 +39,10 @@
                           :default-active="flid"
                           class="el-menu-vertical-demo"
                           >
-                    <el-menu-item index="0">
+                    <el-menu-item index="0" style="margin-left: 26px;margin-top: -14px;">
                       <template slot="title">全部</template>
                     </el-menu-item>
-                    <div v-for="(sp,i) in spfl" :key="i" >
+                    <div style="margin-left: 26px;" v-for="(sp,i) in spfl" :key="i" >
                       <el-menu-item :index="(i+1).toString()">
                         <template slot="title">{{sp.goodsTypeName}}</template>
                       </el-menu-item>
@@ -53,9 +53,9 @@
       </el-aside>
         <!--    商品展示    -->
       <el-main class="el-main">
-        <div>
+        <div style="margin-left: 300px;margin-top: -20px">
 
-        查询商品：<el-input style="width: 500px"
+        <el-input style="width: 500px"
                        placeholder="请输入商品名称"
                        prefix-icon="el-icon-search"
                        v-model="input" clearable>
@@ -64,10 +64,10 @@
                      @click="chaXuan">搜索</el-button>
         </div>
 
-          <el-row :gutter="20">
-              <el-col :span="5" v-for="(sp,i) in sps" :key="i">
-                  <el-card :body-style="{ padding: '0px' }" shadow="hover" class="sp">
-                      <img style="width: 200px;height: 200px" :src="sp.goodsVo.goodsImg" class="image">
+          <el-row style="margin-left: 20px;margin-top: 20px" :gutter="20">
+              <el-col style="margin-left: 30px" :span="5" v-for="(sp,i) in sps" :key="i">
+                  <el-card  :body-style="{ padding: '0px' }" shadow="hover" class="sp">
+                      <img style="width: 230px;height: 200px" :src="sp.goodsVo.goodsImg" class="image">
                       <div style="padding: 14px;">
                           <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span>
                           <div class="bottom clearfix">
@@ -127,7 +127,7 @@
         flid:'0',
         total: 0,
         pages: 0,
-        row: 10,
+        row: 12,
         page: 1
       }
     },

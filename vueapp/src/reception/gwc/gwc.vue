@@ -26,10 +26,10 @@
           </el-menu-item>
         </el-menu>
       </el-header>
-        <el-table :data="tableData"
+        <el-table  :data="tableData"
                   ref="multipleTable"
-                height="400"
-                  style="width: 100%"
+                height="500"
+                  style="width: 100%;margin-left: 30px;margin-top: 20px"
                   @selection-change="handleSelectionChange">
             <el-table-column
                     type="selection"
@@ -60,9 +60,9 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-row>
+        <el-row style="margin-left: 900px;">
             <span>已选商品：{{dsj}}件,合计：￥{{zojia}}元</span>
-          <el-button style="margin-left: 1000px" @click="gm">结算</el-button>
+          <el-button style="margin-left: 100px" @click="gm">结算</el-button>
         </el-row>
     </div>
 </template>

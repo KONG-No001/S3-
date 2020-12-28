@@ -1,5 +1,8 @@
 package com.gp.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "handler" })
 public class GoodsCar {
     private Integer id;
     private WarehouseVo warehouseVo;
@@ -24,11 +27,11 @@ public class GoodsCar {
         this.id = id;
     }
 
-    public WarehouseVo getGoodsVo() {
+    public WarehouseVo getWarehouseVo() {
         return warehouseVo;
     }
 
-    public void setGoodsVo(WarehouseVo warehouseVo) {
+    public void setWarehouseVo(WarehouseVo warehouseVo) {
         this.warehouseVo = warehouseVo;
     }
 

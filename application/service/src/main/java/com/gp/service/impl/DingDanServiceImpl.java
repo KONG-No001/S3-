@@ -19,4 +19,23 @@ public class DingDanServiceImpl implements DingDanService {
     public DingDan chaXunByid(Integer id) {
         return dingDanDao.chaXunByid(id);
     }
+
+    @Override
+    public Integer addDingDan(DingDan dingDan) {
+        dingDanDao.addDingDan(dingDan);
+        Integer did=dingDan.getId();
+        return did;
+    }
+
+    @Override
+    public Integer addWarehouse(Integer did, Integer wid, Integer count) {
+        return dingDanDao.addWarehouse(did,wid,count);
+    }
+
+    @Override
+    public List<DingDan> chaXunByzt(Integer zt) {
+        return dingDanDao.chaXunByzt(zt);
+    }
+
+
 }

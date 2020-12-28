@@ -22,4 +22,23 @@
     <select id="chaXunByid" parameterType="int" resultMap="DingDanmap">
         select * from dingdan where id=#{id}
     </select>
+
+    <insert id="addDingDan" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.gp.vo.DingDan" >
+
+<!--        <selectKey resultType="_long" keyProperty="id" order="AFTER">-->
+<!--            select @@IDENTITY as id-->
+<!--        </selectKey>-->
+        insert into dingdan(uid,shid,sum,zt,count) values(#{user.id},#{shanghu.id},#{sum},0,#{count})
+    </insert>
+
+    <insert id="addWarehouse" parameterType="int">
+        insert into dingdan_warehouse values(null,#{wid},#{did},#{count})
+    </insert>
+
+    <select id="chaXunByzt" parameterType="int" resultMap="DingDanmap">
+        select * from dingdan
+        <where>
+            <if test="zt!=null">zt=#{zt}</if>
+        </where>
+    </select>
 </mapper>

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +45,8 @@ public class DingDanController {
     //添加订单
     @RequestMapping("/addDingDan.action")
     public Integer addDingDan(DingDan dingDan, @Param(value = "wid") String wid, @Param(value = "shu") String shu) {
+        Date date=new Date();
+        dingDan.setTime(date);
         Integer did=dingDanService.addDingDan(dingDan);
         if(wid.contains(",")&&shu.contains(",")){
             String[] wids=wid.split(",");

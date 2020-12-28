@@ -1,8 +1,13 @@
 package com.gp.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.List;
 @Data
 @JsonIgnoreProperties(value = { "handler" })
@@ -13,15 +18,21 @@ public class DingDan {
     private Double sum;
     private Integer zt;
     private Integer count;
+    @TableField("goods_time")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
+    @JSONField(format = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date time;
     private List<DingDanWarehouse> dingDanWarehouses;
 
-    public DingDan(Integer id, User user, Shanghu shanghu, Double sum, Integer zt, Integer count, List<DingDanWarehouse> dingDanWarehouses) {
+    public DingDan(Integer id, User user, Shanghu shanghu, Double sum, Integer zt, Integer count, Date time, List<DingDanWarehouse> dingDanWarehouses) {
         this.id = id;
         this.user = user;
         this.shanghu = shanghu;
         this.sum = sum;
         this.zt = zt;
         this.count = count;
+        this.time = time;
         this.dingDanWarehouses = dingDanWarehouses;
     }
 
@@ -84,6 +95,14 @@ public class DingDan {
         this.dingDanWarehouses = dingDanWarehouses;
     }
 
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "DingDan{" +
@@ -93,6 +112,7 @@ public class DingDan {
                 ", sum=" + sum +
                 ", zt=" + zt +
                 ", count=" + count +
+                ", time=" + time +
                 ", dingDanWarehouses=" + dingDanWarehouses +
                 '}';
     }

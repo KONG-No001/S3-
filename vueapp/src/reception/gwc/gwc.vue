@@ -38,7 +38,7 @@
             <el-table-column label="商品信息">
                 <template slot-scope="scope">
                   <span>[{{scope.row.warehouseVo.goodsVo.goodsBrand}}]{{scope.row.warehouseVo.name}}</span>
-                  <img :src="scope.row.warehouseVo.goodsVo.goodsImg" class="image">
+                  <img style="height: 150px;width: 150px;" :src="scope.row.warehouseVo.goodsVo.goodsImg" class="image">
                 </template>
             </el-table-column>
             <el-table-column label="单价">
@@ -151,8 +151,10 @@
           },
           gm(){
             var _this = this;
-            alert(_this.wid);
-            alert(_this.count);
+            if(_this.dsj==0){
+              alert("至少选中一个");
+              return;
+            }
             var params = new URLSearchParams();
             params.append("User.id",1);
             params.append("Shanghu.id",1);

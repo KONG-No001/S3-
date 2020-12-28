@@ -28,7 +28,7 @@
 <!--        <selectKey resultType="_long" keyProperty="id" order="AFTER">-->
 <!--            select @@IDENTITY as id-->
 <!--        </selectKey>-->
-        insert into dingdan(uid,shid,sum,zt,count) values(#{user.id},#{shanghu.id},#{sum},0,#{count})
+        insert into dingdan(uid,shid,sum,zt,count,time) values(#{user.id},#{shanghu.id},#{sum},0,#{count},#{time})
     </insert>
 
     <insert id="addWarehouse" parameterType="int">

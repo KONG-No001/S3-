@@ -8,6 +8,7 @@ import java.util.Map;
 public interface MenuService {
 
     List<Menu> listMenu(int id);
+    List<Integer> listAllId();
 
     List<Map<String,Object>> listRoutes();
     List<Map<String,Object>> listMenuTree(int id);
@@ -20,8 +21,11 @@ public interface MenuService {
 
     Map<String,Object> appendMenu(Menu data);
     Map<String,Object> updateMenu(Menu data);
+    Map<String,Object> addRootMenu(Menu data);
 
     Menu getUpdateInfo(int id);
+
+    Map<String,Object> updateMenuNode(List<Menu> menuList);
 
 
 }

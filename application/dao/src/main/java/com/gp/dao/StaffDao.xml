@@ -14,6 +14,7 @@
         <id property="id" column="staff_id"/>
         <result column="staff_name" property="name"/>
         <result column="staff_password" property="password"/>
+        <result column="staff_portrait" property="portrait"/>
         <result column="staff_department" property="department"/>
         <association column="staff_id" property="roles"
                      fetchType="lazy" javaType="list"

@@ -9,7 +9,7 @@
 export default {
   name: "index",
   created() {
-    this.$router.push({path:"/spfl"});
+    this.$router.push({path:"/shouye"});
   }
 }
 </script>

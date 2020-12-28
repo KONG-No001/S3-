@@ -6,6 +6,7 @@ import spfl from "@/reception/spfl/spfl.vue";
 import gwc from "@/reception/gwc/gwc.vue";
 import mygrzx from "@/reception/mygrzx/mygrzx.vue";
 import dingdan from "@/reception/dingdan/dingdan.vue";
+import shouye from "@/reception/shouye/shouye.vue";
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ export  default  new VueRouter({
       path:"/dingdan",
       name:"dingdan",
       component:dingdan
+    },
+    {
+      path:"/shouye",
+      name:"shouye",
+      component:shouye
     }
   ]
 })

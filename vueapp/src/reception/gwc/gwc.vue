@@ -8,7 +8,7 @@
                  active-text-color="#ffd04b" class="el-menu-demo" mode="horizontal">
           <el-menu-item index="1">
             <template slot="title">
-              <span>首页</span>
+              <router-link to="/shouye"> 首页</router-link>
             </template>
           </el-menu-item>
           <el-menu-item index="2">

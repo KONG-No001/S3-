@@ -60,14 +60,6 @@ module.exports = {
             // 标题
             title: "测试/FileUpdate"
         },
-        "reception/shouye":{
-                    // 打包入口
-                    entry: "src/reception/shouye/shouye.js",
-                    // 打包模板
-                    template: INDEX_HTML,
-                    // 标题
-                    title: "首页"
-                },
 
     },
     // 服务器配置

@@ -65,11 +65,7 @@ export default {
     return {
       sps:[
 
-      ],
-      aa:"{{sps.shanghu.address}},sp[i].warehouseVo.goodsVo.goodsImg," +
-          "[{{sp[i].warehouseVo.goodsVo.goodsBrand}}]{{sp[i].warehouseVo.name}}" +
-          "{{sp[i].count}}" +
-          "{{sp[i].warehouseVo.goodsOutPrice}}"
+      ]
     }
 
   },
@@ -80,7 +76,7 @@ export default {
     getsp(){
       var _this = this;
       var params = new URLSearchParams();
-      params.append('id',12);
+      params.append('id',_this.$route.params.id);
       this.
       $axios.post('/application/dingdan/queryById.action',params).
       then(function(result) {

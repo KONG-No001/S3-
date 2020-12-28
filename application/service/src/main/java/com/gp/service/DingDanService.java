@@ -17,4 +17,7 @@ public interface DingDanService {
 
     //根据状态查询订单
     public List<DingDan> chaXunByzt(Integer zt);
+
+    //付款成功
+    int fk(int id);
 }

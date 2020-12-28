@@ -37,5 +37,10 @@ public class DingDanServiceImpl implements DingDanService {
         return dingDanDao.chaXunByzt(zt);
     }
 
+    @Override
+    public int fk(int id) {
+        return dingDanDao.fk(id);
+    }
+
 
 }

@@ -51,10 +51,12 @@
 
         <span>总计:<span style="font-size:30px;color: red;">￥{{sps.sum}}</span></span>
         <el-divider></el-divider>
-        <el-button type="success" style="width: 200px;">确认支付</el-button>
+        <el-button @click="pay" type="success" style="width: 200px;">确认支付</el-button>
       </el-main>
 
+<div id="mydiv">
 
+</div>
   </div>
 </template>
 
@@ -86,6 +88,23 @@ export default {
       catch(function(error) {
         alert(error)
       });
+    },
+    pay(){
+      var params = new URLSearchParams();
+      params.append("tradeno",this.sps.id);  //订单号
+      params.append("price",this.sps.sum);    //价格
+      params.append("tradename",'付款订单');  //订单名字
+
+      this.$axios.post("/application/pay.action",params).then(function (result) {
+
+        var bodystr = result.data;  //后端返回的支付页面代码
+        console.log(bodystr)
+        bodystr=bodystr.substr(0,bodystr.indexOf("<script>"));
+        console.log(bodystr)
+        document.getElementById("mydiv").innerHTML=bodystr;
+        document.forms[0].submit();   //返回代码中需要表单提交得到真实的支付页面
+
+      }).catch();
     }
   }
 }

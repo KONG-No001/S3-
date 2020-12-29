@@ -29,4 +29,7 @@
             </if>
         </where>
     </select>
+    <select id="queryByDingdanId" resultType="com.gp.vo.DeliveryVo">
+        select * from delivery where dingdan_id =#{id}
+    </select>
 </mapper>

@@ -19,14 +19,14 @@ public interface DingDanDao {
     //根据状态查询订单
     public List<DingDan> chaXunByzt(@Param(value = "zt")Integer zt,@Param(value = "uid") Integer uid);
 
-    //查询不同状态的订单
-    public DingDan daifukuan(Integer zt);
-    public DingDan daifahuo(Integer zt);
-    public DingDan daitihuo(Integer zt);
-    public DingDan yitihuo(Integer zt);
-
     //付款成功
     int fk(int id);
+
+    //已发货
+    int fh(int id);
+
+    //已收货
+    int sh(int id);
 
     //查询不同状态的订单
     List<DingDan> daifukuan(Integer zt);

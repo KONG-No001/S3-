@@ -1,6 +1,7 @@
 package com.gp.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gp.service.DingDanService;
 import com.gp.vo.DeliveryVo;
 import com.gp.dao.DeliveryDao;
 import com.gp.service.DeliveryService;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 public class DeliveryServiceImpl extends ServiceImpl<DeliveryDao, DeliveryVo> implements DeliveryService {
     @Autowired
     DeliveryDao deliveryDao;
+    @Autowired
+    DingDanService dingDanService;
 
     @Override
     public Page<DeliveryVo> fenYe(DeliveryVo deliveryVo, int page, int row) {
@@ -30,6 +33,8 @@ public class DeliveryServiceImpl extends ServiceImpl<DeliveryDao, DeliveryVo> im
 
     @Override
     public int fh(int id) {
+        DeliveryVo deliveryVo=deliveryDao.selectById(id);
+        dingDanService.fh(deliveryVo.getDingdanId());
         return deliveryDao.fh(id);
     }
 

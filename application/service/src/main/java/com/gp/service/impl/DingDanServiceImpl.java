@@ -1,9 +1,12 @@
 package com.gp.service.impl;
 
 import com.gp.dao.AccountDao;
+import com.gp.dao.DeliveryDao;
 import com.gp.dao.DingDanDao;
+import com.gp.service.DeliveryService;
 import com.gp.service.DingDanService;
 import com.gp.vo.Account;
+import com.gp.vo.DeliveryVo;
 import com.gp.vo.DingDan;
 import com.gp.vo.DingDanWarehouse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ public class DingDanServiceImpl implements DingDanService {
     DingDanDao dingDanDao;
     @Autowired
     AccountDao accountDao;
+    @Autowired
+    DeliveryDao deliveryDao;
 
     @Override
     public DingDan chaXunByid(Integer id) {
@@ -56,6 +61,28 @@ public class DingDanServiceImpl implements DingDanService {
         accountDao.add(account);
 
         return dingDanDao.fk(id);
+    }
+
+    @Override
+    public int fh(int id) {
+        //通知仓库发货 添加到仓库表
+        DingDan dingDan=dingDanDao.chaXunByid(id);
+        DeliveryVo deliveryVo=new DeliveryVo();
+        deliveryVo.setDingdanId(dingDan.getId());
+        deliveryVo.setUserId(dingDan.getUser().getId());
+        deliveryVo.setShopId(dingDan.getShanghu().getId());
+        deliveryVo.setTime(dingDan.getTime());
+        deliveryVo.setStatus(0);
+        deliveryDao.insert(deliveryVo);
+
+        return dingDanDao.fh(id);
+    }
+
+    @Override
+    public int sh(int id) {
+        DeliveryVo deliveryVo=deliveryDao.queryByDingdanId(id);
+        dingDanDao.sh(deliveryVo.getId());
+        return dingDanDao.sh(id);
     }
 
     @Override

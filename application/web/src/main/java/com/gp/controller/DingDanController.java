@@ -49,6 +49,13 @@ public class DingDanController {
     }
 
 
+    //收货
+    @RequestMapping("/sh.action")
+    public boolean sh(Integer id){
+        return dingDanService.sh(id)>0;
+    }
+
+
     //添加订单
     @RequestMapping("/addDingDan.action")
     public Integer addDingDan(DingDan dingDan, @Param(value = "wid") String wid, @Param(value = "shu") String shu) {

@@ -23,7 +23,7 @@
           <el-menu-item style="margin-left: 900px;" index="5" route="true" v-if="uid==null">
             <router-link to="/login"> 登录</router-link>
           </el-menu-item>
-          <el-menu-item style="margin-left: 900px;" index="5" route="true" >
+          <el-menu-item style="margin-left: 900px;" index="6" route="true" v-else>
             <strong style="color: orange;">{{name}}</strong>登录了
           </el-menu-item>
         </el-menu>

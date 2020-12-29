@@ -22,4 +22,7 @@ public interface DeliveryDao extends BaseMapper<DeliveryVo> {
     //已收货
     int sh(int id);
 
+    //根据订单id查
+    DeliveryVo queryByDingdanId(int id);
+
 }

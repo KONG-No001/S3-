@@ -60,6 +60,15 @@ module.exports = {
             // 标题
             title: "测试/FileUpdate"
         },
+        "reception/login": {
+                      // 打包入口
+                      entry: "src/reception/login/main.js",
+
+                      // 打包模板
+                      template: INDEX_HTML,
+                      // 标题
+                      title: "平价优选"
+                  },
 
     },
     // 服务器配置

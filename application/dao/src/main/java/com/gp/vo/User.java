@@ -7,18 +7,11 @@ public class User {
     private String sex;
     private Integer status;
     private String phone;
+    private Integer shop;
 
     public User() {
     }
 
-    public User(Integer id, String name, String password, String sex, Integer status, String phone) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.sex = sex;
-        this.status = status;
-        this.phone = phone;
-    }
 
     public Integer getId() {
         return id;
@@ -68,15 +61,11 @@ public class User {
         this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", sex='" + sex + '\'' +
-                ", status=" + status +
-                ", phone='" + phone + '\'' +
-                '}';
+    public Integer getShop() {
+        return shop;
+    }
+
+    public void setShop(Integer shop) {
+        this.shop = shop;
     }
 }

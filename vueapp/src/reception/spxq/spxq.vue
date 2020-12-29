@@ -14,15 +14,17 @@
           <el-menu-item index="2">
             <router-link to="/spfl">商品分类</router-link>
           </el-menu-item>
-          <el-submenu index="3">
-            <template slot="title">我的</template>
-            <el-menu-item index="3-1">个人信息</el-menu-item>
-            <el-menu-item index="3-2">注册商户</el-menu-item>
-            <el-menu-item index="3-3">我的订单</el-menu-item>
-            <el-menu-item index="3-4">注销账号</el-menu-item>
-          </el-submenu>
           <el-menu-item index="4" route="true">
             <router-link to="/gwc"> 购物车</router-link>
+          </el-menu-item>
+          <el-menu-item index="3">
+
+          </el-menu-item>
+          <el-menu-item style="margin-left: 900px;" index="5" route="true" v-if="uid==null">
+            <router-link to="/login"> 登录</router-link>
+          </el-menu-item>
+          <el-menu-item style="margin-left: 900px;" index="5" route="true" >
+            <strong style="color: orange;">{{name}}</strong>登录了
           </el-menu-item>
         </el-menu>
       </el-header>
@@ -41,12 +43,13 @@
                 </el-col>
 
                 <el-row :sp="12" style="left: 20px">
-                  <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span><br><br>
+                  <span><strong>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</strong></span><br><br>
                   <span>商品规格:&nbsp;{{sp.goodsVo.goodsGuige}}</span><br><br>
-                  <span>商品价格:&nbsp;{{sp.goodsOutPrice}}</span><br><br>
+                  <span>商品价格:&nbsp;<span style="color: red">${{sp.goodsOutPrice}}</span></span><br><br>
                   <span>生产日期:&nbsp;{{sp.goodsVo.goodsTime}}</span><br><br>
                   <span>厂家:&nbsp;{{sp.goodsVo.goodsFactory}}</span><br><br>
-                  <span>产地:&nbsp;{{sp.goodsVo.goodsAddress}}</span><br><br>
+                  <span>产地:&nbsp;{{sp.goodsVo.goodsAddress}}</span>
+                  <span style="margin-left: 25px;">库存:&nbsp;{{sp.count}}</span><br><br>
                   数量：<el-input-number size="mini" v-model="num" :min="1" :max="sp.count" label="数量"></el-input-number><br><br>
                   <el-button type="primary" @click="addCar(sp.id)">加入购物车</el-button>
                   <el-button style="left: 150px;" @click="gm" type="primary">立即购买</el-button>
@@ -67,11 +70,15 @@
 
                 ],
               sp:[],
-              num:1
+              num:1,
+              uid:'',
+              name:''
             }
         },
       created() {
         this.getdata();
+        this.uid=sessionStorage.getItem('uid');
+        this.name=sessionStorage.getItem('name');
       },
       methods :{
         getdata(){
@@ -96,7 +103,12 @@
         addCar(id){
           var _this = this;
           var params = new URLSearchParams();
-          params.append("uid",1);
+          let uid=sessionStorage.getItem("uid");
+          if(uid==null){
+            alert("请先登录!")
+            return;
+          }
+          params.append("uid",uid);
           params.append("WarehouseVo.id",id);
           params.append("shu",_this.num);
           this.
@@ -115,8 +127,14 @@
         gm(){
           var _this = this;
           var params = new URLSearchParams();
-          params.append("User.id",1);
-          params.append("Shanghu.id",1);
+          let uid=sessionStorage.getItem("uid");
+          let sh=sessionStorage.getItem("sh");
+          if(uid==null||uid==""){
+            alert("请先登录!")
+            return;
+          }
+          params.append("User.id",uid);
+          params.append("Shanghu.id",sh);
           params.append("count",1);
           params.append("sum",_this.num*_this.sp.goodsOutPrice);
           params.append("shu",_this.num);

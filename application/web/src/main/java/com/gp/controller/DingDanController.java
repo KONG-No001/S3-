@@ -8,8 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -74,25 +72,5 @@ public class DingDanController {
         }
         return did;
     }
-    //根据状态查
-    @RequestMapping("/daifukuan.action")
-    @ResponseBody
-    public DingDan daifukuan(Integer zt) {
-        return dingDanService.daifukuan(zt);
-    }
-    @RequestMapping("/daifahuo.action")
-    @ResponseBody
-    public DingDan daifahuo(Integer zt) {
-        return dingDanService.daifahuo(zt);
-    }
-    @RequestMapping("/daitihuo.action")
-    @ResponseBody
-    public DingDan daitihuo(Integer zt) {
-        return dingDanService.daitihuo(zt);
-    }
-    @RequestMapping("/yitihuo.action")
-    @ResponseBody
-    public DingDan yitihuo(Integer zt) {
-        return dingDanService.yitihuo(zt);
-    }
+
 }

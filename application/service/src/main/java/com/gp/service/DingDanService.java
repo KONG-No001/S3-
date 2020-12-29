@@ -16,7 +16,7 @@ public interface DingDanService {
     public Integer addWarehouse(Integer did,Integer wid,Integer count);
 
     //根据状态查询订单
-    public List<DingDan> chaXunByzt(Integer zt);
+    public List<DingDan> chaXunByzt(Integer zt,Integer uid);
 
     //查询不同状态的订单
     public DingDan daifukuan(Integer zt);

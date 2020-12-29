@@ -14,15 +14,17 @@
           <el-menu-item index="2">
             <router-link to="/spfl">商品分类</router-link>
           </el-menu-item>
-          <el-submenu index="3">
-            <template slot="title">我的</template>
-            <el-menu-item index="3-1">个人信息</el-menu-item>
-            <el-menu-item index="3-2">注册商户</el-menu-item>
-            <el-menu-item index="3-3">我的订单</el-menu-item>
-            <el-menu-item index="3-4">注销账号</el-menu-item>
-          </el-submenu>
           <el-menu-item index="4" route="true">
             <router-link to="/gwc"> 购物车</router-link>
+          </el-menu-item>
+          <el-menu-item index="3">
+
+          </el-menu-item>
+          <el-menu-item style="margin-left: 900px;" index="5" route="true" v-if="uid==null">
+            <router-link to="/login"> 登录</router-link>
+          </el-menu-item>
+          <el-menu-item style="margin-left: 900px;" index="5" route="true" >
+            <strong style="color: orange;">{{name}}</strong>登录了
           </el-menu-item>
         </el-menu>
       </el-header>
@@ -75,12 +77,16 @@
                 zojia:0,
                 dsj:0,
               wid:"",
-              count:""
+              count:"",
+              uid:'',
+              name:''
             }
         },
 
     created() {
       this.getsp();
+      this.uid=sessionStorage.getItem('uid');
+      this.name=sessionStorage.getItem('name');
     },
         methods: {
             handleSelectionChange(val) {
@@ -120,7 +126,8 @@
           getsp(){
             var _this = this;
             var params = new URLSearchParams();
-            params.append('uid',1);
+            let uid=sessionStorage.getItem("uid");
+            params.append('uid',uid);
             this.
             $axios.post('/application/goodscar/queryByUid.action',params).
             then(function(result) {
@@ -155,9 +162,15 @@
               alert("至少选中一个");
               return;
             }
+            let uid=sessionStorage.getItem("uid");
+            let sh=sessionStorage.getItem("sh");
+            if(uid==null||uid==""){
+              alert("请先登录!")
+              return;
+            }
             var params = new URLSearchParams();
-            params.append("User.id",1);
-            params.append("Shanghu.id",1);
+            params.append("User.id",uid);
+            params.append("Shanghu.id",sh);
             params.append("count",_this.dsj);
             params.append("sum",_this.zojia);
             params.append("shu",_this.count);

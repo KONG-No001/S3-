@@ -1,8 +1,6 @@
 package com.gp.dao;
 
 import com.gp.vo.Account;
-import com.gp.vo.DingDan;
-import com.gp.vo.PurchaseVo;
 
 import java.util.List;
 

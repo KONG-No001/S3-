@@ -230,7 +230,6 @@
     import Axios from "axios";
 
     export default {
-        name: 'mygrzx',
         data(){
             return{
                 daifukuan:[],
@@ -244,9 +243,9 @@
                 dialogpingjia:false
             }
         },
-        method:{
+        methods:{
             //获取表格数据
-            getDaifukuan: function () {
+            getDaifukuan () {
                 Axios({
                     url: '/application/dingdan/daifukuan.action',
                     method: "get"
@@ -311,14 +310,14 @@
                 this.dialogpingjia=false;
             }
         },
-        created:function(){
-            this.getDaifukuan();
+        created(){
+          this.getDaifukuan();
 
-            this.getDaifahuo();
+          this.getDaifahuo();
 
-            this.getDaitihuo();
+          this.getDaitihuo();
 
-            this.getYitihuo();
+          this.getYitihuo();
         }
     }
 </script>

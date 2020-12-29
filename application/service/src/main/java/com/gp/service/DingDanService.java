@@ -26,4 +26,10 @@ public interface DingDanService {
 
     //付款成功
     int fk(int id);
+
+    //查询不同状态的订单
+    public List<DingDan> daifukuan(Integer zt);
+    public List<DingDan> daifahuo(Integer zt);
+    public List<DingDan> daitihuo(Integer zt);
+    public List<DingDan> yitihuo(Integer zt);
 }

@@ -13,7 +13,6 @@ public interface ShanghuDao{
     //查所有
     public List<Shanghu> queryShanghuAll(Shanghu shanghu);
 
-
     //数量
     public int ShanghuCount(Shanghu shanghu);
     //根据id查

@@ -18,7 +18,7 @@
             <router-link to="/gwc"> 购物车</router-link>
           </el-menu-item>
           <el-menu-item index="3">
-
+            <router-link to="/mygrzx"> 我的</router-link>
           </el-menu-item>
           <el-menu-item style="margin-left: 900px;" index="5" route="true" v-if="uid==null">
             <router-link to="/login"> 登录</router-link>

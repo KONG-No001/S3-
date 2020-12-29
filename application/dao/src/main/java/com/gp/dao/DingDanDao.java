@@ -1,7 +1,6 @@
 package com.gp.dao;
 
 import com.gp.vo.DingDan;
-import com.gp.vo.DingDanWarehouse;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +27,10 @@ public interface DingDanDao {
 
     //付款成功
     int fk(int id);
+
+    //查询不同状态的订单
+    List<DingDan> daifukuan(Integer zt);
+    List<DingDan> daifahuo(Integer zt);
+    List<DingDan> daitihuo(Integer zt);
+    List<DingDan> yitihuo(Integer zt);
 }

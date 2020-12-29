@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -33,10 +33,6 @@ public class DingDanController {
     @Autowired
     GoodsCarService goodsCarService;
 
-    public void t (){
-        System.out.println("True");
-    }
-
     //根据Id查
     @RequestMapping("/queryById.action")
     public DingDan queryById(Integer id) {
@@ -47,7 +43,7 @@ public class DingDanController {
 
     @RequestMapping("/fk.action")
     @CrossOrigin
-    public void fk(Integer id,HttpServletResponse response,HttpServletRequest request) throws IOException {
+    public void fk(Integer id, HttpServletResponse response, HttpServletRequest request) throws IOException {
         dingDanService.fk(id);
         response.sendRedirect("/application/fk.jsp");
     }
@@ -56,21 +52,48 @@ public class DingDanController {
     //添加订单
     @RequestMapping("/addDingDan.action")
     public Integer addDingDan(DingDan dingDan, @Param(value = "wid") String wid, @Param(value = "shu") String shu) {
-        Date date=new Date();
+        Date date = new Date();
         dingDan.setTime(date);
-        Integer did=dingDanService.addDingDan(dingDan);
-        if(wid.contains(",")&&shu.contains(",")){
-            String[] wids=wid.split(",");
-            String[] shus=shu.split(",");
-            for(int i=0;i<wids.length;i++){
-                dingDanService.addWarehouse(did,Integer.valueOf(wids[i]),Integer.valueOf(shus[i]));
-                goodsCarService.shanChuDingDan(Integer.valueOf(wids[i]),dingDan.getUser().getId());
+        Integer did = dingDanService.addDingDan(dingDan);
+        if (wid.contains(",") && shu.contains(",")) {
+            String[] wids = wid.split(",");
+            String[] shus = shu.split(",");
+            for (int i = 0; i < wids.length; i++) {
+                dingDanService.addWarehouse(did, Integer.valueOf(wids[i]), Integer.valueOf(shus[i]));
+                goodsCarService.shanChuDingDan(Integer.valueOf(wids[i]), dingDan.getUser().getId());
             }
-        }else{
-            dingDanService.addWarehouse(did,Integer.valueOf(wid),Integer.valueOf(shu));
+        } else {
+            dingDanService.addWarehouse(did, Integer.valueOf(wid), Integer.valueOf(shu));
 
         }
         return did;
     }
 
+
+    //根据状态查
+    @RequestMapping("/queryByZt.action")
+    public List<DingDan> queryByZt(Integer zt, Integer uid) {
+        return dingDanService.chaXunByzt(zt, uid);
+    }
+
+    //根据状态查
+    @RequestMapping("/daifukuan.action")
+    public List<DingDan> daifukuan(Integer zt) {
+        return dingDanService.daifukuan(zt);
+    }
+
+    @RequestMapping("/daifahuo.action")
+    public List<DingDan> daifahuo(Integer zt) {
+        return dingDanService.daifahuo(zt);
+    }
+
+    @RequestMapping("/daitihuo.action")
+    public List<DingDan> daitihuo(Integer zt) {
+        return dingDanService.daitihuo(zt);
+    }
+
+    @RequestMapping("/yitihuo.action")
+    public List<DingDan> yitihuo(Integer zt) {
+        return dingDanService.yitihuo(zt);
+    }
 }

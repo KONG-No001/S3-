@@ -1,25 +1,23 @@
 package com.gp.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gp.service.DingDanService;
 import com.gp.service.GoodsCarService;
-import com.gp.service.GoodsService;
 import com.gp.vo.DingDan;
-import com.gp.vo.GoodsVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * <p>
@@ -37,11 +35,25 @@ public class DingDanController {
     @Autowired
     GoodsCarService goodsCarService;
 
+    public void t (){
+        System.out.println("True");
+    }
+
     //根据Id查
     @RequestMapping("/queryById.action")
     public DingDan queryById(Integer id) {
         return dingDanService.chaXunByid(id);
     }
+
+    //付款成功
+
+    @RequestMapping("/fk.action")
+    @CrossOrigin
+    public void fk(Integer id,HttpServletResponse response,HttpServletRequest request) throws IOException {
+        dingDanService.fk(id);
+        response.sendRedirect("/application/fk.jsp");
+    }
+
 
     //添加订单
     @RequestMapping("/addDingDan.action")

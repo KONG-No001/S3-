@@ -65,4 +65,8 @@
             <if test="zt==3">zt=#{zt}</if>
         </where>
     </select>
+
+    <update id="fk">
+        update dingdan set zt=1 where id =#{id}
+    </update>
 </mapper>

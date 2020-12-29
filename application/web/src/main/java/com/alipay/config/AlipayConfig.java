@@ -21,7 +21,7 @@ public class AlipayConfig {
     public static String notify_url = "http://localhost:8080/application/notify_url.jsp";
 
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String return_url = "http://localhost:8080/application/return_url.jsp";
+    public static String return_url = "http://localhost:8080/application/payReturn.action";
 
     // 签名方式
     public static String sign_type = "RSA2";

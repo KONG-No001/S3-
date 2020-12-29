@@ -25,4 +25,7 @@ public interface DingDanDao {
     public DingDan daifahuo(Integer zt);
     public DingDan daitihuo(Integer zt);
     public DingDan yitihuo(Integer zt);
+
+    //付款成功
+    int fk(int id);
 }

@@ -38,6 +38,11 @@ public class DingDanServiceImpl implements DingDanService {
     }
 
     @Override
+    public int fk(int id) {
+        return dingDanDao.fk(id);
+    }
+
+    @Override
     public DingDan daifukuan(Integer zt) {
         return dingDanDao.daifukuan(zt);
     }

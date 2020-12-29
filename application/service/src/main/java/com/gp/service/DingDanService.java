@@ -17,4 +17,10 @@ public interface DingDanService {
 
     //根据状态查询订单
     public List<DingDan> chaXunByzt(Integer zt);
+
+    //查询不同状态的订单
+    public DingDan daifukuan(Integer zt);
+    public DingDan daifahuo(Integer zt);
+    public DingDan daitihuo(Integer zt);
+    public DingDan yitihuo(Integer zt);
 }

@@ -33,12 +33,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 添加 -->
 	<insert id="addShanghu" parameterType="Shanghu">
-        insert into shanghu values (null,#{name},#{phone},#{image},#{address},#{createtime})
+        insert into shanghu values (null,#{name},#{phone},#{image},#{address},#{createTime})
     </insert>
 
 	<!-- 修改 -->
 	<update id="updateShanghu" parameterType="Shanghu">
-        update shanghu set sh_name=#{name},sh_phone=#{phone},sh_image=#{image},sh_address=#{address},sh_createtime=#{createtime}
+        update shanghu set sh_name=#{name},sh_phone=#{phone},sh_image=#{image},sh_address=#{address},sh_createtime=#{createTime}
         where sh_id = #{id}
     </update>
 

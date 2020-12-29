@@ -2,6 +2,7 @@ package com.gp.controller;
 
 
 import com.gp.service.ShanghuService;
+import com.gp.utils.FileUpdate;
 import com.gp.vo.PageVo;
 import com.gp.vo.Shanghu;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +41,7 @@ public class ShanghuController {
                                        @RequestParam(value = "page",defaultValue = "1") int page,
                                        @RequestParam(value = "rows",defaultValue = "5") int rows){
         PageVo<Shanghu> pageVo = shanghuService.ShanghuPageVo(shanghu,page,rows);
-//        System.out.println("TRUE-------------------------------");
-//        System.out.println(pageVo.getRows());
-//        System.out.println("TRUE-------------------------------");
+
         return pageVo;
 
     }
@@ -54,28 +54,32 @@ public class ShanghuController {
     @RequestMapping(value="/addShanghu.do")
     @ResponseBody
     @CrossOrigin
-    public Map addShanghu(Shanghu shanghu, @RequestParam("img") MultipartFile img,
-                              HttpServletRequest request) throws IOException {
+    public Map addShanghu(Shanghu shanghu,@RequestParam("img")MultipartFile img,
+                          HttpServletRequest request) throws Throwable {
         Map<String,String> map =new HashMap<String,String>();
-        shanghu.setImage("/assets/"+img.getOriginalFilename());
-        //将文件持久化 保存到 服务端 本地磁盘（项目发布的路径）
-        //目录发布的路径
-        String path=request.getServletContext().getRealPath("/assets");
-        System.out.println(path);
-        File file=new File(path);
-        if(!file.exists()){
-            file.mkdirs();
+        shanghu.setImage("/application/assets/"+img.getOriginalFilename());
+
+        String[] paths = FileUpdate.getLocalPathAndServletPath(
+                request,null,"/src/main/webapp/assets/","/assets/");
+        MultipartFile[] imgs = new MultipartFile[]{
+                img
+        };
+        for (MultipartFile file: imgs ) {
+            FileUpdate.executeUpdate(
+                    file.getInputStream(),
+                    paths[0]+file.getOriginalFilename(),
+                    paths[1]+file.getOriginalFilename());
         }
-        //将文件持久化保存到服务端
-        img.transferTo(new File(path,img.getOriginalFilename()));
+        shanghu.setImage("application/assets/"+img.getOriginalFilename());
         int num=  shanghuService.addShanghu(shanghu);
         map.put("msg",num==1?"添加成功":"添加失败");
         return map;
+
     }
     @RequestMapping(value="/deleteShanghu.do")
     @ResponseBody  //service.查询方法  得到集合
     @CrossOrigin
-    public Map  deleteShanghu(int id){
+    public Map  deleteShanghu(Integer id){
         Map<String,String> map =new HashMap<String,String>();
 //        String [] sids=id.split(",");
         int num=0;
@@ -93,19 +97,22 @@ public class ShanghuController {
     @ResponseBody
     @CrossOrigin
     public Map updateShanghu(Shanghu shanghu, @RequestParam("img") MultipartFile img,
-                             HttpServletRequest request) throws IOException{
+                             HttpServletRequest request) throws Throwable {
         Map<String,String> map =new HashMap<String,String>();
-        shanghu.setImage("/assets/"+img.getOriginalFilename());
-        //将文件持久化 保存到 服务端 本地磁盘（项目发布的路径）
-        //目录发布的路径
-        String path=request.getServletContext().getRealPath("/assets");
-        System.out.println(path);
-        File file=new File(path);
-        if(!file.exists()){
-            file.mkdirs();
+        shanghu.setImage("/application/assets/"+img.getOriginalFilename());
+        String[] paths=FileUpdate.getLocalPathAndServletPath(
+                request,null,"/src/main/webapp/assets/","/assets/");
+        MultipartFile[] imgs=new MultipartFile[] {
+                img
+        };
+        for(MultipartFile file:imgs){
+            FileUpdate.executeUpdate(
+                    file.getInputStream(),
+                    paths[0]+file.getOriginalFilename(),
+                    paths[1]+file.getOriginalFilename()
+            );
         }
-        //将文件持久化保存到服务端
-        img.transferTo(new File(path,img.getOriginalFilename()));
+        shanghu.setImage("application/assets/"+img.getOriginalFilename());
         int num=  shanghuService.updateShanghu(shanghu);
         map.put("msg",num==1?"修改成功":"修改失败");
         return map;

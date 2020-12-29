@@ -38,7 +38,7 @@
                     <el-popconfirm icon="el-icon-info"
                                    icon-color="red"
                                    title="确定删除吗？"
-                                   @confirm="delsh(scope.row)">
+                                   @confirm="delsh(scope.row.id)">
                         <el-button slot="reference" type="danger" icon="el-icon-delete">删除</el-button>
                     </el-popconfirm>
                 </template>
@@ -61,22 +61,25 @@
                    :visible.sync="dialogAddsh"
                    width="30%">
             <el-form :model="addform" label-width="80px">
-                <el-form-item label="商户名">
+                <el-form-item prop="name" label="商户名"
+                              :rules="[{ required: true, message: '商户名不能为空'} ]">
                     <el-input v-model="addform.addsh_name"></el-input>
                 </el-form-item>
-                <el-form-item label="商户电话">
+                <el-form-item prop="phone" label="商户电话"
+                              :rules="[{ required: true, message: '商户电话不能为空'} ]">
                     <el-input v-model="addform.addsh_phone"></el-input>
                 </el-form-item>
-                <el-form-item label="商户图片" >
+                <el-form-item prop="img" label="商户图片" >
                     <input type="file" @change="addgetFile($event)">
                 </el-form-item>
-                <el-form-item label="详细地址">
+                <el-form-item prop="address" label="详细地址"
+                              :rules="[{ required: true, message: '商户地址不能为空'} ]">
                     <el-input v-model="addform.addsh_address"></el-input>
                 </el-form-item>
-                <el-form-item label="商户创建时间">
-                    <el-date-picker value-format="yyyy-MM-dd"
+                <el-form-item prop="createTime" label="创建时间">
+                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                                     v-model="addform.addsh_createtime"
-                                    type="date"
+                                    type="datetime"
                                     placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
@@ -91,22 +94,25 @@
                    :visible.sync="dialogUpdsh"
                    width="30%">
             <el-form :model="updform" label-width="80px">
-                <el-form-item label="商户名">
+                <el-form-item prop="name" label="商户名"
+                              :rules="[{ required: true, message: '商户名不能为空'} ]">
                     <el-input v-model="updform.updsh_name"></el-input>
                 </el-form-item>
-                <el-form-item label="商户电话">
+                <el-form-item prop="phone" label="商户电话"
+                              :rules="[{ required: true, message: '商户电话不能为空'} ]">
                     <el-input v-model="updform.updsh_phone"></el-input>
                 </el-form-item>
-                <el-form-item label="商户图片" >
+                <el-form-item prop="img" label="商户图片" >
                     <input type="file" @change="updgetFile($event)">
                 </el-form-item>
-                <el-form-item label="详细地址">
+                <el-form-item prop="address" label="详细地址"
+                              :rules="[{ required: true, message: '商户地址不能为空'} ]">
                     <el-input v-model="updform.updsh_address"></el-input>
                 </el-form-item>
-                <el-form-item label="生日">
-                    <el-date-picker value-format="yyyy-MM-dd"
+                <el-form-item prop="createTime" label="创建时间">
+                    <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
                                     v-model="updform.updsh_createtime"
-                                    type="date"
+                                    type="datetime"
                                     placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
@@ -151,6 +157,7 @@
                 },
                 querysh_name:'',
                 selectid:"", //复选框选中的id
+
             }
         },
         methods:{
@@ -174,21 +181,19 @@
             addsh(){
                 this.dialogAddsh=false;
                 let formData=new FormData();
-                Object.keys(this.addform).forEach((key) => {
-                    formData.append(key, this.addform[key]);
-                });
-
-                Axios({
-                    url: '/application/addShanghu.do',
-                    method: "post",
-                    data:formData,
+                formData.append("name",this.addform.addsh_name);
+                formData.append("phone",this.addform.addsh_phone);
+                formData.append("img",this.addform.addsh_image);
+                formData.append("address",this.addform.addsh_address);
+                formData.append("createTime",this.addform.addsh_createtime);
+                Axios.post("/application/addShanghu.do",formData, {
                     headers: {
                         'Content-Type':'multipart/form-data'
                     }
                 }).then((result) => {
                     this.$notify({
                         title: '提示',
-                        message: result.data == true ? '添加成功' : '添加失败',
+                        message: result.data.msg,
                         type: 'success'
                     });
                     this.getsh();
@@ -196,9 +201,14 @@
                     alert(error);
                 })
             },
-            delsh({sh_id:id}){
+            delsh(id){
+                console.log(id)
                 var _this=this;
-                this.$axios.get("/application/deleteShanghu.do",{params:{id}}).
+
+                var params = new URLSearchParams();
+                params.append("id",id);
+
+                this.$axios.post("/application/deleteShanghu.do",params).
                 then(function (result) {
                         _this.$message({
                             message: result.data.msg,
@@ -212,25 +222,31 @@
             },
             updsh1(row){
                 this.dialogUpdsh=true;
-                this.updform = row;
+                this.updform.updsh_id =row.id;
+                this.updform.updsh_name =row.name;
+                this.updform.updsh_phone=row.phone;
+                this.updform.updsh_image=row.image;
+                this.updform.updsh_address=row.address;
+                this.updform.updsh_createtime=row.createTime;
             },
             updsh2(){
                 this.dialogUpdsh=false;
                 let  formData = new FormData();
-                Object.keys(this.updform).forEach((key) => {
-                    formData.append(key, this.updform[key]);
-                });
-                Axios({
-                    url: '/application/updateShanghu.do',
-                    method: "post",
-                    data:formData,
+                formData.append("id",this.updform.updsh_id);
+                formData.append("name",this.updform.updsh_name);
+                formData.append("phone",this.updform.updsh_phone);
+                formData.append("img",this.updform.updsh_image);
+                formData.append("address",this.updform.updsh_address);
+                formData.append("createTime",this.updform.updsh_createtime);
+
+                Axios.post("/application/updateShanghu.do",formData,{
                     headers: {
-                        'Content-Type':'multipart/form-data'
-                    }
+                                'Content-Type':'multipart/form-data'
+                            }
                 }).then((result) => {
                     this.$notify({
                         title: '提示',
-                        message: result.data == true ? '修改成功' : '修改失败',
+                        message: result.data.msg,
                         type: 'success'
                     });
                     this.getsh();

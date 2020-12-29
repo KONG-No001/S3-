@@ -37,5 +37,25 @@ public class DingDanServiceImpl implements DingDanService {
         return dingDanDao.chaXunByzt(zt);
     }
 
+    @Override
+    public DingDan daifukuan(Integer zt) {
+        return dingDanDao.daifukuan(zt);
+    }
+
+    @Override
+    public DingDan daifahuo(Integer zt) {
+        return dingDanDao.daifahuo(zt);
+    }
+
+    @Override
+    public DingDan daitihuo(Integer zt) {
+        return dingDanDao.daitihuo(zt);
+    }
+
+    @Override
+    public DingDan yitihuo(Integer zt) {
+        return dingDanDao.yitihuo(zt);
+    }
+
 
 }

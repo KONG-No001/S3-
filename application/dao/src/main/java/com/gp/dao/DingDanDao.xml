@@ -41,4 +41,28 @@
             <if test="zt!=null">zt=#{zt}</if>
         </where>
     </select>
+    <select id="daifukuan" parameterType="int" resultMap="DingDanmap">
+        select * from dingdan
+        <where>
+            <if test="zt==0">zt=#{zt}</if>
+        </where>
+    </select>
+    <select id="daifahuo" parameterType="int" resultMap="DingDanmap">
+        select * from dingdan
+        <where>
+            <if test="zt==1">zt=#{zt}</if>
+        </where>
+    </select>
+    <select id="daitihuo" parameterType="int" resultMap="DingDanmap">
+        select * from dingdan
+        <where>
+            <if test="zt==2">zt=#{zt}</if>
+        </where>
+    </select>
+    <select id="yitihuo" parameterType="int" resultMap="DingDanmap">
+        select * from dingdan
+        <where>
+            <if test="zt==3">zt=#{zt}</if>
+        </where>
+    </select>
 </mapper>

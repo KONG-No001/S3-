@@ -14,6 +14,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -58,9 +61,11 @@ public class DingDanController {
 
     //添加订单
     @RequestMapping("/addDingDan.action")
-    public Integer addDingDan(DingDan dingDan, @Param(value = "wid") String wid, @Param(value = "shu") String shu) {
-        Date date = new Date();
-        dingDan.setTime(date);
+    public Integer addDingDan(DingDan dingDan, @Param(value = "wid") String wid, @Param(value = "shu") String shu) throws ParseException {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        dingDan.setTime(df.parse(df.format(new Date())));
+
         Integer did = dingDanService.addDingDan(dingDan);
         if (wid.contains(",") && shu.contains(",")) {
             String[] wids = wid.split(",");

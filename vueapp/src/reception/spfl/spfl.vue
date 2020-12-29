@@ -73,7 +73,7 @@
                       <div style="padding: 14px;">
                           <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span>
                           <div class="bottom clearfix">
-                            <span>价格：<span style="color: red">${{sp.goodsOutPrice}}</span></span>
+                            <span>价格：<span style="color: red">￥{{sp.goodsOutPrice}}</span></span>
                             <!-- 带参数跳转 -->
                             <el-button type="text" class="button" @click="gm(sp.id)">查看详情</el-button>
                           </div>

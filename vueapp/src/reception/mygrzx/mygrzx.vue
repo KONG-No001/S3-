@@ -32,32 +32,22 @@
         <div style="margin-top:20px;width: 1460px;height: 110px">
             <el-row>
                 <div style="width: 100%;text-align: center">
-                    <span>个人中心</span>
+                    <span style="color: dodgerblue"><strong>个人中心</strong></span>
                 </div>
 
             </el-row>
-            <el-row style="margin-left: 1300px">
-                <el-button type="primary" icon="el-icon-setting" @click="dialogMy = true" circle></el-button>
-            </el-row>
-            <el-dialog
-                    title="设置"
-                    :visible.sync="dialogMy"
-                    width="30%">
-                平平无奇的设置
-                <el-button type="primary" round>登录</el-button>
-                <el-button type="danger" round>注销</el-button>
-            </el-dialog>
+
         </div>
 
 <!--      数据表格-->
-        <div style="width: 1486px;margin-left: 22px;margin-top: -30px">
+        <div style="width: 1486px;margin-left: 22px;margin-top: -70px">
             <el-tabs type="border-card">
                 <el-tab-pane label="待付款">
                     <el-table
                             :data="daifukuan"
-                            height="250"
+                            height="500"
                             border
-                            style="width: 100%">
+                            style="width: 100%;">
                         <el-table-column
                                 prop="id"
                                 label="订单ID"
@@ -68,8 +58,8 @@
                         <template slot-scope="scope">
                           <el-col v-for="(sp,i) in scope.row.dingDanWarehouses" :key="i">
                             <span >[{{sp.warehouseVo.goodsVo.goodsBrand}}]{{sp.warehouseVo.name}}</span>
-                            <span >x {{sp.count}}</span>
-                            <span>￥{{sp.warehouseVo.goodsOutPrice}}</span>
+                            <span > x{{sp.count}}</span>
+                            <span style="color: red;">￥{{sp.warehouseVo.goodsOutPrice}}</span>
 
                           </el-col>
                         </template>
@@ -97,7 +87,7 @@
                 <el-tab-pane label="待发货">
                     <el-table
                             :data="daifahuo"
-                            height="250"
+                            height="500"
                             border
                             style="width: 100%">
                       <el-table-column
@@ -110,8 +100,8 @@
                         <template slot-scope="scope">
                           <el-col v-for="(sp,i) in scope.row.dingDanWarehouses" :key="i">
                             <span >[{{sp.warehouseVo.goodsVo.goodsBrand}}]{{sp.warehouseVo.name}}</span>
-                            <span >x {{sp.count}}</span>
-                            <span>￥{{sp.warehouseVo.goodsOutPrice}}</span>
+                            <span > x {{sp.count}}</span>
+                            <span style="color: red">￥{{sp.warehouseVo.goodsOutPrice}}</span>
 
                           </el-col>
                         </template>
@@ -128,18 +118,13 @@
                           prop="count"
                           label="商品数量">
                       </el-table-column>
-                        <el-table-column prop="" label="操作" width="180">
-                            <template slot-scope="scope">
-                                <el-button type="primary" icon="el-icon-edit" @click="tixin(scope.row)">付款</el-button>
-                            </template>
-                        </el-table-column>
                     </el-table>
                 </el-tab-pane>
 
                 <el-tab-pane label="待提货">
                     <el-table
                             :data="daitihuo"
-                            height="250"
+                            height="500"
                             border
                             style="width: 100%">
                       <el-table-column
@@ -152,9 +137,8 @@
                         <template slot-scope="scope">
                           <el-col v-for="(sp,i) in scope.row.dingDanWarehouses" :key="i">
                             <span >[{{sp.warehouseVo.goodsVo.goodsBrand}}]{{sp.warehouseVo.name}}</span>
-                            <span >x {{sp.count}}</span>
-                            <span>￥{{sp.warehouseVo.goodsOutPrice}}</span>
-
+                            <span > x {{sp.count}}</span>
+                            <span style="color: red">￥{{sp.warehouseVo.goodsOutPrice}}</span>
                           </el-col>
                         </template>
                       </el-table-column>
@@ -172,7 +156,7 @@
                       </el-table-column>
                         <el-table-column prop="" label="操作" width="180">
                             <template slot-scope="scope">
-                                <el-button type="primary" icon="el-icon-edit" @click="tihuo(scope.row)">付款</el-button>
+                                <el-button type="primary" icon="el-icon-edit" @click="tihuo(scope.row)">确认收货</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -181,7 +165,7 @@
                 <el-tab-pane label="已提货">
                     <el-table
                             :data="yitihuo"
-                            height="250"
+                            height="500"
                             border
                             style="width: 100%">
                       <el-table-column
@@ -194,9 +178,8 @@
                         <template slot-scope="scope">
                           <el-col v-for="(sp,i) in scope.row.dingDanWarehouses" :key="i">
                             <span >[{{sp.warehouseVo.goodsVo.goodsBrand}}]{{sp.warehouseVo.name}}</span>
-                            <span >x {{sp.count}}</span>
-                            <span>￥{{sp.warehouseVo.goodsOutPrice}}</span>
-
+                            <span > x {{sp.count}}</span>
+                            <span style="color: red">￥{{sp.warehouseVo.goodsOutPrice}}</span>
                           </el-col>
                         </template>
                       </el-table-column>
@@ -212,15 +195,12 @@
                           prop="count"
                           label="商品数量">
                       </el-table-column>
-                        <el-table-column prop="" label="操作" width="180">
-                            <template slot-scope="scope">
-                                <el-button type="primary" icon="el-icon-edit" @click="pingjia(scope.row)">付款</el-button>
-                            </template>
-                        </el-table-column>
+
                     </el-table>
                 </el-tab-pane>
 
             </el-tabs>
+          <div id="mydiv"></div>
         </div>
     </div>
 </template>
@@ -294,18 +274,47 @@
                     alert(error);
                 })
             },
-            fukuan(){
-                this.dialogfukuan=false;
+            fukuan(row){
+              var params = new URLSearchParams();
+              params.append("tradeno",row.id);  //订单号
+              params.append("price",row.sum);    //价格
+              params.append("tradename",'付款订单');  //订单名字
+
+              Axios.post("/application/pay.action",params).then(function (result) {
+
+                var bodystr = result.data;  //后端返回的支付页面代码
+                console.log(bodystr)
+                bodystr=bodystr.substr(0,bodystr.indexOf("<script>"));
+                console.log(bodystr)
+                document.getElementById("mydiv").innerHTML=bodystr;
+                document.forms[0].submit();   //返回代码中需要表单提交得到真实的支付页面
+
+              }).catch();
             },
-            tixin(){
-                this.dialogtixin=false;
-            },
-            tihuo(){
-                this.dialogtihuo=false;
-            },
-            pingjia(){
-                this.dialogpingjia=false;
-            }
+          tihuo(row){
+            Axios({
+              url: '/application/dingdan/sh.action',
+              method: "get",
+              params:{id:row.id}
+            }).then((result) => {
+              this.$notify({
+                title: '提示',
+                message: result.data == true ? '收货成功' : '收货失败',
+                type: 'success'
+              });
+              this.getDaifukuan();
+
+              this.getDaifahuo();
+
+              this.getDaitihuo();
+
+              this.getYitihuo();
+
+            }).catch((error) => {
+              alert(error);
+            })
+          }
+
         },
         created(){
           this.getDaifukuan();

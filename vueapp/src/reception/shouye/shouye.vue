@@ -31,10 +31,27 @@
 
 <!--        轮播图-->
         <div class="block">
-            <el-carousel trigger="click" height="500px" style="width: 1476px;margin-left: 20px" id="lunbo">
-                <el-carousel-item v-for="(item,key) in imgs" :key="key">
-                    <img style="width: 100%;height: 100%" :src="item.url">
+            <el-carousel trigger="click" height="500px" style="width: 1476px;margin-left: 20px">
+                <el-carousel-item >
+                  <a href="#" @click="gm(tableData[18].id)">
+                  <img style="width: 100%;height: 100%" src="@/assets/01.jpg">
+                  </a>
                 </el-carousel-item>
+              <el-carousel-item >
+                <a href="#" @click="gm(tableData[21].id)">
+                <img style="width: 100%;height: 100%" src="@/assets/02.jpg">
+                </a>
+              </el-carousel-item>
+              <el-carousel-item >
+                <a href="#" @click="gm(tableData[19].id)">
+                <img style="width: 100%;height: 100%" src="@/assets/03.jpg">
+                </a>
+              </el-carousel-item>
+              <el-carousel-item >
+                <a href="#" @click="gm(tableData[20].id)">
+                <img style="width: 100%;height: 100%" src="@/assets/04.jpg">
+                </a>
+              </el-carousel-item>
             </el-carousel>
         </div>
 
@@ -54,8 +71,8 @@
                         <div id="hotshop1" class="remen">
                         <a href="#" @click="gm(tableData[1].id)">
                         <img  class="hotshop" :src="tableData[1].goodsVo.goodsImg" />
-                            <span style="font-size: 15px;margin-left: 30px">{{tableData[1].goodsVo.goodsName}}</span>
-                            <span class="price" style="font-size: 30px;margin-left: 160px;margin-top:30px">${{tableData[1].goodsOutPrice}}</span>
+                            <span style="font-size: 15px;margin-left: 30px">{{tableData[1].goodsVo.goodsName}}</span><br>
+                            <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[1].goodsOutPrice}}</span>
                         </a>
                         </div>
                     </template>
@@ -65,8 +82,8 @@
                         <div id="hotshop2" class="remen">
                             <a href="#" @click="gm(tableData[2].id)">
                                 <img  class="hotshop" :src="tableData[2].goodsVo.goodsImg" />
-                                <span style="font-size: 15px;margin-left: 30px">{{tableData[2].goodsVo.goodsName}}</span>
-                                <span class="price" style="font-size: 30px;margin-left: 160px;">${{tableData[2].goodsOutPrice}}</span>
+                                <span style="font-size: 15px;margin-left: 30px">{{tableData[2].goodsVo.goodsName}}</span><br>
+                                <span class="price" style="font-size: 20px;margin-left: 160px;">￥{{tableData[2].goodsOutPrice}}</span>
                             </a>
                         </div>
                     </template>
@@ -76,8 +93,8 @@
                         <div id="hotshop3" class="remen">
                             <a href="#" @click="gm(tableData[3].id)">
                                 <img  class="hotshop" :src="tableData[3].goodsVo.goodsImg" />
-                                <span style="font-size: 15px;margin-left: 30px">{{tableData[3].goodsVo.goodsName}}</span>
-                                <span class="price" style="font-size: 30px;margin-left: 160px;">${{tableData[3].goodsOutPrice}}</span>
+                                <span style="font-size: 15px;margin-left: 30px">{{tableData[3].goodsVo.goodsName}}</span><br>
+                                <span class="price" style="font-size: 20px;margin-left: 160px;">￥{{tableData[3].goodsOutPrice}}</span>
                             </a>
                         </div>
                     </template>
@@ -87,8 +104,8 @@
                         <div id="hotshop4" class="remen">
                             <a href="#" @click="gm(tableData[4].id)">
                                 <img  class="hotshop" :src="tableData[4].goodsVo.goodsImg" />
-                                <span style="font-size: 15px;margin-left: 30px;">{{tableData[4].goodsVo.goodsName}}</span>
-                                <span class="price" style="font-size: 30px;margin-left: 160px;margin-top:30px">${{tableData[4].goodsOutPrice}}</span>
+                                <span style="font-size: 15px;margin-left: 30px;">{{tableData[4].goodsVo.goodsName}}</span><br>
+                                <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[4].goodsOutPrice}}</span>
                             </a>
                         </div>
                     </template>
@@ -98,8 +115,8 @@
                   <div id="hotshop9" class="remen">
                     <a href="#" @click="gm(tableData[11].id)">
                       <img  class="hotshop" :src="tableData[11].goodsVo.goodsImg" />
-                      <span style="font-size: 15px;margin-left: 30px;">{{tableData[11].goodsVo.goodsName}}</span>
-                      <span class="price" style="font-size: 30px;margin-left: 150px;margin-top:30px">${{tableData[11].goodsOutPrice}}</span>
+                      <span style="font-size: 15px;margin-left: 30px;">{{tableData[11].goodsVo.goodsName}}</span><br>
+                      <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[11].goodsOutPrice}}</span>
                     </a>
                   </div>
                 </template>
@@ -109,8 +126,8 @@
                         <div id="hotshop5" class="remen">
                             <a href="#" @click="gm(tableData[5].id)">
                                 <img  class="hotshop" :src="tableData[5].goodsVo.goodsImg" />
-                                <span style="font-size: 15px;margin-left: 30px">{{tableData[5].goodsVo.goodsName}}</span>
-                                <span class="price" style="font-size: 30px;margin-left: 150px;margin-top:30px">${{tableData[5].goodsOutPrice}}</span>
+                                <span style="font-size: 15px;margin-left: 30px">{{tableData[5].goodsVo.goodsName}}</span><br>
+                                <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[5].goodsOutPrice}}</span>
                             </a>
                         </div>
                     </template>
@@ -120,8 +137,8 @@
                         <div id="hotshop6" class="remen">
                             <a href="#" @click="gm(tableData[6].id)">
                                 <img  class="hotshop" :src="tableData[6].goodsVo.goodsImg" />
-                                <span style="font-size: 15px;margin-left: 30px;">{{tableData[6].goodsVo.goodsName}}</span>
-                                <span class="price" style="font-size: 30px;margin-left: 150px;margin-top:30px">${{tableData[6].goodsOutPrice}}</span>
+                                <span style="font-size: 15px;margin-left: 30px;">{{tableData[6].goodsVo.goodsName}}</span><br>
+                                <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[6].goodsOutPrice}}</span>
                             </a>
                         </div>
                     </template>
@@ -131,8 +148,8 @@
                         <div id="hotshop7" class="remen">
                             <a href="#" @click="gm(tableData[7].id)">
                                 <img  class="hotshop" :src="tableData[7].goodsVo.goodsImg" />
-                                <span style="font-size: 15px;margin-left: 30px;">{{tableData[7].goodsVo.goodsName}}</span>
-                                <span class="price" style="font-size: 30px;margin-left: 160px;margin-top:30px">${{tableData[7].goodsOutPrice}}</span>
+                                <span style="font-size: 15px;margin-left: 30px;">{{tableData[7].goodsVo.goodsName}}</span><br>
+                                <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[7].goodsOutPrice}}</span>
                             </a>
                         </div>
                     </template>
@@ -142,8 +159,8 @@
                         <div id="hotshop8" class="remen">
                             <a href="#" @click="gm(tableData[8].id)">
                                 <img  class="hotshop" :src="tableData[8].goodsVo.goodsImg" />
-                                <span style="font-size: 15px;margin-left: 30px">{{tableData[8].goodsVo.goodsName}}</span>
-                                <span class="price" style="font-size: 30px;margin-left: 150px;margin-top:30px">${{tableData[8].goodsOutPrice}}</span>
+                                <span style="font-size: 15px;margin-left: 30px">{{tableData[8].goodsVo.goodsName}}</span><br>
+                                <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[8].goodsOutPrice}}</span>
                             </a>
                    </div>
                     </template>
@@ -153,8 +170,8 @@
                   <div id="hotshop10" class="remen">
                     <a href="#" @click="gm(tableData[0].id)">
                       <img  class="hotshop" :src="tableData[0].goodsVo.goodsImg" />
-                      <span style="font-size: 15px;margin-left: 30px">{{tableData[0].goodsVo.goodsName}}</span>
-                      <span class="price" style="font-size: 30px;margin-left: 160px;margin-top:30px">${{tableData[0].goodsOutPrice}}</span>
+                      <span style="font-size: 15px;margin-left: 30px">{{tableData[0].goodsVo.goodsName}}</span><br>
+                      <span class="price" style="font-size: 20px;margin-left: 160px;margin-top:30px">￥{{tableData[0].goodsOutPrice}}</span>
                     </a>
                   </div>
                 </template>

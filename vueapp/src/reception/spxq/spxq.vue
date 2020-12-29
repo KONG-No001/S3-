@@ -45,7 +45,7 @@
                 <el-row :sp="12" style="left: 20px">
                   <span><strong>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</strong></span><br><br>
                   <span>商品规格:&nbsp;{{sp.goodsVo.goodsGuige}}</span><br><br>
-                  <span>商品价格:&nbsp;<span style="color: red">${{sp.goodsOutPrice}}</span></span><br><br>
+                  <span>商品价格:&nbsp;<span style="color: red">￥{{sp.goodsOutPrice}}</span></span><br><br>
                   <span>生产日期:&nbsp;{{sp.goodsVo.goodsTime}}</span><br><br>
                   <span>厂家:&nbsp;{{sp.goodsVo.goodsFactory}}</span><br><br>
                   <span>产地:&nbsp;{{sp.goodsVo.goodsAddress}}</span>

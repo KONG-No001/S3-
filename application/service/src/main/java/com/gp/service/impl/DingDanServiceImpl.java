@@ -49,22 +49,6 @@ public class DingDanServiceImpl implements DingDanService {
     @Override
     public int fk(int id) {
 
-        DingDan dingDan=dingDanDao.chaXunByid(id);
-
-        //添加到账单表
-        Account account=new Account();
-        account.setOrderId(dingDan.getId());
-        account.setPurchaseId(null);
-        account.setTotal(dingDan.getSum());
-        account.setTime(dingDan.getTime());
-        account.setAccountType(0);
-        accountDao.add(account);
-
-        return dingDanDao.fk(id);
-    }
-
-    @Override
-    public int fh(int id) {
         //通知仓库发货 添加到仓库表
         DingDan dingDan=dingDanDao.chaXunByid(id);
         DeliveryVo deliveryVo=new DeliveryVo();
@@ -75,13 +59,29 @@ public class DingDanServiceImpl implements DingDanService {
         deliveryVo.setStatus(0);
         deliveryDao.insert(deliveryVo);
 
+        DingDan dingDan2=dingDanDao.chaXunByid(id);
+
+        //添加到账单表
+        Account account=new Account();
+        account.setOrderId(dingDan2.getId());
+        account.setPurchaseId(null);
+        account.setTotal(dingDan2.getSum());
+        account.setTime(dingDan2.getTime());
+        account.setAccountType(1);
+        accountDao.add(account);
+
+        return dingDanDao.fk(id);
+    }
+
+    @Override
+    public int fh(int id) {
         return dingDanDao.fh(id);
     }
 
     @Override
     public int sh(int id) {
         DeliveryVo deliveryVo=deliveryDao.queryByDingdanId(id);
-        dingDanDao.sh(deliveryVo.getId());
+        deliveryDao.sh(deliveryVo.getId());
         return dingDanDao.sh(id);
     }
 

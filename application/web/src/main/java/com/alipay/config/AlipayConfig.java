@@ -16,7 +16,6 @@ public class AlipayConfig {
     // 支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
     public static String alipay_public_key ="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi0WJcSyViObXgkbi7gSifOdXbW9qgPiznBl1LqlYxzjUZtDgZfKWJxhBfZk7qdxZbsxg24nEZWGyXyEFaYJM6EVLn30NjwZyKiIHe25MMowNtoGW19JwoNWM2bo5ozmEKpkGMibt+t0f58gClmrNcPwRMiqsmpIyOGS6e0sFsEUgNNHxji+VPEstDyLGfjjT3Q3zKXeJpyHG6h67xwyJ9GmkVi1pVCWFgthPMEs1dsj1hEUldlm0U4kMAd5myArx17VqcjH23jaIXuZwKRhkZOSELnyhkHt6Mim6TJRwACu/Wd1l87GlJWd+jOaPLJnhbgVq3yJys/8zdVg6VUMY2wIDAQAB";
 
-
     // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
     public static String notify_url = "http://localhost:8080/application/notify_url.jsp";
 

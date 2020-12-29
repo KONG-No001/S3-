@@ -354,13 +354,6 @@ export default {
     addGoods() {
       this.dialogFormVisibleAdd = true;
       this.editForm = {};
-      // //清空文件框
-      // let obj = document.getElementsByClassName("img");
-      // console.log(obj);
-      // for (let i = 0; i < obj.length; i++) {
-      //   // eslint-disable-next-line no-self-assign
-      //   obj[i].outerHTML=obj[i].outerHTML;
-      // }
     },
 
     //添加信息
@@ -399,13 +392,6 @@ export default {
         goodsTypeId: row.goodsTypeId, goodsGuige: row.goodsGuige, goodsInPrice: row.goodsInPrice,
         img: row.img,img2: row.img2,img3: row.img3,img4: row.img4,
         goodsTime: row.goodsTime, goodsFactory: row.goodsFactory, goodsAddress: row.goodsAddress};
-      //清空文件框
-      // let obj = document.getElementsByClassName("img");
-      // console.log(obj);
-      // for (let i = 0; i < obj.length; i++) {
-      //   // eslint-disable-next-line no-self-assign
-      //   obj[i].outerHTML=obj[i].outerHTML;
-      // }
     },
 
     //修改信息

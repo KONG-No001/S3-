@@ -42,14 +42,11 @@
           <el-col style="margin-top: 20px" :span="24" v-for="(sp,i) in sps.dingDanWarehouses" :key="i">
           <img :src="sp.warehouseVo.goodsVo.goodsImg" style="width: 100px;height: 100px">
           <span >[{{sp.warehouseVo.goodsVo.goodsBrand}}]{{sp.warehouseVo.name}}</span>
-          <span style="margin-left: 20px">x {{sp.count}}</span>
-          <span style="margin-left: 200px">￥{{sp.warehouseVo.goodsOutPrice}}</span>
+          <span style="margin-left: 20px"> x {{sp.count}}</span>
+          <span style="margin-left: 200px;color: red">￥{{sp.warehouseVo.goodsOutPrice}}</span>
 
           </el-col>
         </el-row>
-
-
-
 
         <span>总计:<span style="font-size:30px;color: red;">￥{{sps.sum}}</span></span>
         <el-divider></el-divider>

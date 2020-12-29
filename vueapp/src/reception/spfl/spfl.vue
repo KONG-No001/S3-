@@ -15,16 +15,18 @@
         <el-menu-item index="2">
           <router-link to="/spfl">商品分类</router-link>
         </el-menu-item>
-        <el-submenu index="3">
-          <template slot="title">我的</template>
-          <el-menu-item index="3-1">个人信息</el-menu-item>
-          <el-menu-item index="3-2">注册商户</el-menu-item>
-          <el-menu-item index="3-3">我的订单</el-menu-item>
-          <el-menu-item index="3-4">注销账号</el-menu-item>
-        </el-submenu>
         <el-menu-item index="4" route="true">
           <router-link to="/gwc"> 购物车</router-link>
-          </el-menu-item>
+        </el-menu-item>
+        <el-menu-item index="3">
+
+        </el-menu-item>
+        <el-menu-item style="margin-left: 900px;" index="5" route="true" v-if="uid==null">
+          <router-link to="/login"> 登录</router-link>
+        </el-menu-item>
+        <el-menu-item style="margin-left: 900px;" index="5" route="true" >
+          <strong style="color: orange;">{{name}}</strong>登录了
+        </el-menu-item>
       </el-menu>
     </el-header>
     <el-container class="page">
@@ -71,7 +73,7 @@
                       <div style="padding: 14px;">
                           <span>[{{sp.goodsVo.goodsBrand}}]{{sp.name}}</span>
                           <div class="bottom clearfix">
-                              <span>价格：${{sp.goodsOutPrice}}</span>
+                            <span>价格：<span style="color: red">${{sp.goodsOutPrice}}</span></span>
                             <!-- 带参数跳转 -->
                             <el-button type="text" class="button" @click="gm(sp.id)">查看详情</el-button>
                           </div>
@@ -128,12 +130,16 @@
         total: 0,
         pages: 0,
         row: 12,
-        page: 1
+        page: 1,
+        uid:'',
+        name:''
       }
     },
     created() {
       this.getdata();
       this.getsp();
+      this.uid=sessionStorage.getItem('uid');
+      this.name=sessionStorage.getItem('name');
     },
     methods :{
       getdata(){

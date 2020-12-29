@@ -36,9 +36,9 @@
     </insert>
 
     <select id="chaXunByzt" parameterType="int" resultMap="DingDanmap">
-        select * from dingdan
+        select * from dingdan where uid=#{uid}
         <where>
-            <if test="zt!=null">zt=#{zt}</if>
+            <if test="zt!=null">and zt=#{zt}</if>
         </where>
     </select>
 

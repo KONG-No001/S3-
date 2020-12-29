@@ -7,6 +7,7 @@ import gwc from "@/reception/gwc/gwc.vue";
 import mygrzx from "@/reception/mygrzx/mygrzx.vue";
 import dingdan from "@/reception/dingdan/dingdan.vue";
 import shouye from "@/reception/shouye/shouye.vue";
+import login from "@/reception/login/App.vue";
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,11 @@ export  default  new VueRouter({
       path:"/shouye",
       name:"shouye",
       component:shouye
-    }
+    },
+     {
+      path:"/login",
+      name:"login",
+      component:login
+     }
   ]
 })

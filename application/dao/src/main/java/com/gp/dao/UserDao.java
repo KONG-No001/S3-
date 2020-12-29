@@ -13,4 +13,13 @@ import com.gp.vo.User;
 public interface UserDao {
     //根据id查用户
     User queryById(int id);
+
+    public User queryUser(User user);
+
+    public int addUser(User user);
+
+    public User queryUserByName(User user);
+
+    //成为商户
+    int upStatus(int id);
 }

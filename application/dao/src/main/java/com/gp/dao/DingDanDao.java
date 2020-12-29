@@ -18,7 +18,7 @@ public interface DingDanDao {
     public Integer addWarehouse(@Param(value = "did") Integer did,@Param(value = "wid") Integer wid,@Param(value = "count") Integer count);
 
     //根据状态查询订单
-    public List<DingDan> chaXunByzt(Integer zt);
+    public List<DingDan> chaXunByzt(@Param(value = "zt")Integer zt,@Param(value = "uid") Integer uid);
 
     //付款成功
     int fk(int id);

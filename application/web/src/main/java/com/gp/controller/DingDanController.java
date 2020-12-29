@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -71,6 +72,13 @@ public class DingDanController {
 
         }
         return did;
+    }
+
+
+    //根据状态查
+    @RequestMapping("/queryByZt.action")
+    public List<DingDan> queryByZt(Integer zt,Integer uid) {
+        return dingDanService.chaXunByzt(zt,uid);
     }
 
 }
